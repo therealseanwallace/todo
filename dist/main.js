@@ -7,26 +7,100 @@
  * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
  */
 /******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
+
+/***/ "./src/appLogic.js":
+/*!*************************!*\
+  !*** ./src/appLogic.js ***!
+  \*************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"tasks\": () => (/* binding */ tasks),\n/* harmony export */   \"toDoFactory\": () => (/* binding */ toDoFactory)\n/* harmony export */ });\nconst tasks = (() => {\n  const taskArray = [];\n  const addTask = (newTask) => {\n    taskArray.push(newTask);\n  };\n  return {\n    addTask,\n    taskArray,\n  };\n})();\n\nconst toDoFactory = (title, description, dueDate, priority) => {\n  const subTasks = [];\n  return {\n    title, description, dueDate, priority,\n  };\n};\n\n\n\n\n//# sourceURL=webpack://todo/./src/appLogic.js?");
+
+/***/ }),
+
+/***/ "./src/buildPage.js":
+/*!**************************!*\
+  !*** ./src/buildPage.js ***!
+  \**************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"buildTasks\": () => (/* binding */ buildTasks),\n/* harmony export */   \"buildUI\": () => (/* binding */ buildUI)\n/* harmony export */ });\n/* harmony import */ var _appLogic__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./appLogic */ \"./src/appLogic.js\");\n\n\nconst builder = (element, parent, classes, type, value) => {\n  const selectParent = document.querySelector(parent);\n  const makeComponent = document.createElement(element);\n  if (classes !== undefined) {\n    makeComponent.classList.add(classes);\n  }\n  if (type !== undefined) {\n    makeComponent.type = type;\n  }\n  if (value !== undefined) {\n    makeComponent.value = value;\n  }\n  selectParent.append(makeComponent);\n};\n\nconst buildTasks = () => {\n  const test = (() => {\n    const test = (0,_appLogic__WEBPACK_IMPORTED_MODULE_0__.toDoFactory)('test', 'this is a test', 'NOW!', 'IMPORTANT!');\n    _appLogic__WEBPACK_IMPORTED_MODULE_0__.tasks.taskArray.push(test);\n    console.log(_appLogic__WEBPACK_IMPORTED_MODULE_0__.tasks.taskArray);\n  })();\n  console.log('Building tasks!');\n  for (let i = 0; i < _appLogic__WEBPACK_IMPORTED_MODULE_0__.tasks.taskArray.length; i += 1) {\n    const obj = _appLogic__WEBPACK_IMPORTED_MODULE_0__.tasks.taskArray[i];\n    console.log('for loop active');\n    const newTaskCard = builder('div', '.task-display', `task-card-${i}`);\n    const taskCardH3 = builder('h3', `.task-card-${i}`, `task-${i}-title`);\n    const selectTitle = document.querySelector(`.task-${i}-title`);\n    selectTitle.textContent = _appLogic__WEBPACK_IMPORTED_MODULE_0__.tasks.taskArray[i].title;\n    const taskDue = builder('p', `.task-card-${i}`, `task-${i}-due`);\n    const selectDue = document.querySelector(`.task-${i}-due`);\n    selectDue.textContent = _appLogic__WEBPACK_IMPORTED_MODULE_0__.tasks.taskArray[i].dueDate;\n  }\n};\n\nconst buildUI = (() => {\n  builder('menu', '#content', 'tabs');\n  builder('input', '.tabs', undefined, 'button', 'button', 'Tasks');\n  builder('input', '.tabs', undefined, 'button', 'button', 'Projects');\n  builder('main', '#content');\n  builder('input', 'main', 'new-task-btn', 'button', 'New Task');\n  builder('div', 'main', 'task-display');\n  buildTasks();\n})();\n\n\n\n\n//# sourceURL=webpack://todo/./src/buildPage.js?");
+
+/***/ }),
 
 /***/ "./src/index.js":
 /*!**********************!*\
   !*** ./src/index.js ***!
   \**********************/
-/***/ (() => {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("console.log('This is working!');\n\n\n//# sourceURL=webpack://todo/./src/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _appLogic__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./appLogic */ \"./src/appLogic.js\");\n/* harmony import */ var _buildPage__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./buildPage */ \"./src/buildPage.js\");\n\n\n\n\n\n//# sourceURL=webpack://todo/./src/index.js?");
 
 /***/ })
 
 /******/ 	});
 /************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/************************************************************************/
 /******/ 	
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module can't be inlined because the eval devtool is used.
-/******/ 	var __webpack_exports__ = {};
-/******/ 	__webpack_modules__["./src/index.js"]();
+/******/ 	var __webpack_exports__ = __webpack_require__("./src/index.js");
 /******/ 	
 /******/ })()
 ;
