@@ -1,6 +1,6 @@
 import { toDoFactory, tasks } from './appLogic';
 
-const builder = (element, parent, classes, type, value) => {
+const builder = (element, parent, classes, type, value, text) => {
   const selectParent = document.querySelector(parent);
   const makeComponent = document.createElement(element);
   if (classes !== undefined) {
@@ -11,6 +11,9 @@ const builder = (element, parent, classes, type, value) => {
   }
   if (value !== undefined) {
     makeComponent.value = value;
+  }
+  if (text !== undefined) {
+    makeComponent.textContent = text;
   }
   selectParent.append(makeComponent);
 };
@@ -23,15 +26,10 @@ const buildTasks = () => {
   })();
   console.log('Building tasks!');
   for (let i = 0; i < tasks.taskArray.length; i += 1) {
-    const obj = tasks.taskArray[i];
     console.log('for loop active');
     const newTaskCard = builder('div', '.task-display', `task-card-${i}`);
-    const taskCardH3 = builder('h3', `.task-card-${i}`, `task-${i}-title`);
-    const selectTitle = document.querySelector(`.task-${i}-title`);
-    selectTitle.textContent = tasks.taskArray[i].title;
-    const taskDue = builder('p', `.task-card-${i}`, `task-${i}-due`);
-    const selectDue = document.querySelector(`.task-${i}-due`);
-    selectDue.textContent = tasks.taskArray[i].dueDate;
+    const taskCardH3 = builder('h3', `.task-card-${i}`, `task-${i}-title`, undefined, undefined, tasks.taskArray[i].title);
+    const taskDue = builder('p', `.task-card-${i}`, `task-${i}-due`, undefined, undefined, tasks.taskArray[i].dueDate);
   }
 };
 
