@@ -1,4 +1,4 @@
-import { toDoFactory, tasks } from './appLogic';
+import { taskFactory, tasks } from './appLogic';
 import { builder } from './builder';
 import { addListeners } from './getInput';
 

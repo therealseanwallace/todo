@@ -1,4 +1,4 @@
-import { tasks, toDoFactory } from './appLogic';
+import { tasks, taskFactory } from './appLogic';
 import { builder, clearDisplay } from './builder';
 
 function buildTasks() {
@@ -6,7 +6,7 @@ function buildTasks() {
   clearDisplay();
   const test = (() => {
     if (tasks.taskArray.length === 0) {
-      const demoTask = toDoFactory('test', 'this is a test', 'NOW!', 'IMPORTANT!');
+      const demoTask = taskFactory('test', 'this is a test', 'NOW!', 'IMPORTANT!');
       tasks.taskArray.push(demoTask);
     }
   })();

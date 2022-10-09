@@ -1,9 +1,9 @@
 /* eslint-disable import/prefer-default-export */
 import { buildTasks, newTask } from './tasks';
-import { toDoFactory, tasks } from "./appLogic";
+import { taskFactory, tasks } from "./appLogic";
 export { addListeners };
 
-let tempObject = toDoFactory();
+let tempObject = taskFactory();
 tempObject.altered = false;
 console.log('tempObject is', tempObject);
 
@@ -33,7 +33,7 @@ const getMouseInput = (e) => {
     tasks.taskArray.push(tempObject);
     console.log(tasks.taskArray);
     buildTasks();
-    tempObject = toDoFactory();
+    tempObject = taskFactory();
   };
 }
 
