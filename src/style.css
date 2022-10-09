@@ -1,0 +1,73 @@
+/* RESET STYLES */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+* {
+  margin: 0;
+}
+html, body {
+  height: 100%;
+}
+
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+}
+input, button, textarea, select {
+  font: inherit;
+}
+p, h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word;
+}
+#root, #__next {
+  isolation: isolate;
+}
+
+* {
+  font-family: 'Merriweather', serif;
+}
+
+
+/* STYLES */
+
+header {
+  background: rgba(25, 0, 1, 0.2);
+}
+
+.task-card {
+  width: 280px;
+  height: 360px;
+  position: relative;
+  background: rgba(240, 240, 240, 0.8);
+  margin-top: 40px; 
+  border-radius: 12px 12px 10px 10px;
+}
+
+.task-card > p {
+  margin-left: 20px;
+  margin-top: 8px;
+}
+
+.title-div {
+  padding: 16px 0 4px 12px;
+  border-radius: 10px 10px 0 0;
+  height: 33%;
+  background-color: black;
+  color: whitesmoke;
+}
+
+.title-div > h3 {
+  font-size: 1.4rem;
+  font-style: italic;
+  font-weight: 700;
+}
+
+.title-div > h4 {
+  font-size: 1.2rem;
+  font-style: bold;
+}

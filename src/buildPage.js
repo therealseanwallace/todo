@@ -1,6 +1,6 @@
 import { toDoFactory, tasks } from './appLogic';
 
-const builder = (element, parent, classes, type, value, text) => {
+const builder = (element, parent, classes, type, value, text, id) => {
   // Builds and appends DOM nodes according to supplied arguments
   const selectParent = document.querySelector(parent);
   const makeComponent = document.createElement(element);
@@ -18,6 +18,9 @@ const builder = (element, parent, classes, type, value, text) => {
   }
   if (text !== undefined) {
     makeComponent.textContent = text;
+  }
+  if (id !== undefined) {
+    makeComponent.id = id;
   }
   selectParent.append(makeComponent);
 };
