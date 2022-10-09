@@ -26,4 +26,10 @@ const builder = (element, parent, classes, type, value, text, id, placeholder) =
   selectParent.append(makeComponent);
 };
 
-export { builder };
+const clearDisplay = () => {
+  const selectDisplay = document.querySelector('.display');
+  selectDisplay.innerHTML = '';
+  console.log('Display cleared');
+};
+
+export { builder, clearDisplay };
