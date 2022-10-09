@@ -7,7 +7,7 @@ let tempObject = taskFactory();
 tempObject.altered = false;
 
 const addListeners = () => {
-  console.log('Adding listeners');
+  //console.log('Adding listeners');
   const inputs = document.querySelectorAll('input');
   for (let i = 0; i < inputs.length; i += 1) { // Adds event listeners to all buttons
     if (inputs[i].classList.contains('button')) {
@@ -19,7 +19,7 @@ const addListeners = () => {
 };
 
 const getMouseInput = (e) => {
-  console.log(e.target.value);
+  //console.log(e.target.value);
   if (e.target.value === 'New Task') {
     newTask();
     addListeners();
@@ -30,9 +30,8 @@ const getMouseInput = (e) => {
   }
   if (e.target.value === 'Submit') {
     tasks.addTask(tempObject, 0);
-    console.log(tasks.taskArray);
-    buildTasks();
     tempObject = taskFactory();
+    buildTasks();
   };
 }
 
@@ -49,6 +48,6 @@ const getKeybInput = (e) => {
     tempObject.dueDate = e.target.value;
     tempObject.altered = true;
   }
-  console.log(tempObject);
+  //console.log(tempObject);
 };
 

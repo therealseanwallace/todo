@@ -2,6 +2,7 @@ const tasks = (() => {
   const projectArray = [[]];
   const addTask = (newTask, project) => {
     projectArray[project].push(newTask);
+    console.log('project array =', projectArray);
   };
 
   const returnProjects = projectArray;

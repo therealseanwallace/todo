@@ -13,16 +13,17 @@ function buildTasks() {
       tasks.addTask(demoTask, 0);
     }
   })();
-   const projectArray = tasks.returnProjects;
-   let newArray = [];
-   console.log('projectArray is', projectArray);
-   projectArray.forEach((element) => {
-    console.log('element is', element);
-    console.log(element[1]);
-    newArray.push(element[1]);
-   });
-   console.log('newArray is', newArray);
-   
+  const currentProjects = tasks.returnProjects;
+  let newArray = [];
+  console.log('currentProjects is', currentProjects);
+  currentProjects.forEach((element) => {
+    for (let i = 1; i < element.length; i += 1) {
+      newArray.push(element[i]);
+    }
+  });
+  console.log('newArray is', newArray);
+
+
   for (let i = 0; i < newArray.length; i += 1) {
     builder('div', '.display', 'task-card', undefined, undefined, undefined, `task-card-${i}`);
     builder('div', `#task-card-${i}`, 'title-div', undefined, undefined, undefined, `title-div-${i}`);
