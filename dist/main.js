@@ -126,7 +126,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
   \**************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"buildUI\": () => (/* binding */ buildUI)\n/* harmony export */ });\n/* harmony import */ var _appLogic__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./appLogic */ \"./src/appLogic.js\");\n/* harmony import */ var _builder__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./builder */ \"./src/builder.js\");\n\n\n\nconst getInput = (e) => {\n  console.log(e.target);\n  \n};\n\nconst buildUI = () => {\n  // Builds the main UI\n  (0,_builder__WEBPACK_IMPORTED_MODULE_1__.builder)('menu', '#content', 'tabs');\n  (0,_builder__WEBPACK_IMPORTED_MODULE_1__.builder)('input', '.tabs', 'tab', 'button', 'Tasks');\n  (0,_builder__WEBPACK_IMPORTED_MODULE_1__.builder)('input', '.tabs', 'tab', 'button', 'Projects');\n  (0,_builder__WEBPACK_IMPORTED_MODULE_1__.builder)('main', '#content');\n  (0,_builder__WEBPACK_IMPORTED_MODULE_1__.builder)('input', 'main', 'new-task-btn', 'button', 'New Task');\n  (0,_builder__WEBPACK_IMPORTED_MODULE_1__.builder)('div', 'main', 'display');\n  const buttons = document.querySelectorAll('.button');\n  function working() {\n    console.log('This event listener works');\n  }\n  for (let i = 0; i < buttons.length; i += 1) { // Adds event listeners to all buttons\n    buttons[i].addEventListener('click', getInput);\n  }\n};\n\n\n\n\n//# sourceURL=webpack://todo/./src/buildPage.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"buildUI\": () => (/* binding */ buildUI)\n/* harmony export */ });\n/* harmony import */ var _appLogic__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./appLogic */ \"./src/appLogic.js\");\n/* harmony import */ var _builder__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./builder */ \"./src/builder.js\");\n/* harmony import */ var _getInput__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./getInput */ \"./src/getInput.js\");\n\n\n\n\nconst buildUI = () => {\n  // Builds the main UI\n  (0,_builder__WEBPACK_IMPORTED_MODULE_1__.builder)('menu', '#content', 'tabs');\n  (0,_builder__WEBPACK_IMPORTED_MODULE_1__.builder)('input', '.tabs', 'tab', 'button', 'Tasks');\n  (0,_builder__WEBPACK_IMPORTED_MODULE_1__.builder)('input', '.tabs', 'tab', 'button', 'Projects');\n  (0,_builder__WEBPACK_IMPORTED_MODULE_1__.builder)('main', '#content');\n  (0,_builder__WEBPACK_IMPORTED_MODULE_1__.builder)('input', 'main', 'new-task-btn', 'button', 'New Task');\n  (0,_builder__WEBPACK_IMPORTED_MODULE_1__.builder)('div', 'main', 'display');\n  (0,_getInput__WEBPACK_IMPORTED_MODULE_2__.addListeners)();\n};\n\n\n\n\n//# sourceURL=webpack://todo/./src/buildPage.js?");
 
 /***/ }),
 
@@ -137,6 +137,16 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"builder\": () => (/* binding */ builder)\n/* harmony export */ });\nconst builder = (element, parent, classes, type, value, text, id, placeholder) => {\n  // Builds and appends DOM nodes according to supplied arguments\n  const selectParent = document.querySelector(parent);\n  const makeComponent = document.createElement(element);\n  if (classes !== undefined) {\n    makeComponent.classList.add(classes);\n    if (classes === 'tab' || classes === 'new-task-btn') {\n      makeComponent.classList.add('button');\n    }\n  }\n  if (type !== undefined) {\n    makeComponent.type = type;\n  }\n  if (value !== undefined) {\n    makeComponent.value = value;\n  }\n  if (text !== undefined) {\n    makeComponent.textContent = text;\n  }\n  if (id !== undefined) {\n    makeComponent.id = id;\n  }\n  if (placeholder !== undefined) {\n    makeComponent.placeholder = placeholder;\n  }\n  selectParent.append(makeComponent);\n};\n\n\n\n\n//# sourceURL=webpack://todo/./src/builder.js?");
+
+/***/ }),
+
+/***/ "./src/getInput.js":
+/*!*************************!*\
+  !*** ./src/getInput.js ***!
+  \*************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"addListeners\": () => (/* binding */ addListeners)\n/* harmony export */ });\nconst getInput = (e) => {\n  console.log(e.target);\n};\n\nconst addListeners = () => {\n  const buttons = document.querySelectorAll('.button');\n  for (let i = 0; i < buttons.length; i += 1) { // Adds event listeners to all buttons\n    buttons[i].addEventListener('click', getInput);\n  }\n};\n\n\n\n\n//# sourceURL=webpack://todo/./src/getInput.js?");
 
 /***/ }),
 
