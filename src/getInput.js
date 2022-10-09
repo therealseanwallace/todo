@@ -5,7 +5,6 @@ export { addListeners };
 
 let tempObject = taskFactory();
 tempObject.altered = false;
-console.log('tempObject is', tempObject);
 
 const addListeners = () => {
   console.log('Adding listeners');
@@ -30,7 +29,7 @@ const getMouseInput = (e) => {
     tempObject.altered = true;
   }
   if (e.target.value === 'Submit') {
-    tasks.taskArray.push(tempObject);
+    tasks.addTask(tempObject, 0);
     console.log(tasks.taskArray);
     buildTasks();
     tempObject = taskFactory();

@@ -1,21 +1,33 @@
 import { tasks, taskFactory } from './appLogic';
 import { builder, clearDisplay } from './builder';
+export { buildTasks, newTask };
 
 function buildTasks() {
 // Creates cards corresponding to each task from taskArray
   clearDisplay();
-  const test = (() => {
-    if (tasks.taskArray.length === 0) {
-      const demoTask = taskFactory('test', 'this is a test', 'NOW!', 'IMPORTANT!');
-      tasks.taskArray.push(demoTask);
+  const demo = (() => {
+    if (tasks.returnProjects[0].length === 0) {
+      const demoProject = taskFactory('test project', 'this is a test project', 'NOW!', 'IMPORTANT!');
+      tasks.addTask(demoProject, 0);
+      const demoTask = taskFactory('test task', 'this is a test task', 'NOW!', 'IMPORTANT!');
+      tasks.addTask(demoTask, 0);
     }
   })();
-  console.log('Building tasks!');
-  for (let i = 0; i < tasks.taskArray.length; i += 1) {
+   const projectArray = tasks.returnProjects;
+   let newArray = [];
+   console.log('projectArray is', projectArray);
+   projectArray.forEach((element) => {
+    console.log('element is', element);
+    console.log(element[1]);
+    newArray.push(element[1]);
+   });
+   console.log('newArray is', newArray);
+   
+  for (let i = 0; i < newArray.length; i += 1) {
     builder('div', '.display', 'task-card', undefined, undefined, undefined, `task-card-${i}`);
     builder('div', `#task-card-${i}`, 'title-div', undefined, undefined, undefined, `title-div-${i}`);
-    builder('h3', `#title-div-${i}`, `task-${i}-title`, undefined, undefined, tasks.taskArray[i].title);
-    builder('p', `#title-div-${i}`, `task-${i}-due`, undefined, undefined, tasks.taskArray[i].dueDate);
+    builder('h3', `#title-div-${i}`, `task-${i}-title`, undefined, undefined, newArray[i].title);
+    builder('p', `#title-div-${i}`, `task-${i}-due`, undefined, undefined, newArray[i].dueDate);
   }
 }
 
@@ -32,4 +44,4 @@ function newTask() {
   builder('input', '.display', 'button', 'button', 'Submit');
 }
 
-export { buildTasks, newTask };
+

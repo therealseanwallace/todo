@@ -1,11 +1,13 @@
 const tasks = (() => {
-  const taskArray = [];
-  const addTask = (newTask) => {
-    taskArray.push(newTask);
+  const projectArray = [[]];
+  const addTask = (newTask, project) => {
+    projectArray[project].push(newTask);
   };
+
+  const returnProjects = projectArray;
   return {
     addTask,
-    taskArray,
+    returnProjects,
   };
 })();
 
@@ -15,6 +17,13 @@ const taskFactory = (title, notes, dueDate, priority, altered) => {
     title, notes, dueDate, priority, altered, subTasks,
   };
 };
+
+/*const projectFactory = (title) => {
+  const taskArray = [];
+  return {
+    title, taskArray,
+  };
+};*/
 
 export {
   taskFactory,
