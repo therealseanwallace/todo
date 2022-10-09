@@ -21,15 +21,15 @@ function buildTasks() {
 
 function newTask() {
   clearDisplay();
-  builder('input', '.display', 'task-title', 'text', undefined, undefined, undefined, 'Task name');
-  builder('input', '.display', 'task-date', 'date');
+  builder('input', '.display', 'input-field', 'text', undefined, undefined, 'task-title', 'Task name');
+  builder('input', '.display', 'input-field', 'date', undefined, undefined, 'task-date');
   builder('div', '.display', 'priority-div');
-  builder('input', '.priority-div', 'select-priority', 'button', 'Urgent', undefined, 'urgent');
-  builder('input', '.priority-div', 'select-priority', 'button', 'Normal', undefined, 'normal');
-  builder('input', '.priority-div', 'select-priority', 'button', 'Low', undefined, 'low');
-  builder('input', '.display', 'notes', 'text', undefined, undefined, undefined, 'Notes');
-  builder('input', '.display', 'subtask-btn', 'button', 'Add subtask');
-  builder('input', '.display', 'submit-btn', 'button', 'Submit');
+  builder('input', '.priority-div', 'button', 'button', 'Urgent', undefined, 'urgent');
+  builder('input', '.priority-div', 'button', 'button', 'Normal', undefined, 'normal');
+  builder('input', '.priority-div', 'button', 'button', 'Low', undefined, 'low');
+  builder('input', '.display', 'input-field', 'text', undefined, undefined, 'notes', 'Notes');
+  builder('input', '.display', 'button', 'button', 'Add subtask');
+  builder('input', '.display', 'button', 'button', 'Submit');
 }
 
 export { buildTasks, newTask };

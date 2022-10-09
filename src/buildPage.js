@@ -1,6 +1,6 @@
 import { toDoFactory, tasks } from './appLogic';
 import { builder } from './builder';
-import { getInput, addListeners } from './getInput';
+import { addListeners } from './getInput';
 
 const buildUI = () => {
   // Builds the main UI
