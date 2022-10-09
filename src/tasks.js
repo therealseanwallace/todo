@@ -1,8 +1,14 @@
 import { tasks, toDoFactory } from './appLogic';
 import { builder } from './buildPage';
 
+const clearDisplay = () => {
+  const selectDisplay = document.querySelector('.display');
+  selectDisplay.innerHTML = '';
+};
+
 function buildTasks() {
 // Creates cards corresponding to each task from taskArray
+  clearDisplay();
   const test = (() => {
     const test = toDoFactory('test', 'this is a test', 'NOW!', 'IMPORTANT!');
     tasks.taskArray.push(test);
@@ -17,4 +23,16 @@ function buildTasks() {
   }
 }
 
-export { buildTasks};
+function newTask() {
+  clearDisplay();
+  builder('input', '.display', 'task-title', 'text', undefined, undefined, undefined, 'Task name');
+  builder('input', '.display', 'task-date', 'date');
+  builder('div', '.display', 'priority-div');
+  builder('input', '.priority-div', 'select-priority', 'button', 'Urgent', undefined, 'urgent');
+  builder('input', '.priority-div', 'select-priority', 'button', 'Normal', undefined, 'normal');
+  builder('input', '.priority-div', 'select-priority', 'button', 'Low', undefined, 'low');
+  builder('input', '.display', 'notes', 'text', undefined, undefined, undefined, 'Notes');
+  builder('input', '.display', 'subtask-btn', 'button', 'Add subtask');
+}
+
+export { buildTasks, newTask };
