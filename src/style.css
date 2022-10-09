@@ -39,16 +39,33 @@ header {
   background: rgba(25, 0, 1, 0.2);
 }
 
+.tabs {
+  padding: 0;
+}
+
+.tab {
+  width: 50%;
+  border: none;
+}
+
+.new-task-btn {
+  width: 100%;
+  border-radius: 0;
+  border: none;
+}
+
 .task-card {
   width: 280px;
   height: 360px;
   position: relative;
   background: rgba(240, 240, 240, 0.8);
+  margin: auto;
   margin-top: 40px; 
   border-radius: 12px 12px 10px 10px;
 }
 
 .task-card > p {
+  
   margin-left: 20px;
   margin-top: 8px;
 }
