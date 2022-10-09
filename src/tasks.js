@@ -21,8 +21,8 @@ function buildTasks() {
 
 function newTask() {
   clearDisplay();
-  builder('input', '.display', 'input-field', 'text', undefined, undefined, 'task-title', 'Task name');
-  builder('input', '.display', 'input-field', 'date', undefined, undefined, 'task-date');
+  builder('input', '.display', 'input-field', 'text', undefined, undefined, 'title', 'Task name');
+  builder('input', '.display', 'input-field', 'date', undefined, undefined, 'due-date');
   builder('div', '.display', 'priority-div');
   builder('input', '.priority-div', 'button', 'button', 'Urgent', undefined, 'urgent');
   builder('input', '.priority-div', 'button', 'button', 'Normal', undefined, 'normal');

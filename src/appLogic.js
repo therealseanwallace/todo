@@ -9,10 +9,10 @@ const tasks = (() => {
   };
 })();
 
-const toDoFactory = (title, description, dueDate, priority, altered) => {
+const toDoFactory = (title, notes, dueDate, priority, altered) => {
   const subTasks = [];
   return {
-    title, description, dueDate, priority, altered,
+    title, notes, dueDate, priority, altered, subTasks
   };
 };
 

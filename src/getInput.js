@@ -1,8 +1,11 @@
 /* eslint-disable import/prefer-default-export */
 import { buildTasks, newTask } from './tasks';
-import { toDoFactory } from "./appLogic";
+import { toDoFactory, tasks } from "./appLogic";
+export { addListeners };
 
-let tempObject = {};
+let tempObject = toDoFactory();
+tempObject.altered = false;
+console.log('tempObject is', tempObject);
 
 const addListeners = () => {
   console.log('Adding listeners');
@@ -17,15 +20,36 @@ const addListeners = () => {
 };
 
 const getMouseInput = (e) => {
+  console.log(e.target.value);
   if (e.target.value === 'New Task') {
     newTask();
     addListeners();
   }
-  console.log(e.target.value);
-};
+  if (e.target.value === 'Urgent' || e.target.value === 'Normal' || e.target.value === 'Low') {
+    tempObject.priority = e.target.value;
+    tempObject.altered = true;
+  }
+  if (e.target.value === 'Submit') {
+    tasks.taskArray.push(tempObject);
+    console.log(tasks.taskArray);
+    buildTasks();
+    tempObject = toDoFactory();
+  };
+}
 
 const getKeybInput = (e) => {
-  console.log(e.target.value);
+  if (e.target.id === 'notes') {
+    tempObject.notes = e.target.value;
+    tempObject.altered = true;
+  }
+  if (e.target.id === 'title') {
+    tempObject.title = e.target.value;
+    tempObject.altered = true;
+  }
+  if (e.target.id === 'due-date') {
+    tempObject.dueDate = e.target.value;
+    tempObject.altered = true;
+  }
+  console.log(tempObject);
 };
 
-export { addListeners };
