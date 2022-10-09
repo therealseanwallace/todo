@@ -1,3 +1,4 @@
 import { toDoFactory, tasks } from './appLogic';
-import { buildTasks } from './buildPage';
+import { buildUI } from './buildPage';
 
+buildUI();
