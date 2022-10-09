@@ -22,21 +22,6 @@ const builder = (element, parent, classes, type, value, text) => {
   selectParent.append(makeComponent);
 };
 
-const buildTasks = () => {
-  // Creates cards corresponding to each task from taskArray
-  const test = (() => {
-    const test = toDoFactory('test', 'this is a test', 'NOW!', 'IMPORTANT!');
-    tasks.taskArray.push(test);
-    console.log(tasks.taskArray);
-  })();
-  console.log('Building tasks!');
-  for (let i = 0; i < tasks.taskArray.length; i += 1) {
-    builder('div', '.display', `task-card-${i}`);
-    builder('h3', `.task-card-${i}`, `task-${i}-title`, undefined, undefined, tasks.taskArray[i].title);
-    builder('p', `.task-card-${i}`, `task-${i}-due`, undefined, undefined, tasks.taskArray[i].dueDate);
-  }
-};
-
 const buildUI = () => {
   // Builds the main UI
   builder('menu', '#content', 'tabs');
@@ -45,7 +30,7 @@ const buildUI = () => {
   builder('main', '#content');
   builder('input', 'main', 'new-task-btn', 'button', 'New Task');
   builder('div', 'main', 'display');
-  buildTasks(); // Adds tasks to the display
+  
   const buttons = document.querySelectorAll('.button');
   function working() {
     console.log('This event listener works');
@@ -57,5 +42,5 @@ const buildUI = () => {
 
 export {
   buildUI,
-  buildTasks,
+  builder,
 };
