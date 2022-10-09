@@ -88,3 +88,8 @@ header {
   font-size: 1.2rem;
   font-style: bold;
 }
+
+label {
+	width: 50px;
+	display: inline-block;
+}
