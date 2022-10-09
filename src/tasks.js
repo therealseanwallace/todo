@@ -1,5 +1,5 @@
 import { tasks, toDoFactory } from './appLogic';
-import { builder } from './buildPage';
+import { builder } from './builder';
 
 const clearDisplay = () => {
   const selectDisplay = document.querySelector('.display');
