@@ -1,13 +1,20 @@
 const tasks = (() => {
   const projectArray = [[]];
+  const addProject = () => {
+    projectArray.push([]);
+  };
   const addTask = (newTask, project) => {
+    if (projectArray[project] === undefined) {
+      addProject();
+    }
     projectArray[project].push(newTask);
     console.log('project array =', projectArray);
   };
-
+  
   const returnProjects = projectArray;
   return {
     addTask,
+    addProject,
     returnProjects,
   };
 })();

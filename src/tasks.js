@@ -9,14 +9,15 @@ function buildTasks() {
   clearDisplay();
   const demo = (() => {
     if (tasks.returnProjects[0].length === 0) {
-      const demoProject = taskFactory('test project', 'this is a test project', 'NOW!', 'IMPORTANT!');
+      const demoProject = taskFactory('fuck', 'this is a test project', 'NOW!', 'IMPORTANT!');
       tasks.addTask(demoProject, 0);
+      const demoProject2 = taskFactory('piss', 'this is a test project', 'NOW!', 'IMPORTANT!');
+      tasks.addTask(demoProject2, 1);
       const demoTask = taskFactory('test task', 'this is a test task', 'NOW!', 'IMPORTANT!');
       tasks.addTask(demoTask, 0);
     }
   })();
-  let newArray = [];
-  console.log('currentProjects is', currentProjects);
+  const newArray = [];
   currentProjects.forEach((element) => {
     for (let i = 1; i < element.length; i += 1) {
       newArray.push(element[i]);
@@ -32,6 +33,14 @@ function buildTasks() {
   }
 }
 
+const getProjectNames = () => {
+  const newArray = [];
+  currentProjects.forEach(element => {
+    newArray.push(element[0].title);
+  });
+  return(newArray);
+};
+
 const dropbox = () => {
   console.log('dropbox running!');
   builder('div', '.display', 'select-div');
@@ -40,8 +49,21 @@ const dropbox = () => {
   getLabel.setAttribute('for', 'project-select');
   getLabel.textContent = 'Select a project';
   builder('select', '.select-div', 'project-select', undefined, undefined, undefined, 'project-select');
+  const projectNames = getProjectNames();
+  console.log(projectNames);
   const getSelector = document.querySelector('.project-select');
-  getSelector.innerHTML = '<option value="Temp value">Temp value</option>';
+  const string = assembleProjectString(projectNames);
+  getSelector.innerHTML = string;
+};
+
+const assembleProjectString = (array) => {
+  let assembledString = '';
+  for (let i = 0; i < array.length; i += 1) {
+    const string = array[i];
+    const newString = ` <option value="${string}">${string}</option>`;
+    assembledString = assembledString + newString;    
+  }
+  return(assembledString);
 };
 
 const newTask = () => {
