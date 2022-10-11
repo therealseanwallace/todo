@@ -7,14 +7,17 @@ let tempObject = taskFactory();
 tempObject.altered = false;
 
 const addListeners = () => {
-  //console.log('Adding listeners');
   const inputs = document.querySelectorAll('input');
-  for (let i = 0; i < inputs.length; i += 1) { // Adds event listeners to all buttons
+  for (let i = 0; i < inputs.length; i += 1) {
     if (inputs[i].classList.contains('button')) {
       inputs[i].addEventListener('click', getMouseInput);
     } else {
       inputs[i].addEventListener('change', getKeybInput);
     }
+  }
+  // Checks if the project selector has been drawn. If so, adds event listener.
+  if (document.querySelector('.project-select') !== null) {
+    document.querySelector('.project-select').addEventListener('change', getMouseInput);
   }
 };
 
@@ -29,10 +32,14 @@ const getMouseInput = (e) => {
     tempObject.altered = true;
   }
   if (e.target.value === 'Submit') {
-    tasks.addTask(tempObject, 0);
+    tasks.addTask(tempObject, 0); //When we add the task, we need to get the value of project select and assign it to the appropriate array
     tempObject = taskFactory();
     buildTasks();
   };
+
+  /*if (e.target.target.id === 'project-select') {
+    tempObject.
+  }*/
 }
 
 const getKeybInput = (e) => {

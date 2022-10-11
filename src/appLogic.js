@@ -19,7 +19,7 @@ const tasks = (() => {
   };
 })();
 
-const taskFactory = (title, notes, dueDate, priority, altered) => {
+const taskFactory = (title, notes, dueDate, priority, altered, project) => {
   const subTasks = [];
   return {
     title, notes, dueDate, priority, altered, subTasks,

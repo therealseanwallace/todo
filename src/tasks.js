@@ -38,7 +38,7 @@ const getProjectNames = () => {
   currentProjects.forEach(element => {
     newArray.push(element[0].title);
   });
-  return(newArray);
+  return (newArray);
 };
 
 const dropbox = () => {
@@ -50,20 +50,19 @@ const dropbox = () => {
   getLabel.textContent = 'Select a project';
   builder('select', '.select-div', 'project-select', undefined, undefined, undefined, 'project-select');
   const projectNames = getProjectNames();
-  console.log(projectNames);
   const getSelector = document.querySelector('.project-select');
   const string = assembleProjectString(projectNames);
   getSelector.innerHTML = string;
 };
 
 const assembleProjectString = (array) => {
-  let assembledString = '';
+  let assembledString = '<option value="Select project">Select project</option>';
   for (let i = 0; i < array.length; i += 1) {
     const string = array[i];
     const newString = ` <option value="${string}">${string}</option>`;
-    assembledString = assembledString + newString;    
+    assembledString += newString;
   }
-  return(assembledString);
+  return (assembledString);
 };
 
 const newTask = () => {
