@@ -14,7 +14,7 @@ function buildTasks() {
       const demoProject2 = taskFactory('Another test project', 'this is a test project', '1983-01-26', 'IMPORTANT!', false, 1);
       tasks.addTask(demoProject2, 1);
       const demoTask = taskFactory('A test task', 'this is a test task', '1983-01-26', 'IMPORTANT!', false, 0);
-      tasks.addTask(demoTask, 0);
+      tasks.addTask(demoTask, demoTask.project);
     }
   })();
   const newArray = [];
@@ -30,7 +30,7 @@ function buildTasks() {
     builder('div', `#task-card-${i}`, 'title-div', undefined, undefined, undefined, `title-div-${i}`);
     builder('input', `#title-div-${i}`, `task-${i}-title`, 'text', newArray[i].title, undefined, undefined, 'Enter task name');
     builder('input', `#title-div-${i}`, `task-${i}-due`, 'date', newArray[i].dueDate);
-    dropbox(`#title-div-${i}`);
+    dropbox(`#title-div-${i}`, newArray[i].project);
     builder('div', `#title-div-${i}`, `task-${i}-priority`, undefined, undefined, newArray[i].priority);
     builder('input', `#task-card-${i}`, `task-${i}-notes`, 'text', newArray[i].notes, undefined, undefined, 'Enter task notes');
   }
@@ -54,8 +54,8 @@ const assembleProjectString = (array) => {
   return (assembledString);
 };
 
-const dropbox = (parent) => {
-  console.log('dropbox running!');
+const dropbox = (parent, tasksProject) => {
+  console.log('dropbox running! tasksProject is', tasksProject);
   builder('div', parent, 'select-div');
   builder('label', '.select-div');
   const getLabel = document.querySelector('label');
@@ -66,6 +66,7 @@ const dropbox = (parent) => {
   const getSelector = document.querySelector('.project-select');
   const string = assembleProjectString(projectNames);
   getSelector.innerHTML = string;
+  getSelector.selectedIndex = tasksProject;
 };
 
 const newTask = () => {
@@ -78,6 +79,6 @@ const newTask = () => {
   builder('input', '.priority-div', 'button', 'button', 'Low', undefined, 'low');
   builder('input', '.display', 'input-field', 'text', undefined, undefined, 'notes', 'Notes');
   builder('input', '.display', 'button', 'button', 'Add subtask');
-  dropbox('.display');
+  dropbox('.display', 0);
   builder('input', '.display', 'button', 'button', 'Submit');
 };
