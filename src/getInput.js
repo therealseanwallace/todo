@@ -40,12 +40,32 @@ const getMouseInput = (e) => {
   }
 
   if (e.target.classList.contains('project-select')) {
+    // if this click comes from the new task display, manipulate tempObject as appropriate
     if (e.target.getAttribute('data-source') === 'new-task') {
       tempObject.project = e.target.selectedIndex;
       tempObject.altered = true;
-      console.log('tempObject is', tempObject);
-      console.log('this works');
-    };
+    } else {
+      const ID = e.target.parentElement.parentElement.parentElement.getAttribute('data-taskid');
+      console.log('ID is', ID);
+      const element = tasks.getObjectFromArray(ID);
+      console.log('got element!');
+      console.log('element pre-change is', element);
+      console.log('projects pre-change are', tasks.returnProjects);
+      console.log('parent element is', element);
+      tasks.changeProject(element.project, element.taskID, e.target.selectedIndex);
+      element.project = e.target.selectedIndex;
+      console.log('projects post-change are', tasks.returnProjects);
+      console.log('element is now', element);
+      console.log('project is', element.project);
+    }
+  }
+
+  if (e.target.classList.contains('priority-select')) {
+    // if this click comes from the new task display, manipulate tempObject as appropriate
+    if (e.target.getAttribute('data-source') === 'new-task') {
+      tempObject.priority = e.target.selectedIndex;
+      tempObject.altered = true;
+    }
   }
 
   // Adds the new task to the appropriate array as defined by the second parameter

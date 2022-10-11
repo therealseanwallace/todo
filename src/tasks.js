@@ -3,10 +3,10 @@ import { builder, clearDisplay } from './builder';
 import { addListeners } from './getInput';
 export { buildTasks, newTask };
 
-const currentProjects = tasks.returnProjects;
+const currentProjects = tasks.returnProjects; //returns an array of all projects
 
 // Creates a dropdown element
-const dropbox = (parent, selected, type, counter, source) => {
+const dropbox = (parent, selected, type, counter, source, dataID) => {
   console.log('dropbox running! selected is', selected);
   builder('div', parent, `select-div-${type}-${counter}`);
   builder('label', `.select-div-${type}-${counter}`, `label-${type}-${counter}`);
@@ -41,6 +41,7 @@ function buildTasks() {
       tasks.addTask(demoProject2, 1);
       const demoTask = taskFactory('A test task', 'this is a test task', '1983-01-26', 2, false, 0);
       tasks.addTask(demoTask, demoTask.project);
+      console.log('demoTask is', demoTask);
     }
   })();
   const newArray = [];
@@ -55,10 +56,11 @@ function buildTasks() {
   let dropboxCounter = 0;
   for (let i = 0; i < newArray.length; i += 1) {
     builder('div', '.display', 'task-card', undefined, undefined, undefined, `task-card-${i}`);
+    document.querySelector(`#task-card-${i}`).setAttribute('data-taskID', newArray[i].taskID);
     builder('div', `#task-card-${i}`, 'title-div', undefined, undefined, undefined, `title-div-${i}`);
     builder('input', `#title-div-${i}`, `task-${i}-title`, 'text', newArray[i].title, undefined, undefined, 'Enter task name');
     builder('input', `#title-div-${i}`, `task-${i}-due`, 'date', newArray[i].dueDate);
-    dropbox(`#title-div-${i}`, newArray[i].project, 'project', dropboxCounter);
+    dropbox(`#title-div-${i}`, newArray[i].project, 'project', dropboxCounter, undefined, );
     dropboxCounter += 1;
     // builder('div', `#title-div-${i}`, `task-${i}-priority`, undefined, undefined, newArray[i].priority);
     dropbox(`#title-div-${i}`, newArray[i].priority, 'priority', dropboxCounter);
@@ -95,10 +97,11 @@ const newTask = () => {
   builder('input', '.display', 'input-field', 'text', undefined, undefined, 'title', 'Task name', 'data-source="new-task"');
   builder('input', '.display', 'input-field', 'date', undefined, undefined, 'due-date', undefined, 'data-source="new-task"');
   dropbox('.display', 0, 'project', 0, 'new-task');
-  builder('div', '.display', 'priority-div');
+  dropbox('.display', 1, 'priority', 0, 'new-task');
+  /*builder('div', '.display', 'priority-div');
   builder('input', '.priority-div', 'button', 'button', 'Urgent', undefined, 'urgent');
   builder('input', '.priority-div', 'button', 'button', 'Normal', undefined, 'normal');
-  builder('input', '.priority-div', 'button', 'button', 'Low', undefined, 'low');
+  builder('input', '.priority-div', 'button', 'button', 'Low', undefined, 'low');*/
   builder('input', '.display', 'input-field', 'text', undefined, undefined, 'notes', 'Notes');
   builder('input', '.display', 'button', 'button', 'Add subtask');
   builder('input', '.display', 'button', 'button', 'Submit');
