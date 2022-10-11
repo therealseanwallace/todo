@@ -38,25 +38,17 @@ const getMouseInput = (e) => {
     newTask();
     addListeners();
   }
-
+  const ID = e.target.parentElement.parentElement.parentElement.getAttribute('data-taskid');
   if (e.target.classList.contains('project-select')) {
     // if this click comes from the new task display, manipulate tempObject as appropriate
     if (e.target.getAttribute('data-source') === 'new-task') {
       tempObject.project = e.target.selectedIndex;
       tempObject.altered = true;
     } else {
-      const ID = e.target.parentElement.parentElement.parentElement.getAttribute('data-taskid');
       console.log('ID is', ID);
       const element = tasks.getObjectFromArray(ID);
-      console.log('got element!');
-      console.log('element pre-change is', element);
-      console.log('projects pre-change are', tasks.returnProjects);
-      console.log('parent element is', element);
       tasks.changeProject(element.project, element.taskID, e.target.selectedIndex);
       element.project = e.target.selectedIndex;
-      console.log('projects post-change are', tasks.returnProjects);
-      console.log('element is now', element);
-      console.log('project is', element.project);
     }
   }
 
@@ -65,6 +57,12 @@ const getMouseInput = (e) => {
     if (e.target.getAttribute('data-source') === 'new-task') {
       tempObject.priority = e.target.selectedIndex;
       tempObject.altered = true;
+    } else {
+      const element = tasks.getObjectFromArray(ID);
+      console.log('prio element is', element);
+      element.priority = e.target.selectedIndex;
+      console.log('prio element is', element);
+      console.log('tasks.returnProjects is', tasks.returnProjects);
     }
   }
 

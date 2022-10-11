@@ -59,6 +59,7 @@ const tasks = (() => {
     returnProjects,
     getObjectFromArray,
     changeProject,
+    changePriority,
   };
 })();
 
