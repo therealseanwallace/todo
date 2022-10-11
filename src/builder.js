@@ -1,5 +1,6 @@
 const builder = (element, parent, classes, type, value, text, id, placeholder) => {
   // Builds and appends DOM nodes according to supplied arguments
+  // console.log('parent is', parent);
   const selectParent = document.querySelector(parent);
   const makeComponent = document.createElement(element);
   if (classes !== undefined) {

@@ -4,6 +4,7 @@ const tasks = (() => {
     projectArray.push([]);
   };
   const addTask = (newTask, project) => {
+    //console.log('addtask active, projectArray, project are', projectArray, ',', project);
     if (projectArray[project] === undefined) {
       addProject();
     }
