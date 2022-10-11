@@ -1,7 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 import { buildTasks, newTask } from './tasks';
 import { taskFactory, tasks } from "./appLogic";
-export { addListeners };
 
 let tempObject = taskFactory();
 tempObject.altered = false;
@@ -39,15 +38,14 @@ const getMouseInput = (e) => {
     newTask();
     addListeners();
   }
-  if (e.target.id === 'urgent' || e.target.id === 'normal' || e.target.id === 'low') {
-    tempObject.priority = e.target.value;
-    tempObject.altered = true;
-  }
-   
+
   if (e.target.classList.contains('project-select')) {
-    tempObject.project = e.target.selectedIndex;
-    tempObject.altered = true;
-    console.log('tempObject is', tempObject);
+    if (e.target.getAttribute('data-source') === 'new-task') {
+      tempObject.project = e.target.selectedIndex;
+      tempObject.altered = true;
+      console.log('tempObject is', tempObject);
+      console.log('this works');
+    };
   }
 
   // Adds the new task to the appropriate array as defined by the second parameter
@@ -60,8 +58,8 @@ const getMouseInput = (e) => {
     tempObject.project = 0;
     console.log(tempObject);
     buildTasks();
-  };
-}
+  }
+};
 
 const getKeybInput = (e) => {
   if (e.target.id === 'notes') {
@@ -79,3 +77,4 @@ const getKeybInput = (e) => {
   //console.log(tempObject);
 };
 
+export { addListeners };
