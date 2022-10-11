@@ -9,11 +9,11 @@ function buildTasks() {
   clearDisplay();
   const demo = (() => {
     if (tasks.returnProjects[0].length === 0) {
-      const demoProject = taskFactory('fuck', 'this is a test project', 'NOW!', 'IMPORTANT!');
+      const demoProject = taskFactory('Test project', 'this is a test project', '1983-01-26', 'IMPORTANT!', false, 0);
       tasks.addTask(demoProject, 0);
-      const demoProject2 = taskFactory('piss', 'this is a test project', 'NOW!', 'IMPORTANT!');
+      const demoProject2 = taskFactory('Another test project', 'this is a test project', '1983-01-26', 'IMPORTANT!', false, 1);
       tasks.addTask(demoProject2, 1);
-      const demoTask = taskFactory('test task', 'this is a test task', 'NOW!', 'IMPORTANT!');
+      const demoTask = taskFactory('A test task', 'this is a test task', '1983-01-26', 'IMPORTANT!', false, 0);
       tasks.addTask(demoTask, 0);
     }
   })();
@@ -28,8 +28,11 @@ function buildTasks() {
   for (let i = 0; i < newArray.length; i += 1) {
     builder('div', '.display', 'task-card', undefined, undefined, undefined, `task-card-${i}`);
     builder('div', `#task-card-${i}`, 'title-div', undefined, undefined, undefined, `title-div-${i}`);
-    builder('h3', `#title-div-${i}`, `task-${i}-title`, undefined, undefined, newArray[i].title);
-    builder('p', `#title-div-${i}`, `task-${i}-due`, undefined, undefined, newArray[i].dueDate);
+    builder('input', `#title-div-${i}`, `task-${i}-title`, 'text', newArray[i].title, undefined, undefined, 'Enter task name');
+    builder('input', `#title-div-${i}`, `task-${i}-due`, 'date', newArray[i].dueDate);
+    dropbox(`#title-div-${i}`);
+    builder('div', `#title-div-${i}`, `task-${i}-priority`, undefined, undefined, newArray[i].priority);
+    builder('input', `#task-card-${i}`, `task-${i}-notes`, 'text', newArray[i].notes, undefined, undefined, 'Enter task notes');
   }
 }
 
@@ -41,28 +44,28 @@ const getProjectNames = () => {
   return (newArray);
 };
 
-const dropbox = () => {
+const assembleProjectString = (array) => {
+  let assembledString = '<option value="0">Default</option>';
+  for (let i = 0; i < array.length; i += 1) {
+    const string = array[i];
+    const newString = ` <option value="${i + 1}">${string}</option>`;
+    assembledString += newString;
+  }
+  return (assembledString);
+};
+
+const dropbox = (parent) => {
   console.log('dropbox running!');
-  builder('div', '.display', 'select-div');
+  builder('div', parent, 'select-div');
   builder('label', '.select-div');
   const getLabel = document.querySelector('label');
   getLabel.setAttribute('for', 'project-select');
-  getLabel.textContent = 'Select a project';
+  getLabel.textContent = 'Select project';
   builder('select', '.select-div', 'project-select', undefined, undefined, undefined, 'project-select');
   const projectNames = getProjectNames();
   const getSelector = document.querySelector('.project-select');
   const string = assembleProjectString(projectNames);
   getSelector.innerHTML = string;
-};
-
-const assembleProjectString = (array) => {
-  let assembledString = '<option value="Select project">Select project</option>';
-  for (let i = 0; i < array.length; i += 1) {
-    const string = array[i];
-    const newString = ` <option value="${string}">${string}</option>`;
-    assembledString += newString;
-  }
-  return (assembledString);
 };
 
 const newTask = () => {
@@ -75,6 +78,6 @@ const newTask = () => {
   builder('input', '.priority-div', 'button', 'button', 'Low', undefined, 'low');
   builder('input', '.display', 'input-field', 'text', undefined, undefined, 'notes', 'Notes');
   builder('input', '.display', 'button', 'button', 'Add subtask');
-  dropbox();
+  dropbox('.display');
   builder('input', '.display', 'button', 'button', 'Submit');
 };
