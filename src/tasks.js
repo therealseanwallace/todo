@@ -8,7 +8,7 @@ export { buildTasks, newTask, dropbox };
 const currentProjects = tasks.returnProjects; //returns an array of all projects
 
 // Creates a dropdown element
-const dropbox = (parent, selected, type, counter, source, dataID) => {
+const dropbox = (parent, selected, type, counter, source) => {
   console.log('dropbox running! selected is', selected);
   builder('div', parent, `select-div-${type}-${counter}`);
   builder('label', `.select-div-${type}-${counter}`, `label-${type}-${counter}`);
@@ -61,6 +61,8 @@ const buildTasks = () => {
     document.querySelector(`#task-card-${i}`).setAttribute('data-taskID', newArray[i].taskID);
     builder('div', `#task-card-${i}`, 'title-div', undefined, undefined, undefined, `title-div-${i}`);
     builder('input', `#title-div-${i}`, `task-${i}-title`, 'text', newArray[i].title, undefined, undefined, 'Enter task name');
+    const titleDiv = document.querySelector(`#title-div-${i}`);
+    addPriorityStyle(titleDiv, newArray[i].priority);
     document.querySelector(`.task-${i}-title`).classList.add('task-title');
     builder('input', `#title-div-${i}`, `task-${i}-due`, 'date', newArray[i].dueDate);
     document.querySelector(`.task-${i}-due`).classList.add('task-due');
@@ -72,6 +74,19 @@ const buildTasks = () => {
     document.querySelector(`.task-${i}-notes`).classList.add('task-notes');
   }
   addListeners();
+};
+
+// Adds a class to task cards according to priority
+const addPriorityStyle = (task, priority) => {
+  if (priority === 0) {
+    task.classList.add('prio-low')
+  }
+  if (priority === 1) {
+    task.classList.add('prio-norm')
+  }
+  if (priority === 2) {
+    task.classList.add('prio-urgent')
+  }
 };
 
 // Gets the names of each project i.e. the name of task 0 in each project
