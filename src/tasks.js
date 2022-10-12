@@ -3,7 +3,7 @@ import { tasks, taskFactory } from './appLogic';
 import { builder, clearDisplay } from './builder';
 import { addListeners } from './getInput';
 
-export { buildTasks, newTask, dropbox };
+export { buildTasks, newTask, dropbox, addPriorityStyle };
 
 const currentProjects = tasks.returnProjects; //returns an array of all projects
 
@@ -78,14 +78,15 @@ const buildTasks = () => {
 
 // Adds a class to task cards according to priority
 const addPriorityStyle = (task, priority) => {
+  task.classList.remove('prio-low', 'prio-norm', 'prio-urgent');
   if (priority === 0) {
-    task.classList.add('prio-low')
+    task.classList.add('prio-low');
   }
   if (priority === 1) {
-    task.classList.add('prio-norm')
+    task.classList.add('prio-norm');
   }
   if (priority === 2) {
-    task.classList.add('prio-urgent')
+    task.classList.add('prio-urgent');
   }
 };
 

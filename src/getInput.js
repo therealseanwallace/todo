@@ -1,6 +1,6 @@
 /* eslint-disable import/no-cycle */
 /* eslint-disable import/prefer-default-export */
-import { buildTasks, newTask } from './tasks';
+import { buildTasks, newTask, addPriorityStyle } from './tasks';
 import { taskFactory, tasks } from "./appLogic";
 import { buildProjects } from './projects';
 
@@ -66,10 +66,19 @@ const getMouseInput = (e) => {
       tempObject.altered = true;
     } else {
       const element = tasks.getObjectFromArray(ID);
-      console.log('prio element is', element);
       element.priority = e.target.selectedIndex;
-      console.log('prio element is', element);
-      console.log('tasks.returnProjects is', tasks.returnProjects);
+      console.log('changing style of', e.target.parentElement.parentElement);
+      switch (e.target.selectedIndex) {
+        case 0:
+          addPriorityStyle(e.target.parentElement.parentElement, 0);
+          break;
+        case 1:
+          addPriorityStyle(e.target.parentElement.parentElement, 1);
+          break;
+        default:
+          addPriorityStyle(e.target.parentElement.parentElement, 2);
+          break;
+      }
     }
   }
 

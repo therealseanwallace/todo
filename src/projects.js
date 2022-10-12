@@ -1,7 +1,7 @@
 import { tasks, taskFactory } from './appLogic';
 import { builder, clearDisplay } from './builder';
 import { addListeners } from './getInput';
-import { dropbox }from './tasks'
+import { dropbox, addPriorityStyle }from './tasks'
 
 const currentProjects = tasks.returnProjects;
 
@@ -18,6 +18,8 @@ const buildProjects = () => {
     builder('div', '.display', 'task-card', undefined, undefined, undefined, `task-card-${i}`);
     document.querySelector(`#task-card-${i}`).setAttribute('data-taskID', newArray[i].taskID);
     builder('div', `#task-card-${i}`, 'title-div', undefined, undefined, undefined, `title-div-${i}`);
+    const titleDiv = document.querySelector(`#title-div-${i}`);
+    addPriorityStyle(titleDiv, newArray[i].priority);
     builder('input', `#title-div-${i}`, `task-${i}-title`, 'text', newArray[i].title, undefined, undefined, 'Enter task name');
     document.querySelector(`.task-${i}-title`).classList.add('task-title');
     builder('input', `#title-div-${i}`, `task-${i}-due`, 'date', newArray[i].dueDate);
