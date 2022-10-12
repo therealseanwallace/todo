@@ -14,7 +14,6 @@ const dropbox = (parent, selected, type, counter, source) => {
   builder('label', `.select-div-${type}-${counter}`, `label-${type}-${counter}`);
   const getLabel = document.querySelector(`.label-${type}-${counter}`);
   getLabel.setAttribute('for', `${type}-select-${counter}`);
-  getLabel.textContent = `Select ${type}`;
   builder('select', `.select-div-${type}-${counter}`, `${type}-select`, undefined, undefined, undefined, `${type}-select-${counter}`);
   const getSelector = document.querySelector(`#${type}-select-${counter}`);
   if (type === 'project') {
@@ -115,10 +114,11 @@ const assembleProjectString = (array) => {
 // Draws the new task display
 const newTask = () => {
   clearDisplay();
-  builder('input', '.display', 'input-field', 'text', undefined, undefined, 'title', 'Task name', 'new-task');
-  builder('input', '.display', 'input-field', 'date', undefined, undefined, 'due-date', undefined, 'new-task');
-  dropbox('.display', 0, 'project', 0, 'new-task');
-  dropbox('.display', 1, 'priority', 0, 'new-task');
-  builder('input', '.display', 'input-field', 'text', undefined, undefined, 'notes', 'Notes', 'new-task');
-  builder('input', '.display', 'button', 'button', 'Submit');
+  builder('div', '.display', 'new-task-div');
+  builder('input', '.new-task-div', 'input-field', 'text', undefined, undefined, 'title', 'Task name', 'new-task');
+  builder('input', '.new-task-div', 'input-field', 'date', undefined, undefined, 'due-date', undefined, 'new-task');
+  dropbox('.new-task-div', 0, 'project', 0, 'new-task');
+  dropbox('.new-task-div', 1, 'priority', 0, 'new-task');
+  builder('input', '.new-task-div', 'input-field', 'text', undefined, undefined, 'notes', 'Notes', 'new-task');
+  builder('input', '.new-task-div', 'button', 'button', 'Submit');
 };
