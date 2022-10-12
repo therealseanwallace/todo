@@ -1,20 +1,20 @@
-/* eslint-disable no-console */
+/* eslint-disable no-plusplus */
+/* eslint-disable consistent-return */
 const tasks = (() => {
   const projectArray = [[]];
   const addProject = () => {
     projectArray.push([]);
   };
   const addTask = (newTask, project) => {
-    //console.log('addtask active, projectArray, project are', projectArray, ',', project);
+    // console.log('addtask active, projectArray, project are', projectArray, ',', project);
     if (projectArray[project] === undefined) {
       addProject();
     }
     projectArray[project].push(newTask);
-    console.log('project array =', projectArray);
   };
   const returnProjects = projectArray;
   const getObjectFromArray = (id) => {
-    console.log('modiftProjectArray starting. id parameter is', id);
+    console.log('getObjectFromArray starting. id parameter is', id);
     console.log('projectArray is', projectArray);
     for (let i = 0; i < projectArray.length; i++) {
       console.log('id is', id);
@@ -33,20 +33,34 @@ const tasks = (() => {
     }
   };
   
+  const getIndex = (project, elementID) => {
+    const elementIDCompare = Number(elementID);
+    const index = projectArray[project].findIndex((item) => item.taskID === elementIDCompare);
+    return (index);
+  };
+
   const changeProject = (project, elementID, newProject) => {
-    console.log('project is', project);
-    console.log('tasks.projectArray[project] is', projectArray[project]);
-    //const taskToChange = projectArray[project][elementIndex];
-    //console.log('taskToChange is', taskToChange);
-    const index = projectArray[project].findIndex(item => item.taskID === elementID);
+    // const taskToChange = projectArray[project][elementIndex];
+    // console.log('taskToChange is', taskToChange);
+    const index = projectArray[project].findIndex((item) => item.taskID === elementID);
     const poppedObject = projectArray[project].pop(index);
-    console.log('poppedObject is', poppedObject);
-    projectArray[newProject].push(poppedObject)
-    console.log('post push projectArray=', projectArray);
-    console.log('projectArray[project][index] is', projectArray[project][index]);
-    console.log(index);
-    console.log('index is', index);
-    
+    projectArray[newProject].push(poppedObject);
+  };
+
+  const changeTask = (project, elementID, newValue, attribute) => {
+    const index = getIndex(project, elementID);
+    console.log('console.log projectArray[project][index]=', projectArray[project][index])/*.otherAttribute = newValue;*/
+    if (attribute === 'title') {
+      projectArray[project][index].title = newValue;
+    }
+    if (attribute === 'date') {
+      projectArray[project][index].dueDate = newValue;
+    }
+    if (attribute === 'notes') {
+      projectArray[project][index].notes = newValue;
+      console.log('note changing!');
+    }
+    console.log('console.log projectArray[project][index]=', projectArray[project][index]);
   };
 
   //return a function that modifies projectArray
@@ -59,7 +73,7 @@ const tasks = (() => {
     returnProjects,
     getObjectFromArray,
     changeProject,
-    changePriority,
+    changeTask,
   };
 })();
 

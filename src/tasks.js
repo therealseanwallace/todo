@@ -30,7 +30,7 @@ const dropbox = (parent, selected, type, counter, source, dataID) => {
   }
 };
 
-function buildTasks() {
+const buildTasks() {
 // Creates cards corresponding to each task from projectArray's children
   clearDisplay();
   const demo = (() => {
@@ -59,12 +59,15 @@ function buildTasks() {
     document.querySelector(`#task-card-${i}`).setAttribute('data-taskID', newArray[i].taskID);
     builder('div', `#task-card-${i}`, 'title-div', undefined, undefined, undefined, `title-div-${i}`);
     builder('input', `#title-div-${i}`, `task-${i}-title`, 'text', newArray[i].title, undefined, undefined, 'Enter task name');
+    document.querySelector(`.task-${i}-title`).classList.add('task-title');
     builder('input', `#title-div-${i}`, `task-${i}-due`, 'date', newArray[i].dueDate);
-    dropbox(`#title-div-${i}`, newArray[i].project, 'project', dropboxCounter, undefined, );
+    document.querySelector(`.task-${i}-due`).classList.add('task-due');
+    dropbox(`#title-div-${i}`, newArray[i].project, 'project', dropboxCounter);
     dropboxCounter += 1;
     // builder('div', `#title-div-${i}`, `task-${i}-priority`, undefined, undefined, newArray[i].priority);
     dropbox(`#title-div-${i}`, newArray[i].priority, 'priority', dropboxCounter);
     builder('input', `#task-card-${i}`, `task-${i}-notes`, 'text', newArray[i].notes, undefined, undefined, 'Enter task notes');
+    document.querySelector(`.task-${i}-notes`).classList.add('task-notes');
   }
   addListeners();
 }
@@ -94,15 +97,11 @@ const assembleProjectString = (array) => {
 // Draws the new task display
 const newTask = () => {
   clearDisplay();
-  builder('input', '.display', 'input-field', 'text', undefined, undefined, 'title', 'Task name', 'data-source="new-task"');
-  builder('input', '.display', 'input-field', 'date', undefined, undefined, 'due-date', undefined, 'data-source="new-task"');
+  builder('input', '.display', 'input-field', 'text', undefined, undefined, 'title', 'Task name', 'new-task');
+  builder('input', '.display', 'input-field', 'date', undefined, undefined, 'due-date', undefined, 'new-task');
   dropbox('.display', 0, 'project', 0, 'new-task');
   dropbox('.display', 1, 'priority', 0, 'new-task');
-  /*builder('div', '.display', 'priority-div');
-  builder('input', '.priority-div', 'button', 'button', 'Urgent', undefined, 'urgent');
-  builder('input', '.priority-div', 'button', 'button', 'Normal', undefined, 'normal');
-  builder('input', '.priority-div', 'button', 'button', 'Low', undefined, 'low');*/
-  builder('input', '.display', 'input-field', 'text', undefined, undefined, 'notes', 'Notes');
+  builder('input', '.display', 'input-field', 'text', undefined, undefined, 'notes', 'Notes', 'new-task');
   builder('input', '.display', 'button', 'button', 'Add subtask');
   builder('input', '.display', 'button', 'button', 'Submit');
 };

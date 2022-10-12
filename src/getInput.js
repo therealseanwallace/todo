@@ -26,9 +26,9 @@ const addListeners = () => {
     element.addEventListener('change', getMouseInput);
   }
   
-  /*if (document.querySelector('.project-select') !== null) {
+  /* if (document.querySelector('.project-select') !== null) {
     document.querySelector('.project-select').addEventListener('change', getMouseInput);
-  }*/
+  } */
 };
 
 const getMouseInput = (e) => {
@@ -80,17 +80,34 @@ const getMouseInput = (e) => {
 };
 
 const getKeybInput = (e) => {
-  if (e.target.id === 'notes') {
-    tempObject.notes = e.target.value;
-    tempObject.altered = true;
-  }
-  if (e.target.id === 'title') {
-    tempObject.title = e.target.value;
-    tempObject.altered = true;
-  }
-  if (e.target.id === 'due-date') {
-    tempObject.dueDate = e.target.value;
-    tempObject.altered = true;
+  if (e.target.getAttribute('data-source') === 'new-task') {
+    if (e.target.id === 'notes') {
+      console.log('HOOOORAYY!!!!!!!!!!!!!!!!!!!!!!!!!');
+      tempObject.notes = e.target.value;
+      tempObject.altered = true;
+    }
+    if (e.target.id === 'title') {
+      tempObject.title = e.target.value;
+      tempObject.altered = true;
+    }
+    if (e.target.id === 'due-date') {
+      tempObject.dueDate = e.target.value;
+      tempObject.altered = true;
+    }
+  } else {
+    const ID = e.target.parentElement.getAttribute('data-taskid');
+    const element = tasks.getObjectFromArray(ID);
+    console.log('ID is', ID, '. element is', element);
+    if (e.target.classList.contains('task-title')) {
+      tasks.changeTask(element.project, ID, e.target.value, 'title');
+    }
+    if (e.target.classList.contains('task-due')) {
+      tasks.changeTask(element.project, ID, e.target.value, 'date');
+    }
+    if (e.target.classList.contains('task-notes')) {
+      console.log("e.target.classList.contains('task-notes')");
+      tasks.changeTask(element.project, ID, e.target.value, 'notes');
+    }
   }
   //console.log(tempObject);
 };

@@ -1,4 +1,4 @@
-const builder = (element, parent, classes, type, value, text, id, placeholder) => {
+const builder = (element, parent, classes, type, value, text, id, placeholder, source) => {
   // Builds and appends DOM nodes according to supplied arguments
   // console.log('parent is', parent);
   const selectParent = document.querySelector(parent);
@@ -23,6 +23,9 @@ const builder = (element, parent, classes, type, value, text, id, placeholder) =
   }
   if (placeholder !== undefined) {
     makeComponent.placeholder = placeholder;
+  }
+  if (source === 'new-task') {
+    makeComponent.setAttribute('data-source', 'new-task');
   }
   selectParent.append(makeComponent);
 };
