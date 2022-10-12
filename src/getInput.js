@@ -35,7 +35,9 @@ const addListeners = () => {
 
 const getMouseInput = (e) => {
   //console.log(e.target.value);
-  console.log('getting mouse input!')
+  if (e.target.id === 'tasks') {
+    buildTasks();
+  }
   if (e.target.id === 'new-task') {
     newTask();
     addListeners();

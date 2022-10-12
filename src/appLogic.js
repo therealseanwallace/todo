@@ -45,6 +45,7 @@ const tasks = (() => {
     const index = projectArray[project].findIndex((item) => item.taskID === elementID);
     const poppedObject = projectArray[project].pop(index);
     projectArray[newProject].push(poppedObject);
+    console.log('projectArray is', projectArray);
   };
 
   const changeTask = (project, elementID, newValue, attribute) => {
