@@ -1,7 +1,9 @@
+/* eslint-disable import/no-cycle */
 import { tasks, taskFactory } from './appLogic';
 import { builder, clearDisplay } from './builder';
 import { addListeners } from './getInput';
-export { buildTasks, newTask };
+
+export { buildTasks, newTask, dropbox };
 
 const currentProjects = tasks.returnProjects; //returns an array of all projects
 
@@ -30,12 +32,12 @@ const dropbox = (parent, selected, type, counter, source, dataID) => {
   }
 };
 
-const buildTasks() {
+const buildTasks = () => {
 // Creates cards corresponding to each task from projectArray's children
   clearDisplay();
   const demo = (() => {
     if (tasks.returnProjects[0].length === 0) {
-      const demoProject = taskFactory('Default project', 'Urgent', '1983-01-26', 0, false, 0);
+      const demoProject = taskFactory('Default project', 'Default project', '1983-01-26', 1, false, 0);
       tasks.addTask(demoProject, 0);
       const demoProject2 = taskFactory('Test project', 'this is a test project', '1929-01-26', 1, false, 1);
       tasks.addTask(demoProject2, 1);
@@ -52,7 +54,7 @@ const buildTasks() {
     }
   });
   console.log('newArray is', newArray);
-  // Draws a project card for each task in newArray
+  // Draws a project card for each project in newArray
   let dropboxCounter = 0;
   for (let i = 0; i < newArray.length; i += 1) {
     builder('div', '.display', 'task-card', undefined, undefined, undefined, `task-card-${i}`);
@@ -70,7 +72,7 @@ const buildTasks() {
     document.querySelector(`.task-${i}-notes`).classList.add('task-notes');
   }
   addListeners();
-}
+};
 
 // Gets the names of each project i.e. the name of task 0 in each project
 const getProjectNames = () => {
@@ -102,6 +104,5 @@ const newTask = () => {
   dropbox('.display', 0, 'project', 0, 'new-task');
   dropbox('.display', 1, 'priority', 0, 'new-task');
   builder('input', '.display', 'input-field', 'text', undefined, undefined, 'notes', 'Notes', 'new-task');
-  builder('input', '.display', 'button', 'button', 'Add subtask');
   builder('input', '.display', 'button', 'button', 'Submit');
 };

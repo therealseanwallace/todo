@@ -1,6 +1,8 @@
+/* eslint-disable import/no-cycle */
 /* eslint-disable import/prefer-default-export */
 import { buildTasks, newTask } from './tasks';
 import { taskFactory, tasks } from "./appLogic";
+import { buildProjects } from './projects';
 
 let tempObject = taskFactory();
 tempObject.altered = false;
@@ -37,6 +39,9 @@ const getMouseInput = (e) => {
   if (e.target.id === 'new-task') {
     newTask();
     addListeners();
+  }
+  if (e.target.id === 'projects') {
+    buildProjects();
   }
   const ID = e.target.parentElement.parentElement.parentElement.getAttribute('data-taskid');
   if (e.target.classList.contains('project-select')) {
@@ -95,7 +100,11 @@ const getKeybInput = (e) => {
       tempObject.altered = true;
     }
   } else {
-    const ID = e.target.parentElement.getAttribute('data-taskid');
+    let ID = e.target.parentElement.parentElement.getAttribute('data-taskid');
+    if (ID === null) {
+      ID = e.target.parentElement.getAttribute('data-taskid');
+    }
+
     const element = tasks.getObjectFromArray(ID);
     console.log('ID is', ID, '. element is', element);
     if (e.target.classList.contains('task-title')) {
