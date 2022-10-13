@@ -7,7 +7,6 @@ const buildUI = () => {
   builder('input', '.tabs', 'tab', 'button', 'Tasks', undefined, 'tasks');
   builder('input', '.tabs', 'tab', 'button', 'Projects', undefined, 'projects');
   builder('main', '#content');
-  builder('input', 'main', 'new-task-btn', 'button', 'New Task', undefined, 'new-task');
   builder('div', 'main', 'display');
   addListeners();
 };

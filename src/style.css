@@ -48,7 +48,7 @@ header {
   border: none;
 }
 
-.new-task-btn {
+.new-task-btn, .new-project-btn {
   width: 100%;
   border-radius: 0;
   border: none;
@@ -114,6 +114,7 @@ header {
   width: 100%;
   height: 50%;
   border-radius: 0 0 10px 10px;
+  padding: 20px 20px 20px 20px;
 }
 
 .title-div {
@@ -131,12 +132,6 @@ header {
   padding: 10px 16px 10px 16px;;
 }
 
-.title-div > h3 {
-  font-size: 1.4rem;
-  font-style: italic;
-  font-weight: 700;
-}
-
 .title-div > h4 {
   font-size: 1.2rem;
   font-style: bold;
@@ -150,9 +145,23 @@ header {
   background-color: inherit;
   border: none;
   font-weight: bold;
-  font-size: 1.1rem;
+  font-size: 1.4rem;
   outline: none;
   color: whitesmoke;
+  margin-bottom: -20px;
+}
+
+.title-div > input:nth-of-type(2) {
+  font-size: 1.1rem;
+  margin-bottom: -30px;
+}
+
+.title-div > div:first-of-type {
+  margin-bottom: -30px;
+}
+
+.title-div > div:last-of-type {
+  margin-bottom: 40px;
 }
 
 label {

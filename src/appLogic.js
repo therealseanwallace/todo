@@ -2,31 +2,31 @@
 /* eslint-disable consistent-return */
 const tasks = (() => {
   const projectArray = [[]];
-  const addProject = () => {
-    projectArray.push([]);
+  const addProject = (newProject) => {
+    if (newProject !== undefined) {
+      projectArray.push([newProject]);
+    } else {
+      projectArray.push([]);
+    }
   };
   const addTask = (newTask, project) => {
     // console.log('addtask active, projectArray, project are', projectArray, ',', project);
     if (projectArray[project] === undefined) {
+      console.log('projectArray=', projectArray);
       addProject();
-    }
-    projectArray[project].push(newTask);
+      projectArray[projectArray.length - 1].push(newTask);
+    } else { projectArray[project].push(newTask); }
+    console.log('projectArray=', projectArray);
   };
   const returnProjects = projectArray;
   const getObjectFromArray = (id) => {
-    console.log('getObjectFromArray starting. id parameter is', id);
-    console.log('projectArray is', projectArray);
     for (let i = 0; i < projectArray.length; i++) {
-      console.log('id is', id);
       const idCompare = Number(id);
-      console.log('typeof idcompare:');
-      console.log(typeof idCompare);
       const project = projectArray[i];
       for (let index = 0; index < project.length; index++) {
         const element = project[index];
         const elementCompare = Number(element.taskID);
         if (elementCompare === idCompare) {
-          console.log('AWESOME!');
           return (element);
         }
       }
@@ -45,12 +45,10 @@ const tasks = (() => {
     const index = projectArray[project].findIndex((item) => item.taskID === elementID);
     const poppedObject = projectArray[project].pop(index);
     projectArray[newProject].push(poppedObject);
-    console.log('projectArray is', projectArray);
   };
 
   const changeTask = (project, elementID, newValue, attribute) => {
     const index = getIndex(project, elementID);
-    console.log('console.log projectArray[project][index]=', projectArray[project][index])/*.otherAttribute = newValue;*/
     if (attribute === 'title') {
       projectArray[project][index].title = newValue;
     }
@@ -59,9 +57,7 @@ const tasks = (() => {
     }
     if (attribute === 'notes') {
       projectArray[project][index].notes = newValue;
-      console.log('note changing!');
     }
-    console.log('console.log projectArray[project][index]=', projectArray[project][index]);
   };
 
   //return a function that modifies projectArray

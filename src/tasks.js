@@ -9,7 +9,6 @@ const currentProjects = tasks.returnProjects; //returns an array of all projects
 
 // Creates a dropdown element
 const dropbox = (parent, selected, type, counter, source) => {
-  console.log('dropbox running! selected is', selected);
   builder('div', parent, `select-div-${type}-${counter}`);
   builder('label', `.select-div-${type}-${counter}`, `label-${type}-${counter}`);
   const getLabel = document.querySelector(`.label-${type}-${counter}`);
@@ -25,9 +24,11 @@ const dropbox = (parent, selected, type, counter, source) => {
     getSelector.innerHTML = '<option value="0">Low</option><option value="1">Normal</option><option value="2">Urgent</option>';
     getSelector.selectedIndex = selected;
   }
-  console.log('source is', source);
   if (source === 'new-task') {
     getSelector.setAttribute('data-source', 'new-task');
+  }
+  if (source === 'new-project') {
+    getSelector.setAttribute('data-source', 'new-project');
   }
 };
 
@@ -42,7 +43,7 @@ const buildTasks = () => {
       tasks.addTask(demoProject2, 1);
       const demoTask = taskFactory('A test task', 'this is a test task', '1983-01-26', 2, false, 0);
       tasks.addTask(demoTask, demoTask.project);
-      console.log('demoTask is', demoTask);
+
     }
   })();
   const newArray = [];
@@ -52,7 +53,8 @@ const buildTasks = () => {
       newArray.push(element[i]);
     }
   });
-  console.log('newArray is', newArray);
+
+  builder('input', '.display', 'new-task-btn', 'button', 'New Task', undefined, 'new-task');
   // Draws a project card for each project in newArray
   let dropboxCounter = 0;
   for (let i = 0; i < newArray.length; i += 1) {
@@ -109,8 +111,6 @@ const assembleProjectString = (array) => {
   return (assembledString);
 };
 
-
-
 // Draws the new task display
 const newTask = () => {
   clearDisplay();
@@ -120,5 +120,5 @@ const newTask = () => {
   dropbox('.new-task-div', 0, 'project', 0, 'new-task');
   dropbox('.new-task-div', 1, 'priority', 0, 'new-task');
   builder('input', '.new-task-div', 'input-field', 'text', undefined, undefined, 'notes', 'Notes', 'new-task');
-  builder('input', '.new-task-div', 'button', 'button', 'Submit');
+  builder('input', '.new-task-div', 'button', 'button', 'Submit', undefined, undefined, undefined, 'new-task');
 };

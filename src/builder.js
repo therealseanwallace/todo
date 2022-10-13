@@ -24,8 +24,13 @@ const builder = (element, parent, classes, type, value, text, id, placeholder, s
   if (placeholder !== undefined) {
     makeComponent.placeholder = placeholder;
   }
-  if (source === 'new-task') {
-    makeComponent.setAttribute('data-source', 'new-task');
+  if (source !== undefined) {
+    if (source === 'new-task') {
+      makeComponent.setAttribute('data-source', 'new-task');
+    }
+    if (source === 'new-project') {
+      makeComponent.setAttribute('data-source', 'new-project');
+    }
   }
   selectParent.append(makeComponent);
 };
@@ -33,7 +38,6 @@ const builder = (element, parent, classes, type, value, text, id, placeholder, s
 const clearDisplay = () => {
   const selectDisplay = document.querySelector('.display');
   selectDisplay.innerHTML = '';
-  console.log('Display cleared');
 };
 
 export { builder, clearDisplay };
