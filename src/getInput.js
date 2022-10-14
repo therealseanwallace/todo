@@ -105,6 +105,30 @@ const getMouseInput = (e) => {
       console.log(tasks.returnProjects);
     }
   }
+
+  if (e.target.classList.contains('complete-btn')) {
+    console.log(e.target.parentElement.parentElement.getAttribute('data-taskid'));
+    const tasksID = e.target.parentElement.parentElement.getAttribute('data-taskid');
+    const thisTask = tasks.getObjectFromArray(tasksID);
+    console.log(thisTask);
+    console.log(thisTask.toggleComplete());
+    e.target.parentElement.parentElement.classList.toggle('completed');
+    e.target.classList.toggle('completed-button');
+    console.log(e.target.value);
+    if (e.target.value === 'Complete task') {
+      console.log('if statement triggered');
+      console.log(e.target.value);
+      console.log(e.target.innerText);
+
+      e.target.value = 'Uncomplete task';
+    } else if (e.target.value === 'Uncomplete task') {
+      e.target.value = 'Complete task';
+    } else if (e.target.value === 'Complete project') {
+      e.target.value = 'Uncomplete project';
+    } else {
+      e.target.value = 'Complete project';
+    }
+  }
 };
 
 const getKeybInput = (e) => {

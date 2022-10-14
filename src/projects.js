@@ -1,34 +1,78 @@
+/* eslint-disable import/no-cycle */
 import { tasks, taskFactory } from './appLogic';
 import { builder, clearDisplay } from './builder';
 import { addListeners } from './getInput';
-import { dropbox, addPriorityStyle }from './tasks'
+import { dropbox, addPriorityStyle, buildTasks }from './tasks';
 
-const currentProjects = tasks.returnProjects;
+const currentProjects = tasks.returnProjects; //returns an array of all projects
 
 const buildProjects = () => {
   clearDisplay();
   const newArray = [];
+  // Constructs an array of projects i.e. all those projectArray children which ARE index 0
   currentProjects.forEach((element) => {
     for (let i = 0; i < 1; i += 1) {
       newArray.push(element[i]);
     }
   });
+
+  const newArray2 = [];
+  // Constructs an array of tasks i.e. all those projectArray children which are NOT index 0
+  currentProjects.forEach((element) => {
+    for (let i = 1; i < element.length; i += 1) {
+      newArray2.push(element[i]);
+    }
+  });
   builder('input', '.display', 'new-project-btn', 'button', 'New Project', undefined, 'new-project');
+  
   let dropboxCounter = 0;
-  for (let i = 0; i < newArray.length; i += 1) {
-    builder('div', '.display', 'task-card', undefined, undefined, undefined, `task-card-${i}`);
-    document.querySelector(`#task-card-${i}`).setAttribute('data-taskID', newArray[i].taskID);
-    builder('div', `#task-card-${i}`, 'title-div', undefined, undefined, undefined, `title-div-${i}`);
-    const titleDiv = document.querySelector(`#title-div-${i}`);
+  let taskCardCounter = 0;
+  let innerDisplayCounter = 0;
+  for (let i = 0; i < newArray.length; i++) {
+    builder('div', '.display', `inner-display-${innerDisplayCounter}`);
+    document.querySelector(`.inner-display-${innerDisplayCounter}`).classList.add('inner-display');
+    builder('div', `.inner-display-${innerDisplayCounter}`, 'task-card', undefined, undefined, undefined, `task-card-${taskCardCounter}`);
+    document.querySelector(`#task-card-${taskCardCounter}`).setAttribute('data-taskID', newArray[i].taskID);
+    document.querySelector(`#task-card-${taskCardCounter}`).classList.add('project-card');
+    builder('div', `#task-card-${taskCardCounter}`, 'title-div', undefined, undefined, undefined, `title-div-${taskCardCounter}`);
+    const titleDiv = document.querySelector(`#title-div-${taskCardCounter}`);
     addPriorityStyle(titleDiv, newArray[i].priority);
-    builder('input', `#title-div-${i}`, `task-${i}-title`, 'text', newArray[i].title, undefined, undefined, 'Enter task name');
-    document.querySelector(`.task-${i}-title`).classList.add('task-title');
-    builder('input', `#title-div-${i}`, `task-${i}-due`, 'date', newArray[i].dueDate);
-    document.querySelector(`.task-${i}-due`).classList.add('task-due');
+    builder('input', `#title-div-${taskCardCounter}`, `task-${taskCardCounter}-title`, 'text', newArray[i].title, undefined, undefined, 'Enter task name');
+    document.querySelector(`.task-${taskCardCounter}-title`).classList.add('task-title');
+    builder('input', `#title-div-${taskCardCounter}`, `task-${taskCardCounter}-due`, 'date', newArray[i].dueDate);
+    document.querySelector(`.task-${taskCardCounter}-due`).classList.add('task-due');
+    dropbox(`#title-div-${taskCardCounter}`, newArray[i].priority, 'priority', dropboxCounter);
     dropboxCounter += 1;
-    dropbox(`#title-div-${i}`, newArray[i].priority, 'priority', dropboxCounter);
-    builder('input', `#task-card-${i}`, `task-${i}-notes`, 'text', newArray[i].notes, undefined, undefined, 'Enter task notes');
-    document.querySelector(`.task-${i}-notes`).classList.add('task-notes');
+    builder('input', `#title-div-${taskCardCounter}`, 'complete-btn', 'button', 'Complete project', undefined, `complete-btn-${i}`);
+    //builder('input', `#task-card-${taskCardCounter}`, `task-${taskCardCounter}-notes`, 'text', newArray[i].notes, undefined, undefined, 'Enter task notes');
+    //document.querySelector(`.task-${taskCardCounter}-notes`).classList.add('task-notes');
+    console.log(`#task-card-${taskCardCounter}`, `tasks-${taskCardCounter}`);
+    builder('div', `#task-card-${taskCardCounter}`, `tasks-${taskCardCounter}`);
+    document.querySelector(`.tasks-${taskCardCounter}`).classList.add('project-tasks');
+    console.log('taskCardCounter=', taskCardCounter);
+    taskCardCounter += 1;
+    const taskCardCounterPreIncrement = taskCardCounter - 1;
+    console.log(taskCardCounter);
+    for (let index = 1; index < currentProjects[i].length; index++) {
+      console.log('task =', currentProjects[i][index]);
+      builder('div', `.tasks-${taskCardCounterPreIncrement}`, 'task-card', undefined, undefined, undefined, `task-card-${taskCardCounter}`);
+      document.querySelector(`#task-card-${taskCardCounter}`).setAttribute('data-taskID', currentProjects[i][index].taskID);
+      builder('div', `#task-card-${taskCardCounter}`, 'title-div', undefined, undefined, undefined, `title-div-${taskCardCounter}`);
+      const titleDiv = document.querySelector(`#title-div-${taskCardCounter}`);
+      addPriorityStyle(titleDiv, newArray[i].priority);
+      builder('input', `#title-div-${taskCardCounter}`, `task-${taskCardCounter}-title`, 'text', currentProjects[i][index].title, undefined, undefined, 'Enter task name');
+      document.querySelector(`.task-${taskCardCounter}-title`).classList.add('task-title');
+      builder('input', `#title-div-${taskCardCounter}`, `task-${taskCardCounter}-due`, 'date', currentProjects[i][index].dueDate);
+      document.querySelector(`.task-${taskCardCounter}-due`).classList.add('task-due');
+      dropbox(`#title-div-${taskCardCounter}`, currentProjects[i][index].priority, 'priority', dropboxCounter);
+      dropboxCounter += 1;
+      builder('input', `#title-div-${taskCardCounter}`, 'complete-btn', 'button', 'Complete task', undefined, `complete-btn-${i}`);
+      builder('input', `#task-card-${taskCardCounter}`, `task-${taskCardCounter}-notes`, 'text', currentProjects[i][index].notes, undefined, undefined, 'Enter task notes');
+      document.querySelector(`.task-${taskCardCounter}-notes`).classList.add('task-notes');
+      taskCardCounter += 1;
+      //innerDisplayConstruct = innerDisplayDefault + innerDisplayCounter;
+    }
+    innerDisplayCounter ++;
   }
   addListeners();
 };

@@ -77,11 +77,15 @@ const tasks = (() => {
 let taskCounter = 0;
 
 const taskFactory = (title, notes, dueDate, priority, altered, project) => {
-  const subTasks = [];
   const taskID = taskCounter;
   taskCounter += 1;
+  let completed = false;
+  const toggleComplete = () => {
+    completed = !completed;
+    return(completed);
+  }
   return {
-    title, notes, dueDate, priority, altered, subTasks, project, taskID,
+    title, notes, dueDate, priority, altered, project, taskID, toggleComplete,
   };
 };
 

@@ -55,10 +55,11 @@ const buildTasks = () => {
   });
 
   builder('input', '.display', 'new-task-btn', 'button', 'New Task', undefined, 'new-task');
-  // Draws a project card for each project in newArray
+  builder('div', '.display', 'inner-display');
+  // Draws a task card for each project in newArray
   let dropboxCounter = 0;
   for (let i = 0; i < newArray.length; i += 1) {
-    builder('div', '.display', 'task-card', undefined, undefined, undefined, `task-card-${i}`);
+    builder('div', '.inner-display', 'task-card', undefined, undefined, undefined, `task-card-${i}`);
     document.querySelector(`#task-card-${i}`).setAttribute('data-taskID', newArray[i].taskID);
     builder('div', `#task-card-${i}`, 'title-div', undefined, undefined, undefined, `title-div-${i}`);
     builder('input', `#title-div-${i}`, `task-${i}-title`, 'text', newArray[i].title, undefined, undefined, 'Enter task name');
@@ -71,6 +72,7 @@ const buildTasks = () => {
     dropboxCounter += 1;
     // builder('div', `#title-div-${i}`, `task-${i}-priority`, undefined, undefined, newArray[i].priority);
     dropbox(`#title-div-${i}`, newArray[i].priority, 'priority', dropboxCounter);
+    builder('input', `#title-div-${i}`, 'complete-btn', 'button', 'Complete task', undefined, `complete-btn-${i}`);
     builder('input', `#task-card-${i}`, `task-${i}-notes`, 'text', newArray[i].notes, undefined, undefined, 'Enter task notes');
     document.querySelector(`.task-${i}-notes`).classList.add('task-notes');
   }

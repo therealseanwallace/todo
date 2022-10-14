@@ -64,6 +64,10 @@ header {
   justify-content: flex-start;
 }
 
+.inner-display {
+  display: flex;
+}
+
 .new-task-div {
   max-width: 320px;
   margin: auto;
@@ -87,6 +91,10 @@ header {
   width: 100%;
 }
 
+.project-card {
+  align-self: flex-start;
+}
+
 .task-card {
   width: 300px;
   height: 400px;
@@ -96,6 +104,7 @@ header {
   margin-top: 0;
   margin-bottom: 20px;
   border-radius: 12px 12px 10px 10px;
+  align-self: flex-end;
 }
 
 .task-card:first-of-type {
@@ -183,4 +192,33 @@ label {
 
 .input-field {
   height: 30px;
+}
+
+
+.inner-display {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.project-card {
+  width: 80%;
+  height: auto;
+}
+
+.project-card > .title-div {
+  max-width: none;
+  height: 200px;
+}
+
+.project-tasks {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.completed {
+  opacity: 0.5;
+}
+
+.completed-button {
+  opacity: 0.6;
 }
