@@ -10,9 +10,6 @@ const currentProjects = tasks.returnProjects; //returns an array of all projects
 // Creates a dropdown element
 const dropbox = (parent, selected, type, counter, source) => {
   builder('div', parent, `select-div-${type}-${counter}`);
-  builder('label', `.select-div-${type}-${counter}`, `label-${type}-${counter}`);
-  const getLabel = document.querySelector(`.label-${type}-${counter}`);
-  getLabel.setAttribute('for', `${type}-select-${counter}`);
   builder('select', `.select-div-${type}-${counter}`, `${type}-select`, undefined, undefined, undefined, `${type}-select-${counter}`);
   const getSelector = document.querySelector(`#${type}-select-${counter}`);
   if (type === 'project') {
@@ -62,10 +59,12 @@ const buildTasks = () => {
     builder('div', '.inner-display', 'task-card', undefined, undefined, undefined, `task-card-${i}`);
     document.querySelector(`#task-card-${i}`).setAttribute('data-taskID', newArray[i].taskID);
     builder('div', `#task-card-${i}`, 'title-div', undefined, undefined, undefined, `title-div-${i}`);
-    builder('input', `#title-div-${i}`, `task-${i}-title`, 'text', newArray[i].title, undefined, undefined, 'Enter task name');
+    builder('div', `#title-div-${i}`, 'title-close', undefined, undefined, undefined, `title-close-${i}`);
+    builder('input', `#title-close-${i}`, `task-${i}-title`, 'text', newArray[i].title, undefined, undefined, 'Enter task name');
     const titleDiv = document.querySelector(`#title-div-${i}`);
     addPriorityStyle(titleDiv, newArray[i].priority);
     document.querySelector(`.task-${i}-title`).classList.add('task-title');
+    builder('input', `#title-close-${i}`, 'close-btn', 'button', undefined, undefined, `close-btn-${i}`);
     builder('input', `#title-div-${i}`, `task-${i}-due`, 'date', newArray[i].dueDate);
     document.querySelector(`.task-${i}-due`).classList.add('task-due');
     dropbox(`#title-div-${i}`, newArray[i].project, 'project', dropboxCounter);

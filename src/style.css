@@ -68,6 +68,7 @@ header {
   display: flex;
 }
 
+
 .new-task-div {
   max-width: 320px;
   margin: auto;
@@ -95,6 +96,7 @@ header {
   align-self: flex-start;
 }
 
+
 .task-card {
   width: 300px;
   height: 400px;
@@ -105,15 +107,49 @@ header {
   margin-bottom: 20px;
   border-radius: 12px 12px 10px 10px;
   align-self: flex-end;
+  display: flex;
+  flex-direction: column;
 }
 
 .task-card:first-of-type {
   margin-top: 40px;
   
 }
-.task-card > p {
-  margin-left: 20px;
-  margin-top: 8px;
+
+.task-title {
+  background-color: inherit;
+  border: none;
+  font-weight: bold;
+  font-size: 1.5rem;
+  outline: none;
+  color: whitesmoke;
+  width: 80%;
+}
+
+.title-close {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2px;
+}
+
+.close-btn {
+  border: none;
+  filter: invert(100%);
+  background: url('./close.svg');
+  height: 24px;
+  width: 24px;
+  margin-top: 6px;
+}
+
+.task-due {
+  font-size: 1.1rem;
+  margin-bottom: 4px;
+  background: inherit;
+  color: whitesmoke;
+  font-weight: bold;
+  border: none;
+  outline: none;
 }
 
 .task-card > input {
@@ -127,73 +163,23 @@ header {
 }
 
 .title-div {
-  padding: 16px 0 4px 12px;
   border-radius: 10px 10px 0 0;
-  height: 50%;
   background-color: black;
   color: whitesmoke;
   max-width: 320px;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
-  align-items: stretch;
-  gap: 6px;
-  padding: 10px 16px 10px 16px;;
-}
-
-.title-div > h4 {
-  font-size: 1.2rem;
-  font-style: bold;
+  padding: 10px 16px 10px 16px;
 }
 
 .title-div > div > label, .title-div > div > select {
   width: 100%;
+  margin-bottom: 4px;
 }
 
-.title-div > input {
-  background-color: inherit;
-  border: none;
-  font-weight: bold;
-  font-size: 1.4rem;
-  outline: none;
-  color: whitesmoke;
-  margin-bottom: -20px;
+.task-notes {
+  flex-basis: 60%;
 }
-
-.title-div > input:nth-of-type(2) {
-  font-size: 1.1rem;
-  margin-bottom: -30px;
-}
-
-.title-div > div:first-of-type {
-  margin-bottom: -30px;
-}
-
-.title-div > div:last-of-type {
-  margin-bottom: 40px;
-}
-
-label {
-	width: 50px;
-	display: inline-block;
-}
-
-.prio-urgent {
-  background-color: #820600;
-}
-
-.prio-norm {
-  background-color: #11323D;
-}
-
-.prio-low {
-  background-color: #50754d;
-}
-
-.input-field {
-  height: 30px;
-}
-
 
 .inner-display {
   display: flex;
@@ -207,7 +193,6 @@ label {
 
 .project-card > .title-div {
   max-width: none;
-  height: 200px;
 }
 
 .project-tasks {
@@ -221,4 +206,18 @@ label {
 
 .completed-button {
   opacity: 0.6;
+}
+
+
+/*Color classes for task priorities*/
+.prio-urgent {
+  background-color: #820600;
+}
+
+.prio-norm {
+  background-color: #11323D;
+}
+
+.prio-low {
+  background-color: #50754d;
 }

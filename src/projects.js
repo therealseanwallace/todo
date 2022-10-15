@@ -16,13 +16,6 @@ const buildProjects = () => {
     }
   });
 
-  const newArray2 = [];
-  // Constructs an array of tasks i.e. all those projectArray children which are NOT index 0
-  currentProjects.forEach((element) => {
-    for (let i = 1; i < element.length; i += 1) {
-      newArray2.push(element[i]);
-    }
-  });
   builder('input', '.display', 'new-project-btn', 'button', 'New Project', undefined, 'new-project');
   
   let dropboxCounter = 0;
@@ -32,12 +25,17 @@ const buildProjects = () => {
     builder('div', '.display', `inner-display-${innerDisplayCounter}`);
     document.querySelector(`.inner-display-${innerDisplayCounter}`).classList.add('inner-display');
     builder('div', `.inner-display-${innerDisplayCounter}`, 'task-card', undefined, undefined, undefined, `task-card-${taskCardCounter}`);
-    document.querySelector(`#task-card-${taskCardCounter}`).setAttribute('data-taskID', newArray[i].taskID);
+    document.querySelector(`#task-card-${taskCardCounter}`).setAttribute('data-taskID', newArray[i].taskID);////////////////////
     document.querySelector(`#task-card-${taskCardCounter}`).classList.add('project-card');
     builder('div', `#task-card-${taskCardCounter}`, 'title-div', undefined, undefined, undefined, `title-div-${taskCardCounter}`);
+    builder('div', `#title-div-${taskCardCounter}`, 'title-close', undefined, undefined, undefined, `title-close-${taskCardCounter}`);
+    console.log('newArray is', newArray);
+    console.log('taskCardCounter is', taskCardCounter);
+    console.log('taskCardCounter is', taskCardCounter);
+    console.log(`newArray${i} is`, newArray[i]);
+    builder('input', `#title-close-${taskCardCounter}`, `task-${taskCardCounter}-title`, 'text', newArray[i].title, undefined, undefined, 'Enter task name');/////////////
     const titleDiv = document.querySelector(`#title-div-${taskCardCounter}`);
     addPriorityStyle(titleDiv, newArray[i].priority);
-    builder('input', `#title-div-${taskCardCounter}`, `task-${taskCardCounter}-title`, 'text', newArray[i].title, undefined, undefined, 'Enter task name');
     document.querySelector(`.task-${taskCardCounter}-title`).classList.add('task-title');
     builder('input', `#title-div-${taskCardCounter}`, `task-${taskCardCounter}-due`, 'date', newArray[i].dueDate);
     document.querySelector(`.task-${taskCardCounter}-due`).classList.add('task-due');
@@ -58,8 +56,13 @@ const buildProjects = () => {
       builder('div', `.tasks-${taskCardCounterPreIncrement}`, 'task-card', undefined, undefined, undefined, `task-card-${taskCardCounter}`);
       document.querySelector(`#task-card-${taskCardCounter}`).setAttribute('data-taskID', currentProjects[i][index].taskID);
       builder('div', `#task-card-${taskCardCounter}`, 'title-div', undefined, undefined, undefined, `title-div-${taskCardCounter}`);
-      const titleDiv = document.querySelector(`#title-div-${taskCardCounter}`);
-      addPriorityStyle(titleDiv, newArray[i].priority);
+      //const taskTitleDiv = document.querySelector();
+      console.log('HERE');
+      console.log('i:index is', i, ':', index);
+      console.log(currentProjects[i][index]);
+      console.log(taskCardCounter);
+      console.log(currentProjects[i][index].priority);
+      addPriorityStyle(titleDiv, currentProjects[i][index].priority);
       builder('input', `#title-div-${taskCardCounter}`, `task-${taskCardCounter}-title`, 'text', currentProjects[i][index].title, undefined, undefined, 'Enter task name');
       document.querySelector(`.task-${taskCardCounter}-title`).classList.add('task-title');
       builder('input', `#title-div-${taskCardCounter}`, `task-${taskCardCounter}-due`, 'date', currentProjects[i][index].dueDate);

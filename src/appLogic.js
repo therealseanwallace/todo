@@ -18,6 +18,18 @@ const tasks = (() => {
     } else { projectArray[project].push(newTask); }
     console.log('projectArray=', projectArray);
   };
+
+  const deleteTask = (project, task) => {
+    console.log('project is', projectArray[project][task]);
+    /*if (projectArray[project][task] === undefined) {
+      return;
+    }*/
+    try {
+      projectArray[project].pop(task);
+    } catch {console.log("task doesn't exist");
+    }
+  };
+
   const returnProjects = projectArray;
   const getObjectFromArray = (id) => {
     for (let i = 0; i < projectArray.length; i++) {
@@ -71,6 +83,7 @@ const tasks = (() => {
     getObjectFromArray,
     changeProject,
     changeTask,
+    deleteTask,
   };
 })();
 
@@ -82,7 +95,7 @@ const taskFactory = (title, notes, dueDate, priority, altered, project) => {
   let completed = false;
   const toggleComplete = () => {
     completed = !completed;
-    return(completed);
+    return (completed);
   }
   return {
     title, notes, dueDate, priority, altered, project, taskID, toggleComplete,

@@ -129,6 +129,17 @@ const getMouseInput = (e) => {
       e.target.value = 'Complete project';
     }
   }
+
+  if (e.target.classList.contains('close-btn')) {
+    console.log('close button clicked');
+    let ID = e.target.parentElement.parentElement.parentElement.getAttribute('data-taskid');
+    const element = tasks.getObjectFromArray(ID);
+    console.log(ID);
+    console.log(tasks.returnProjects);
+    tasks.deleteTask(element.project, ID);
+    console.log(tasks.returnProjects);
+    e.target.parentElement.parentElement.parentElement.remove();
+  }
 };
 
 const getKeybInput = (e) => {
