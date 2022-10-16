@@ -1,6 +1,50 @@
-/* eslint-disable no-plusplus */
-/* eslint-disable consistent-return */
+import { demo } from './objects';
+export { tasks };
+
 const tasks = (() => {
+  const projectArray = [];
+  let taskCounter = 1;
+  const addTask = (task) => {
+    const newTask = task[1];
+    newTask.taskID = taskCounter;
+    if (newTask.type === 'project') {
+      projectArray.push(newTask);
+    }
+    if (newTask.type === 'task') {
+      const newProjectRef = newTask.project;
+      projectArray[newProjectRef].tasks.push(task);
+    }
+    taskCounter += 1;
+  };
+
+  const addDemo = (() => {
+    // Adds dummy content to projectArray
+    const demoObjects = Object.entries(demo);
+    for (let i = 0; i < demoObjects.length; i++) {
+      const element = demoObjects[i];
+      addTask(element);
+    }
+    /*addProject(demo.project1);
+    addProject(demo.project2);
+    addProject(demo.project3);*/
+    console.log('projectArray post-demo push is', projectArray);
+  })();
+
+  const getObjectByID = () => {
+    for (let i = 0; i < projectArray.length; i++) {
+      const element = projectArray[i];
+      console.log('element is', element);
+      
+    }
+  };
+
+  const returnProjectArray = projectArray;
+
+  return { returnProjectArray, getObjectByID };
+})();
+
+/*
+const oldTasks = (() => {
   const projectArray = [[]];
   const addProject = (newProject) => {
     if (newProject !== undefined) {
@@ -12,18 +56,13 @@ const tasks = (() => {
   const addTask = (newTask, project) => {
     // console.log('addtask active, projectArray, project are', projectArray, ',', project);
     if (projectArray[project] === undefined) {
-      console.log('projectArray=', projectArray);
       addProject();
       projectArray[projectArray.length - 1].push(newTask);
     } else { projectArray[project].push(newTask); }
-    console.log('projectArray=', projectArray);
   };
 
   const deleteTask = (project, task) => {
     console.log('project is', projectArray[project][task]);
-    /*if (projectArray[project][task] === undefined) {
-      return;
-    }*/
     try {
       projectArray[project].pop(task);
     } catch {console.log("task doesn't exist");
@@ -44,7 +83,7 @@ const tasks = (() => {
       }
     }
   };
-  
+
   const getIndex = (project, elementID) => {
     const elementIDCompare = Number(elementID);
     const index = projectArray[project].findIndex((item) => item.taskID === elementIDCompare);
@@ -52,8 +91,6 @@ const tasks = (() => {
   };
 
   const changeProject = (project, elementID, newProject) => {
-    // const taskToChange = projectArray[project][elementIndex];
-    // console.log('taskToChange is', taskToChange);
     const index = projectArray[project].findIndex((item) => item.taskID === elementID);
     const poppedObject = projectArray[project].pop(index);
     projectArray[newProject].push(poppedObject);
@@ -72,10 +109,6 @@ const tasks = (() => {
     }
   };
 
-  //return a function that modifies projectArray
-
-  
-
   return {
     addTask,
     addProject,
@@ -87,29 +120,5 @@ const tasks = (() => {
   };
 })();
 
-let taskCounter = 0;
 
-const taskFactory = (title, notes, dueDate, priority, altered, project) => {
-  const taskID = taskCounter;
-  taskCounter += 1;
-  let completed = false;
-  const toggleComplete = () => {
-    completed = !completed;
-    return (completed);
-  }
-  return {
-    title, notes, dueDate, priority, altered, project, taskID, toggleComplete,
-  };
-};
-
-/*const projectFactory = (title) => {
-  const taskArray = [];
-  return {
-    title, taskArray,
-  };
-};*/
-
-export {
-  taskFactory,
-  tasks,
-};
+*/

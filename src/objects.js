@@ -1,0 +1,157 @@
+const displayObject = {
+  pageTitle: {
+    name: 'pageTitle',
+    type: 'h1',
+    parent: '#content',
+    text: 'To-Do List',
+  },
+  newTaskButton: {
+    name: 'newTaskButton',
+    type: 'input',
+    parent: '#content',
+    inputType: 'button',
+    value: 'New Task',
+  },
+  newProjectButton: {
+    name: 'newTaskButton',
+    type: 'input',
+    parent: '#content',
+    inputType: 'button',
+    value: 'New Project',
+  },
+  display: {
+    name: 'display',
+    type: 'div',
+    parent: '#content',
+    class1: 'display',
+  },
+  projectCard: {
+    name: 'projectCard',
+    type: 'div',
+    parent: '.display',
+    class1: 'task-card',
+  },
+  taskCard: {
+    name: 'taskCard',
+    type: 'div',
+    class1: 'task-card',
+  },
+  titleDiv: {
+    name: 'title-div',
+    type: 'div',
+    class1: 'title-div',
+  },
+  taskTitle: {
+    name: 'taskTitle',
+    type: 'input',
+    inputType: 'text',
+    class1: 'task-title',
+  },
+  dueDate: {
+    name: 'dueDate',
+    type: 'input',
+    inputType: 'date',
+    class1: 'due-date',
+  },
+  prioritySelect: {
+    name: 'prioritySelect',
+    type: 'select',
+    class1: 'priority-select',
+  },
+  projectSelect: {
+    name: 'projectSelect',
+    type: 'select',
+    class1: 'project-select',
+  },
+  notes: {
+    name: 'notes',
+    type: 'input',
+    inputType: 'text',
+    class1: 'notes',
+  },
+  innerDisplay: {
+    name: 'innerDisplay',
+    type: 'div',
+    class1: 'inner-display',
+  }
+};
+
+const demo = {
+  demoProject1: {
+    title: 'A demo project',
+    dueDate: '03/29/1983',
+    priority: '1',
+    notes: 'This is a test project',
+    type: 'project',
+    numberTasks: '0',
+    tasks: [],
+  },
+  demoProject2: {
+    title: 'A second demo project',
+    dueDate: '04/29/1983',
+    priority: '1',
+    notes: 'This is another test project',
+    type: 'project',
+    numberTasks: '0',
+    tasks: [],
+  },
+  demoProject3: {
+    title: 'A third demo project',
+    dueDate: '04/29/1983',
+    priority: '1',
+    notes: 'This is another test project',
+    type: 'project',
+    numberTasks: '0',
+    tasks: [],
+  },
+  demoTask1: {
+    title: 'Wash the dishes',
+    dueDate: '01/25/1983',
+    priority: '2',
+    notes: 'I hate dishes',
+    type: 'task',
+    project: 0,
+  },
+  demoTask2: {
+    title: 'Cook dinner',
+    dueDate: '01/25/1983',
+    priority: '1',
+    notes: 'Yum',
+    type: 'task',
+    project: 0,
+  },
+  demoTask3: {
+    title: 'Go shopping',
+    dueDate: '05/15/1983',
+    priority: '1',
+    notes: 'Need food',
+    type: 'task',
+    project: 1,
+  },
+  demoTask4: {
+    title: 'Play with dog',
+    dueDate: '05/16/1983',
+    priority: '2',
+    notes: 'Dogs are great',
+    type: 'task',
+    project: 1,
+  },
+  demoTask5: {
+    title: 'Go shopping',
+    dueDate: '05/15/1983',
+    priority: '1',
+    notes: 'Need food',
+    type: 'task',
+    project: 2,
+  },
+  demoTask6: {
+    title: 'Play with dog',
+    dueDate: '05/16/1983',
+    priority: '2',
+    notes: 'Dogs are great',
+    type: 'task',
+    project: 2,
+  },
+};
+
+export { displayObject, demo };
