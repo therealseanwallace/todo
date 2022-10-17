@@ -10,7 +10,7 @@ const projectArray = tasks.returnProjectArray;
 let cardCounter = 1;
 const componentFactory = (element, id, projectID) => {
   const { // use destructuring assignment to get properties of new object
-    name, nodeType, parent, text, inputType, value, class1, class2, taskID, title,
+    name, nodeType, parent, text, inputType, value, class1, class2, taskID, objID, placeholder,
   } = element;
   const createDOMNode = () => {
     // creates a DOM node according to the supplied properties
@@ -34,8 +34,11 @@ const componentFactory = (element, id, projectID) => {
     if (id) {
       newDOMNode.id = `${class1}-${id}`;
     }
-    if (taskID) {
-      newDOMNode.setAttribute('data-taskID', taskID);
+    if (objID) {
+      newDOMNode.id = objID;
+    }
+    if (placeholder) {
+      newDOMNode.placeholder = placeholder;
     }
     parentNode.append(newDOMNode);
   };
@@ -59,81 +62,31 @@ const buildDisplay = () => {
   }
 };
 
+// Creates a string of project names which will be used to populate project select elements
+const assembleProjectString = (projectNames) => {
+  console.log('projectNames is', projectNames);
+  let assembledString = '';
+  for (let i = 0; i < projectNames.length; i += 1) {
+    const string = projectNames[i].title;
+    console.log('string is', string);
+    const newString = ` <option value="${i + 1}">${string}</option>`;
+    assembledString += newString;
+  }
+  return (assembledString);
+};
+
+// Assigns a taskID data attribute to each task card, corresponding to the task's taskID
 const assignIDToCard = (newCard, index, isProject, task) => {
   const cardToAssign = newCard;
   if (isProject) {
     cardToAssign.taskID = projectArray[index].taskID;
-  } else {/* 
-    console.log('is not project');
-    console.log('cardToAssign is', cardToAssign);
-    console.log('projectArray[index] is', projectArray[index]);
-    console.log('projectArray[index].tasks[task].taskID is', projectArray[index].tasks[task].taskID);
-    console.log('cardToAssign is', cardToAssign); */
+  } else {
     cardToAssign.taskID = projectArray[index].tasks[task].taskID;
-    
   }
   return (cardToAssign);
 };
 
-const buildTasks = (reference) => {
-  const {
-    taskCard,
-  } = displayObject;
-  const projectTasks = projectArray[reference - 1].tasks;
-  for (let i = 0; i < projectTasks.length; i += 1) {
-    console.log('cardCounter pre-task creation = ', cardCounter);
-    const element = projectTasks[i];
-    console.log('element is', element);
-    const { project } = element;
-    console.log('project is', project);
-    const taskCardWithID = assignIDToCard(taskCard, project, false, i);
-    console.log('taskCardWithId is', taskCardWithID);
-    const parentProj = element.project;
-    const parent = `#inner-display-${parentProj + 1}`;
-    taskCardWithID.parent = parent;
-    const { taskID } = taskCardWithID;
-    componentFactory(taskCardWithID, taskID);
-    buildTaskCard(taskCardWithID.taskID, false);
-    const ID = element.taskID;
-    assignValuesToInputs(reference - 1, false, i);
-    cardCounter += 1;
-    console.log('cardCounter after task creation = ', cardCounter);
-  }
-};
-/*
-const assignValuesToInputs = (reference) => {
-  console.log('reference is', reference);
-  const selectTitle = document.querySelector(`#task-title-${reference}`);
-  selectTitle.value = 'fuck';
-}; */
-
-const buildTaskCard = (reference, isProject, card) => {
-  const {
-    titleDiv, taskTitle, dueDate, prioritySelect, projectSelect, notes, innerDisplay, taskCard,
-  } = displayObject;
-  const assembleCard = (component) => {
-    const newComponent = component;
-    if (newComponent === taskTitle) {
-      newComponent.parent = `#title-div-${reference}`;
-    } else { newComponent.parent = `#task-card-${reference}`; }
-    return (componentFactory(newComponent, reference));
-  };
-  assembleCard(titleDiv);
-  const cardTitle = assembleCard(taskTitle);
-  assembleCard(dueDate);
-  if (!isProject) {
-    assembleCard(projectSelect);
-  }
-  assembleCard(prioritySelect);
-  assembleCard(notes);
-  if (isProject) {
-    assembleCard(innerDisplay);
-    buildTasks(reference);
-  }
-};
-
-
-
+// Sets the displayed inputs to match the corresponding value from each task
 const assignValuesToInputs = (index, isProject, task) => {
   if (isProject) {
     const title = document.querySelector(`#task-title-${index + 1}`);
@@ -152,52 +105,168 @@ const assignValuesToInputs = (index, isProject, task) => {
   }
 };
 
+// Composes task and project cards and their contents
+const buildTaskCard = (reference, isProject, card) => {
+  const {
+    titleDiv, taskTitle, dueDate, prioritySelect, projectSelect, notes, innerDisplay, taskCard,
+  } = displayObject;
+  const assembleCard = (component) => {
+    const newComponent = component;
+    if (newComponent === taskTitle) {
+      newComponent.parent = `#title-div-${reference}`;
+    } else { newComponent.parent = `#task-card-${reference}`; }
+    return (componentFactory(newComponent, reference));
+  };
+  assembleCard(titleDiv);
+  const cardTitle = assembleCard(taskTitle);
+  assembleCard(dueDate);
+  if (!isProject) {
+    assembleCard(projectSelect);
+    const projectString = assembleProjectString(projectArray);
+    console.log('projectString is', projectString);
+    const projectSelectors = document.querySelectorAll('.project-select');
+    console.log(projectSelectors);
+    for (let i = 0; i < projectSelectors.length; i++) {
+      const element = projectSelectors[i];
+      element.innerHTML = projectString;
+    }
+  }
+  assembleCard(prioritySelect);
+  const prioSelectors = document.querySelectorAll('.priority-select');
+  for (let i = 0; i < prioSelectors.length; i++) {
+    const element = prioSelectors[i];
+    element.innerHTML = '<option value="0">Low</option><option value="1">Normal</option><option value="2">Urgent</option>';
+  }
+  assembleCard(notes);
+  if (isProject) {
+    assembleCard(innerDisplay);
+    buildTasks(reference);
+  }
+};
+
+// Builds task cards which fill the inner-displays of the project cards
+const buildTasks = (reference) => {
+  const {
+    taskCard,
+  } = displayObject;
+  const projectTasks = projectArray[reference - 1].tasks;
+  for (let i = 0; i < projectTasks.length; i += 1) {
+    const element = projectTasks[i];
+    const { project } = element;
+    const taskCardWithID = assignIDToCard(taskCard, project, false, i);
+    const parentProj = element.project;
+    const parent = `#inner-display-${parentProj + 1}`;
+    taskCardWithID.parent = parent;
+    const { taskID } = taskCardWithID;
+    componentFactory(taskCardWithID, taskID);
+    buildTaskCard(taskCardWithID.taskID, false);
+    const ID = element.taskID;
+    assignValuesToInputs(reference - 1, false, i);
+    cardCounter += 1;
+  }
+  addEventListeners();
+  addDataSrc(0);
+};
+
+// Builds cards corresponding to each project
 const buildProjectCards = () => {
   clearDisplay();
   const {
     projectCard,
   } = displayObject;
   for (let i = 0; i < projectArray.length; i += 1) {
-    console.log('cardCounter pre-project creation = ', cardCounter);
     const projectCardWithID = assignIDToCard(projectCard, i, true);
     const { taskID } = projectCardWithID;
     componentFactory(projectCardWithID, taskID);
     buildTaskCard(projectCardWithID.taskID, true);
     assignValuesToInputs(i, true);
     cardCounter += 1;
-    console.log('cardCounter after project creation = ', cardCounter);
   }
 };
-
-/*
-const buildProjectCards = () => {
-  clearDisplay();
-  const {
-    projectCard,
-  } = displayObject;
-  for (let i = 1; i < projectArray.length + 1; i += 1) {
-    console.log('projectArray[i - 1]=', projectArray[i - 1]);
-    const newCard = projectCard;
-    newCard.taskID = projectArray[i - 1].taskID;
-    const newCardWithID = componentFactory(newCard, cardCounter);
-    console.log('newCard=', newCard);
-    console.log('cardCounter=', cardCounter);
-    buildTaskCard(cardCounter, true);
-  }
-}; */
-
-  /*
-  let dropboxCounter = 0;
-  let taskCardCounter = 0;
-  let projectCardCounter = 0;
-  for (let i = 0; i < array.length; i++) {
-    const element = array[i];
-  }*/
-
 
 const buildUI = () => {
   buildDisplay();
   buildProjectCards();
 };
 
+const newTaskDisplay = (type) => {
+  clearDisplay();
+  const {
+    taskTitle, dueDate, projectSelect, prioritySelect, notes, newTaskForm, submitButton,
+  } = displayObject;
+  componentFactory(newTaskForm);
+  const newTaskTitle = taskTitle;
+  newTaskTitle.parent = '.new-task-form';
+  componentFactory(newTaskTitle);
+  const taskDue = dueDate;
+  taskDue.parent = '.new-task-form';
+  componentFactory(taskDue);
+  const taskPrio = prioritySelect;
+  taskPrio.parent = '.new-task-form';
+  componentFactory(taskPrio);
+  const taskNotes = notes;
+  taskNotes.parent = '.new-task-form';
+  componentFactory(taskNotes);
+  if (type === 0) { // i.e. if this is a new task and not a new project
+    const newProjectSelect = projectSelect;
+    newProjectSelect.parent = '.new-task-form';
+    componentFactory(newProjectSelect);
+  }
+  componentFactory(submitButton);
+  addDataSrc(1);
+  addEventListeners();
+};
 
+// Handles all user inputs received by the event listeners
+const getInput = (e) => {
+  console.log('getting input!');
+  console.log(e);
+  if (e.target.getAttribute('data-src') === 'home') {
+    if (e.target.id === 'new-task') {
+      newTaskDisplay(0);
+    }
+    if (e.target.id === 'new-project') {
+      newTaskDisplay(1);
+    }
+  }
+};
+
+const addEventListeners = () => {
+  const inputs = document.querySelectorAll('input');
+  const dropdowns = document.querySelectorAll('select');
+  for (let i = 0; i < inputs.length; i += 1) {
+    if (inputs[i].type === 'button') {
+      inputs[i].addEventListener('click', getInput);
+    } else {
+      inputs[i].addEventListener('change', getInput);
+    }
+  }
+  for (let i = 0; i < dropdowns.length; i += 1) {
+    dropdowns[i].addEventListener('change', getInput);
+  }
+};
+
+// Adds a data-src attribute of to all inputs which will
+// be used to handle user inputs
+const addDataSrc = (func) => {
+  const inputs = document.querySelectorAll('input');
+  const dropdowns = document.querySelectorAll('select');
+  console.log('inputs and dropdowns are', inputs, dropdowns);
+  if (func === 0) { // if func === 0, this was called from buildTasks
+    //                 and so the data-src should be 'home'
+    for (let i = 0; i < inputs.length; i += 1) {
+      inputs[i].setAttribute('data-src', 'home');
+    }
+    for (let i = 0; i < dropdowns.length; i += 1) {
+      dropdowns[i].setAttribute('data-src', 'home');
+    }
+  }
+  if (func === 1) { // 1 corresponds to newTaskDisplay
+    for (let i = 0; i < inputs.length; i += 1) {
+      inputs[i].setAttribute('data-src', 'new-task');
+    }
+    for (let i = 0; i < dropdowns.length; i += 1) {
+      dropdowns[i].setAttribute('data-src', 'new-task');
+    }
+  }
+};

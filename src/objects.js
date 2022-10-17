@@ -11,6 +11,7 @@ const displayObject = {
     parent: '#content',
     inputType: 'button',
     value: 'New Task',
+    objID: 'new-task',
   },
   newProjectButton: {
     name: 'newTaskButton',
@@ -18,6 +19,7 @@ const displayObject = {
     parent: '#content',
     inputType: 'button',
     value: 'New Project',
+    objID: 'new-project',
   },
   display: {
     name: 'display',
@@ -46,9 +48,10 @@ const displayObject = {
     nodeType: 'input',
     inputType: 'text',
     class1: 'task-title',
+    placeholder: 'Please enter a title for this task',
   },
   dueDate: {
-    name: 'dueDate',  
+    name: 'dueDate',
     nodeType: 'input',
     inputType: 'date',
     class1: 'due-date',
@@ -68,13 +71,27 @@ const displayObject = {
     nodeType: 'input',
     inputType: 'text',
     class1: 'notes',
+    placeholder: 'Please enter any notes about this task',
   },
   innerDisplay: {
     name: 'innerDisplay',
     nodeType: 'div',
     class1: 'inner-display',
   },
-
+  newTaskForm: {
+    name: 'newTaskForm',
+    nodeType: 'fieldset',
+    class1: 'new-task-form',
+    parent: '.display',
+  },
+  submitButton: {
+    name: 'submitButton',
+    nodeType: 'input',
+    inputType: 'button',
+    class1: 'submit',
+    parent: '.new-task-form',
+    value: 'Submit',
+  },
 };
 
 const demo = {

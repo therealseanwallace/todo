@@ -1,5 +1,5 @@
 import { demo } from './objects';
-export { tasks };
+export { tasks, constructNewTask };
 
 const tasks = (() => {
   const projectArray = [];
@@ -43,6 +43,10 @@ const tasks = (() => {
   const returnProjectArray = projectArray;
 
   return { returnProjectArray, getObjectByID };
+})();
+
+const constructNewTask = (() => {
+  
 })();
 
 /*
