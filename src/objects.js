@@ -1,85 +1,86 @@
 const displayObject = {
   pageTitle: {
     name: 'pageTitle',
-    type: 'h1',
+    nodeType: 'h1',
     parent: '#content',
     text: 'To-Do List',
   },
   newTaskButton: {
     name: 'newTaskButton',
-    type: 'input',
+    nodeType: 'input',
     parent: '#content',
     inputType: 'button',
     value: 'New Task',
   },
   newProjectButton: {
     name: 'newTaskButton',
-    type: 'input',
+    nodeType: 'input',
     parent: '#content',
     inputType: 'button',
     value: 'New Project',
   },
   display: {
     name: 'display',
-    type: 'div',
+    nodeType: 'div',
     parent: '#content',
     class1: 'display',
   },
   projectCard: {
     name: 'projectCard',
-    type: 'div',
+    nodeType: 'div',
     parent: '.display',
     class1: 'task-card',
   },
   taskCard: {
     name: 'taskCard',
-    type: 'div',
+    nodeType: 'div',
     class1: 'task-card',
   },
   titleDiv: {
     name: 'title-div',
-    type: 'div',
+    nodeType: 'div',
     class1: 'title-div',
   },
   taskTitle: {
     name: 'taskTitle',
-    type: 'input',
+    nodeType: 'input',
     inputType: 'text',
     class1: 'task-title',
   },
   dueDate: {
-    name: 'dueDate',
-    type: 'input',
+    name: 'dueDate',  
+    nodeType: 'input',
     inputType: 'date',
     class1: 'due-date',
   },
   prioritySelect: {
     name: 'prioritySelect',
-    type: 'select',
+    nodeType: 'select',
     class1: 'priority-select',
   },
   projectSelect: {
     name: 'projectSelect',
-    type: 'select',
+    nodeType: 'select',
     class1: 'project-select',
   },
   notes: {
     name: 'notes',
-    type: 'input',
+    nodeType: 'input',
     inputType: 'text',
     class1: 'notes',
   },
   innerDisplay: {
     name: 'innerDisplay',
-    type: 'div',
+    nodeType: 'div',
     class1: 'inner-display',
-  }
+  },
+
 };
 
 const demo = {
   demoProject1: {
     title: 'A demo project',
-    dueDate: '03/29/1983',
+    dueDate: '2021-12-31',
     priority: '1',
     notes: 'This is a test project',
     type: 'project',
@@ -88,7 +89,7 @@ const demo = {
   },
   demoProject2: {
     title: 'A second demo project',
-    dueDate: '04/29/1983',
+    dueDate: '2022-01-15',
     priority: '1',
     notes: 'This is another test project',
     type: 'project',
@@ -97,7 +98,7 @@ const demo = {
   },
   demoProject3: {
     title: 'A third demo project',
-    dueDate: '04/29/1983',
+    dueDate: '2022-02-01',
     priority: '1',
     notes: 'This is another test project',
     type: 'project',
@@ -106,7 +107,7 @@ const demo = {
   },
   demoTask1: {
     title: 'Wash the dishes',
-    dueDate: '01/25/1983',
+    dueDate: '2021-12-30',
     priority: '2',
     notes: 'I hate dishes',
     type: 'task',
@@ -114,7 +115,7 @@ const demo = {
   },
   demoTask2: {
     title: 'Cook dinner',
-    dueDate: '01/25/1983',
+    dueDate: '2021-12-31',
     priority: '1',
     notes: 'Yum',
     type: 'task',
@@ -122,7 +123,7 @@ const demo = {
   },
   demoTask3: {
     title: 'Go shopping',
-    dueDate: '05/15/1983',
+    dueDate: '2022-01-02',
     priority: '1',
     notes: 'Need food',
     type: 'task',
@@ -130,7 +131,7 @@ const demo = {
   },
   demoTask4: {
     title: 'Play with dog',
-    dueDate: '05/16/1983',
+    dueDate: '2022-01-03',
     priority: '2',
     notes: 'Dogs are great',
     type: 'task',
@@ -138,15 +139,15 @@ const demo = {
   },
   demoTask5: {
     title: 'Go shopping',
-    dueDate: '05/15/1983',
+    dueDate: '2022-01-04',
     priority: '1',
     notes: 'Need food',
     type: 'task',
     project: 2,
   },
   demoTask6: {
-    title: 'Play with dog',
-    dueDate: '05/16/1983',
+    title: 'Play with dog 2',
+    dueDate: '2022-01-05',
     priority: '2',
     notes: 'Dogs are great',
     type: 'task',

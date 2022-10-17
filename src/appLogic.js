@@ -5,7 +5,7 @@ const tasks = (() => {
   const projectArray = [];
   let taskCounter = 1;
   const addTask = (task) => {
-    const newTask = task[1];
+    const newTask = task;
     newTask.taskID = taskCounter;
     if (newTask.type === 'project') {
       projectArray.push(newTask);
@@ -20,13 +20,15 @@ const tasks = (() => {
   const addDemo = (() => {
     // Adds dummy content to projectArray
     const demoObjects = Object.entries(demo);
-    for (let i = 0; i < demoObjects.length; i++) {
-      const element = demoObjects[i];
-      addTask(element);
-    }
-    /*addProject(demo.project1);
-    addProject(demo.project2);
-    addProject(demo.project3);*/
+    addTask(demo.demoProject1);
+    addTask(demo.demoProject2);
+    addTask(demo.demoProject3);
+    addTask(demo.demoTask1);
+    addTask(demo.demoTask2);
+    addTask(demo.demoTask3);
+    addTask(demo.demoTask4);
+    addTask(demo.demoTask5);
+    addTask(demo.demoTask6);
     console.log('projectArray post-demo push is', projectArray);
   })();
 
