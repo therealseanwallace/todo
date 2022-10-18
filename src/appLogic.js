@@ -4,8 +4,23 @@ export { tasks, constructNewTask };
 const tasks = (() => {
   const projectArray = [];
   let taskCounter = 1;
+  const taskFactory = (title, dueDate, priority, project, notes) => {
+    const taskID = taskCounter;
+    taskCounter += 1;
+    let completed = false;
+    const toggleComplete = () => {
+      completed = !completed;
+      return (completed);
+    };
+    return {
+      title, notes, dueDate, priority, altered, project, taskID, toggleComplete,
+    };
+  };
+} 
+
   const addTask = (task) => {
     const newTask = task;
+    console.log('newTask is', newTask);
     newTask.taskID = taskCounter;
     if (newTask.type === 'project') {
       projectArray.push(newTask);
@@ -14,7 +29,6 @@ const tasks = (() => {
       const newProjectRef = newTask.project;
       projectArray[newProjectRef].tasks.push(task);
     }
-    taskCounter += 1;
   };
 
   const addDemo = (() => {
@@ -36,13 +50,16 @@ const tasks = (() => {
     for (let i = 0; i < projectArray.length; i++) {
       const element = projectArray[i];
       console.log('element is', element);
-      
     }
   };
 
   const returnProjectArray = projectArray;
 
-  return { returnProjectArray, getObjectByID };
+  const deleteTask = () => {
+
+  };
+
+  return { returnProjectArray, getObjectByID, addTask, taskFactory };
 })();
 
 const constructNewTask = (() => {
