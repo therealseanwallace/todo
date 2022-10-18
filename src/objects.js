@@ -103,7 +103,7 @@ const demo = {
     notes: 'This is a test project',
     type: 'project',
     numberTasks: '0',
-    tasks: [],
+    taskList: [],
   },
   demoProject2: {
     title: 'A second demo project',
@@ -112,7 +112,7 @@ const demo = {
     notes: 'This is another test project',
     type: 'project',
     numberTasks: '0',
-    tasks: [],
+    taskList: [],
   },
   demoProject3: {
     title: 'A third demo project',
@@ -121,7 +121,7 @@ const demo = {
     notes: 'This is another test project',
     type: 'project',
     numberTasks: '0',
-    tasks: [],
+    taskList: [],
   },
   demoTask1: {
     title: 'Wash the dishes',

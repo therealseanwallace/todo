@@ -84,7 +84,7 @@ const assignIDToCard = (newCard, index, isProject, task) => {
   if (isProject) {
     cardToAssign.taskID = projectArray[index].taskID;
   } else {
-    cardToAssign.taskID = projectArray[index].tasks[task].taskID;
+    cardToAssign.taskID = projectArray[index].taskList[task].taskID;
   }
   return (cardToAssign);
 };
@@ -99,12 +99,12 @@ const assignValuesToInputs = (index, isProject, task) => {
     const notes = document.querySelector(`#notes-${index + 1}`);
     notes.value = projectArray[index].notes;
   } else {
-    const title = document.querySelector(`#task-title-${projectArray[index].tasks[task].taskID}`);
-    title.value = projectArray[index].tasks[task].title;
-    const date = document.querySelector(`#due-date-${projectArray[index].tasks[task].taskID}`);
-    date.value = projectArray[index].tasks[task].dueDate;
-    const notes = document.querySelector(`#notes-${projectArray[index].tasks[task].taskID}`);
-    notes.value = projectArray[index].tasks[task].notes;
+    const title = document.querySelector(`#task-title-${projectArray[index].taskList[task].taskID}`);
+    title.value = projectArray[index].taskList[task].title;
+    const date = document.querySelector(`#due-date-${projectArray[index].taskList[task].taskID}`);
+    date.value = projectArray[index].taskList[task].dueDate;
+    const notes = document.querySelector(`#notes-${projectArray[index].taskList[task].taskID}`);
+    notes.value = projectArray[index].taskList[task].notes;
   }
 };
 
@@ -147,7 +147,8 @@ const buildTasks = (reference) => {
   const {
     taskCard,
   } = displayObject;
-  const projectTasks = projectArray[reference - 1].tasks;
+  const projectTasks = projectArray[reference - 1].taskList;
+  console.log(projectArray[reference - 1]);
   for (let i = 0; i < projectTasks.length; i += 1) {
     const element = projectTasks[i];
     const { project } = element;
@@ -221,7 +222,7 @@ const newTaskDisplay = (type) => {
   addEventListeners();
 };
 
-let newTask = emptyTask;
+let newTask = tasks.taskFactory(emptyTask);
 
 const assembleNewTask = (e) => {
   // eslint-disable-next-line default-case
@@ -252,7 +253,7 @@ const assembleNewTask = (e) => {
       } else { newTask.type = 'task'; }
       console.log()
       tasks.addTask(newTask);
-      newTask = emptyTask;
+      newTask = tasks.taskFactory(emptyTask);
       console.log('projectArray is', projectArray);
   }
 };

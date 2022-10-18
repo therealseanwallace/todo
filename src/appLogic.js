@@ -4,30 +4,68 @@ export { tasks, constructNewTask };
 const tasks = (() => {
   const projectArray = [];
   let taskCounter = 1;
-  const taskFactory = (title, dueDate, priority, project, notes) => {
-    const taskID = taskCounter;
+  const taskFactory = (task) => {
+    let {
+      title, dueDate, priority, project, notes, taskList,
+    } = task;
+    const { type, taskID } = task;
     taskCounter += 1;
     let completed = false;
+    let altered = false;
     const toggleComplete = () => {
       completed = !completed;
       return (completed);
     };
+    const toggleAltered = () => {
+      altered = !altered;
+      return (altered);
+    };
+    const newTask = (taskToAdd) => {
+      taskList.push(taskToAdd);
+    };
     return {
-      title, notes, dueDate, priority, altered, project, taskID, toggleComplete,
+      toggleComplete,
+      toggleAltered,
+      newTask,
+      get title() { return title; },
+      set title(newTitle) {
+        title = newTitle;
+      },
+      get dueDate() { return dueDate; },
+      set dueDate(newDate) {
+        dueDate = newDate;
+      },
+      get priority() { return priority; },
+      set priority(newPrio) {
+        priority = newPrio;
+      },
+      get project() { return project; },
+      set project(newProj) {
+        project = newProj;
+      },
+      get notes() { return notes; },
+      set notes(newNotes) {
+        notes = newNotes;
+      },
+      get taskList() { return taskList; },
+      get taskID() { return taskID; },
+      get type() { return type; },
     };
   };
-} 
 
   const addTask = (task) => {
     const newTask = task;
     console.log('newTask is', newTask);
     newTask.taskID = taskCounter;
+    const newTaskObject = taskFactory(task);
     if (newTask.type === 'project') {
-      projectArray.push(newTask);
+      projectArray.push(newTaskObject);
     }
     if (newTask.type === 'task') {
       const newProjectRef = newTask.project;
-      projectArray[newProjectRef].tasks.push(task);
+      console.log(newProjectRef);
+      console.log(projectArray[newProjectRef]);
+      projectArray[newProjectRef].newTask(newTaskObject);
     }
   };
 
