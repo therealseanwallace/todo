@@ -60,6 +60,7 @@ const displayObject = {
     name: 'prioritySelect',
     nodeType: 'select',
     class1: 'priority-select',
+    innerHTML: '<option value="0">Low</option><option value="1">Normal</option><option value="2">Urgent</option>',
   },
   projectSelect: {
     name: 'projectSelect',
@@ -172,4 +173,12 @@ const demo = {
   },
 };
 
-export { displayObject, demo };
+const emptyTask = {
+  title: '',
+  dueDate: '',
+  priority: '1',
+  notes: '',
+  type: '',
+  project: 0,
+}
+export { displayObject, demo, emptyTask };

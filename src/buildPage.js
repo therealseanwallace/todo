@@ -1,7 +1,8 @@
+/* eslint-disable no-lonely-if */
 /* eslint-disable no-template-curly-in-string */
 /* eslint-disable no-console */
 /* eslint-disable import/prefer-default-export */
-import { displayObject } from './objects';
+import { displayObject, emptyTask  } from './objects';
 import { tasks } from './appLogic';
 
 export { buildUI };
@@ -10,7 +11,8 @@ const projectArray = tasks.returnProjectArray;
 let cardCounter = 1;
 const componentFactory = (element, id, projectID) => {
   const { // use destructuring assignment to get properties of new object
-    name, nodeType, parent, text, inputType, value, class1, class2, taskID, objID, placeholder,
+    name, nodeType, parent, text, inputType, value, class1,
+    class2, taskID, objID, placeholder, innerHTML,
   } = element;
   const createDOMNode = () => {
     // creates a DOM node according to the supplied properties
@@ -40,6 +42,9 @@ const componentFactory = (element, id, projectID) => {
     if (placeholder) {
       newDOMNode.placeholder = placeholder;
     }
+    if (innerHTML) {
+      newDOMNode.innerHTML = innerHTML;
+    }
     parentNode.append(newDOMNode);
   };
   createDOMNode();
@@ -64,11 +69,9 @@ const buildDisplay = () => {
 
 // Creates a string of project names which will be used to populate project select elements
 const assembleProjectString = (projectNames) => {
-  console.log('projectNames is', projectNames);
   let assembledString = '';
   for (let i = 0; i < projectNames.length; i += 1) {
     const string = projectNames[i].title;
-    console.log('string is', string);
     const newString = ` <option value="${i + 1}">${string}</option>`;
     assembledString += newString;
   }
@@ -132,11 +135,6 @@ const buildTaskCard = (reference, isProject, card) => {
     }
   }
   assembleCard(prioritySelect);
-  const prioSelectors = document.querySelectorAll('.priority-select');
-  for (let i = 0; i < prioSelectors.length; i++) {
-    const element = prioSelectors[i];
-    element.innerHTML = '<option value="0">Low</option><option value="1">Normal</option><option value="2">Urgent</option>';
-  }
   assembleCard(notes);
   if (isProject) {
     assembleCard(innerDisplay);
@@ -211,16 +209,57 @@ const newTaskDisplay = (type) => {
     const newProjectSelect = projectSelect;
     newProjectSelect.parent = '.new-task-form';
     componentFactory(newProjectSelect);
+    const projectString = assembleProjectString(projectArray);
+    const projectSelector = document.querySelector('.project-select');
+    projectSelector.innerHTML = projectString;
   }
   componentFactory(submitButton);
+  if (type === 1) {
+    document.querySelector('.submit').classList.add('new-project');
+  }
   addDataSrc(1);
   addEventListeners();
 };
 
+let newTask = emptyTask;
+
+const assembleNewTask = (e) => {
+  // eslint-disable-next-line default-case
+  console.log('assembling new task!');
+  switch (true) {
+    // Updates newTask according to user input
+    case e.target.classList.contains('task-title'):
+      newTask.title = e.target.value;
+      break;
+    case e.target.classList.contains('due-date'):
+      newTask.dueDate = e.target.value;
+      break;
+    case e.target.classList.contains('priority-select'):
+      newTask.priority = e.target.selectedIndex;
+      break;
+    case e.target.classList.contains('notes'):
+      newTask.notes = e.target.value;
+      break;
+    case e.target.classList.contains('project-select'):
+      newTask.project = e.target.selectedIndex;
+      console.log('proj select! new proj is', newTask.project);
+      console.log(newTask);
+      break;
+    default:
+      console.log('submit button woooo!');
+      if (e.target.classList.contains('new-project')) {
+        newTask.type = 'project';
+      } else { newTask.type = 'task'; }
+      console.log()
+      tasks.addTask(newTask);
+      newTask = emptyTask;
+      console.log('projectArray is', projectArray);
+  }
+};
+
 // Handles all user inputs received by the event listeners
 const getInput = (e) => {
-  console.log('getting input!');
-  console.log(e);
+  // Handles inputs which come from the home screen/main display
   if (e.target.getAttribute('data-src') === 'home') {
     if (e.target.id === 'new-task') {
       newTaskDisplay(0);
@@ -229,6 +268,9 @@ const getInput = (e) => {
       newTaskDisplay(1);
     }
   }
+  // Handles all remaining inputs (i.e. those from new task/new project window)
+  else { assembleNewTask(e); }
+  
 };
 
 const addEventListeners = () => {
@@ -251,7 +293,6 @@ const addEventListeners = () => {
 const addDataSrc = (func) => {
   const inputs = document.querySelectorAll('input');
   const dropdowns = document.querySelectorAll('select');
-  console.log('inputs and dropdowns are', inputs, dropdowns);
   if (func === 0) { // if func === 0, this was called from buildTasks
     //                 and so the data-src should be 'home'
     for (let i = 0; i < inputs.length; i += 1) {
