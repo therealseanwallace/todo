@@ -7,8 +7,11 @@ import { tasks } from './appLogic';
 
 export { buildUI };
 
-const projectArray = tasks.returnProjectArray;
-let cardCounter = 1;
+const projectArray = () => {
+  const currentProjectArray = tasks.returnProjectArray();
+  return (currentProjectArray);
+};
+
 const componentFactory = (element, id, projectID) => {
   const { // use destructuring assignment to get properties of new object
     name, nodeType, parent, text, inputType, value, class1,
@@ -35,6 +38,7 @@ const componentFactory = (element, id, projectID) => {
     }
     if (id) {
       newDOMNode.id = `${class1}-${id}`;
+      newDOMNode.setAttribute('data-taskID', id);
     }
     if (objID) {
       newDOMNode.id = objID;
@@ -78,33 +82,37 @@ const assembleProjectString = (projectNames) => {
   return (assembledString);
 };
 
-// Assigns a taskID data attribute to each task card, corresponding to the task's taskID
+// Assigns a taskID and project to each card object, corresponding to the task's taskID
 const assignIDToCard = (newCard, index, isProject, task) => {
   const cardToAssign = newCard;
   if (isProject) {
-    cardToAssign.taskID = projectArray[index].taskID;
+    cardToAssign.taskID = projectArray()[index].taskID;
+    cardToAssign.project = projectArray()[index].project;
   } else {
-    cardToAssign.taskID = projectArray[index].taskList[task].taskID;
+    cardToAssign.taskID = projectArray()[index].taskList[task].taskID;
+    cardToAssign.project = projectArray()[index].taskList[task].project;
   }
   return (cardToAssign);
 };
 
 // Sets the displayed inputs to match the corresponding value from each task
-const assignValuesToInputs = (index, isProject, task) => {
+const assignValuesToInputs = (taskCard, isProject, task, index) => {
+  const { taskID, project } = taskCard;
+  //console.log('taskID, isProject, task, index is', taskID, isProject, task, index);
   if (isProject) {
-    const title = document.querySelector(`#task-title-${index + 1}`);
-    title.value = projectArray[index].title;
-    const date = document.querySelector(`#due-date-${index + 1}`);
-    date.value = projectArray[index].dueDate;
-    const notes = document.querySelector(`#notes-${index + 1}`);
-    notes.value = projectArray[index].notes;
+    const title = document.querySelector(`#task-title-${taskID}`);
+    title.value = projectArray()[project - 1].title;
+    const date = document.querySelector(`#due-date-${taskID}`);
+    date.value = projectArray()[project - 1].dueDate;
+    const notes = document.querySelector(`#notes-${taskID}`);
+    notes.value = projectArray()[project - 1].notes;
   } else {
-    const title = document.querySelector(`#task-title-${projectArray[index].taskList[task].taskID}`);
-    title.value = projectArray[index].taskList[task].title;
-    const date = document.querySelector(`#due-date-${projectArray[index].taskList[task].taskID}`);
-    date.value = projectArray[index].taskList[task].dueDate;
-    const notes = document.querySelector(`#notes-${projectArray[index].taskList[task].taskID}`);
-    notes.value = projectArray[index].taskList[task].notes;
+    const title = document.querySelector(`#task-title-${taskID}`);
+    title.value = projectArray()[project].taskList[task].title;
+    const date = document.querySelector(`#due-date-${taskID}`);
+    date.value = projectArray()[project].taskList[task].dueDate;
+    const notes = document.querySelector(`#notes-${taskID}`);
+    notes.value = projectArray()[project].taskList[task].notes;
   }
 };
 
@@ -125,11 +133,9 @@ const buildTaskCard = (reference, isProject, card) => {
   assembleCard(dueDate);
   if (!isProject) {
     assembleCard(projectSelect);
-    const projectString = assembleProjectString(projectArray);
-    console.log('projectString is', projectString);
+    const projectString = assembleProjectString(projectArray());
     const projectSelectors = document.querySelectorAll('.project-select');
-    console.log(projectSelectors);
-    for (let i = 0; i < projectSelectors.length; i++) {
+    for (let i = 0; i < projectSelectors.length; i += 1) {
       const element = projectSelectors[i];
       element.innerHTML = projectString;
     }
@@ -138,7 +144,7 @@ const buildTaskCard = (reference, isProject, card) => {
   assembleCard(notes);
   if (isProject) {
     assembleCard(innerDisplay);
-    buildTasks(reference);
+    //buildTasks(reference);
   }
 };
 
@@ -147,8 +153,7 @@ const buildTasks = (reference) => {
   const {
     taskCard,
   } = displayObject;
-  const projectTasks = projectArray[reference - 1].taskList;
-  console.log(projectArray[reference - 1]);
+  const projectTasks = projectArray()[reference].taskList;
   for (let i = 0; i < projectTasks.length; i += 1) {
     const element = projectTasks[i];
     const { project } = element;
@@ -159,12 +164,8 @@ const buildTasks = (reference) => {
     const { taskID } = taskCardWithID;
     componentFactory(taskCardWithID, taskID);
     buildTaskCard(taskCardWithID.taskID, false);
-    const ID = element.taskID;
-    assignValuesToInputs(reference - 1, false, i);
-    cardCounter += 1;
+    assignValuesToInputs(taskCardWithID, false, i);
   }
-  addEventListeners();
-  addDataSrc(0);
 };
 
 // Builds cards corresponding to each project
@@ -173,19 +174,22 @@ const buildProjectCards = () => {
   const {
     projectCard,
   } = displayObject;
-  for (let i = 0; i < projectArray.length; i += 1) {
+  for (let i = 0; i < projectArray().length; i += 1) {
     const projectCardWithID = assignIDToCard(projectCard, i, true);
-    const { taskID } = projectCardWithID;
+    const { taskID, project } = projectCardWithID;
     componentFactory(projectCardWithID, taskID);
     buildTaskCard(projectCardWithID.taskID, true);
-    assignValuesToInputs(i, true);
-    cardCounter += 1;
+    assignValuesToInputs(projectCardWithID, true, null, i);
+    buildTasks(projectCardWithID.project - 1);
   }
 };
 
 const buildUI = () => {
   buildDisplay();
+  clearDisplay();
   buildProjectCards();
+  addDataSrc(0);
+  addEventListeners();
 };
 
 const newTaskDisplay = (type) => {
@@ -210,7 +214,7 @@ const newTaskDisplay = (type) => {
     const newProjectSelect = projectSelect;
     newProjectSelect.parent = '.new-task-form';
     componentFactory(newProjectSelect);
-    const projectString = assembleProjectString(projectArray);
+    const projectString = assembleProjectString(projectArray());
     const projectSelector = document.querySelector('.project-select');
     projectSelector.innerHTML = projectString;
   }
@@ -226,7 +230,6 @@ let newTask = tasks.taskFactory(emptyTask);
 
 const assembleNewTask = (e) => {
   // eslint-disable-next-line default-case
-  console.log('assembling new task!');
   switch (true) {
     // Updates newTask according to user input
     case e.target.classList.contains('task-title'):
@@ -243,18 +246,21 @@ const assembleNewTask = (e) => {
       break;
     case e.target.classList.contains('project-select'):
       newTask.project = e.target.selectedIndex;
-      console.log('proj select! new proj is', newTask.project);
-      console.log(newTask);
       break;
     default:
-      console.log('submit button woooo!');
       if (e.target.classList.contains('new-project')) {
         newTask.type = 'project';
       } else { newTask.type = 'task'; }
-      console.log()
+      if (!newTask.project) {
+        newTask.project = 0;
+      }
       tasks.addTask(newTask);
       newTask = tasks.taskFactory(emptyTask);
-      console.log('projectArray is', projectArray);
+      clearDisplay();
+      buildProjectCards();
+      addDataSrc(0);
+      addEventListeners();
+      
   }
 };
 
@@ -262,16 +268,36 @@ const assembleNewTask = (e) => {
 const getInput = (e) => {
   // Handles inputs which come from the home screen/main display
   if (e.target.getAttribute('data-src') === 'home') {
+    const taskIDNum = Number(e.target.getAttribute('data-taskID'));
+    const task = tasks.getTaskByID(taskIDNum);
+    console.log('task is', task);
     if (e.target.id === 'new-task') {
       newTaskDisplay(0);
     }
     if (e.target.id === 'new-project') {
       newTaskDisplay(1);
     }
-  }
-  // Handles all remaining inputs (i.e. those from new task/new project window)
-  else { assembleNewTask(e); }
-  
+    if (e.target.classList.contains('task-title')) {
+      console.log('task-title input. task is', task);
+      console.log('result is', tasks.modifyTask(task[0], task[1], 0, e.target.value));
+    }
+    if (e.target.classList.contains('due-date')) {
+      console.log('result is', tasks.modifyTask(task[0], task[1], 1, e.target.value));
+    }
+    if (e.target.classList.contains('project-select')) {
+      console.log('PROJECT SELECT!!!');
+    }
+    if (e.target.classList.contains('priority-select')) {
+      console.log('PRIORITY SELECT!!!');
+      
+    }
+    if (e.target.classList.contains('notes')) {
+
+      console.log('result is', tasks.modifyTask(task[0], task[1], 4, e.target.value));
+    }
+    
+    // Handles all remaining inputs (i.e. those from new task/new project window)
+  } else { assembleNewTask(e); }
 };
 
 const addEventListeners = () => {
@@ -289,7 +315,7 @@ const addEventListeners = () => {
   }
 };
 
-// Adds a data-src attribute of to all inputs which will
+// Adds a data-src attribute to all inputs which will
 // be used to handle user inputs
 const addDataSrc = (func) => {
   const inputs = document.querySelectorAll('input');

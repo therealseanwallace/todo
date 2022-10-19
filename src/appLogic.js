@@ -1,14 +1,15 @@
 import { demo } from './objects';
-export { tasks, constructNewTask };
+export { tasks };
 
 const tasks = (() => {
   const projectArray = [];
   let taskCounter = 1;
+  let projectCounter = 1;
+
   const taskFactory = (task) => {
     let {
-      title, dueDate, priority, project, notes, taskList,
+      title, dueDate, priority, project, notes, taskList, type, taskID, isProject,
     } = task;
-    const { type, taskID } = task;
     taskCounter += 1;
     let completed = false;
     let altered = false;
@@ -27,6 +28,7 @@ const tasks = (() => {
       toggleComplete,
       toggleAltered,
       newTask,
+      isProject,
       get title() { return title; },
       set title(newTitle) {
         title = newTitle;
@@ -47,24 +49,31 @@ const tasks = (() => {
       set notes(newNotes) {
         notes = newNotes;
       },
+      get type() { return type; },
+      set type(newType) {
+        type = newType;
+      },
       get taskList() { return taskList; },
       get taskID() { return taskID; },
-      get type() { return type; },
+      set taskID(newTaskID) {
+        taskID = newTaskID;
+      },
     };
   };
 
   const addTask = (task) => {
     const newTask = task;
-    console.log('newTask is', newTask);
     newTask.taskID = taskCounter;
     const newTaskObject = taskFactory(task);
     if (newTask.type === 'project') {
       projectArray.push(newTaskObject);
+      newTaskObject.project = projectCounter;
+      projectCounter += 1;
     }
     if (newTask.type === 'task') {
+      console.log('newTask is', newTask);
       const newProjectRef = newTask.project;
-      console.log(newProjectRef);
-      console.log(projectArray[newProjectRef]);
+      console.log('newProjectRef is', newProjectRef);
       projectArray[newProjectRef].newTask(newTaskObject);
     }
   };
@@ -81,28 +90,80 @@ const tasks = (() => {
     addTask(demo.demoTask4);
     addTask(demo.demoTask5);
     addTask(demo.demoTask6);
-    console.log('projectArray post-demo push is', projectArray);
+    addTask(demo.demoTask7);
   })();
 
-  const getObjectByID = () => {
+  // Takes a taskID and returns an array of 2 numbers. [0] is the parent
+  // project's projectArray reference. [1] is the task's reference in that
+  // project's taskList, unless the task is itself a project, in which case [1]
+  // is null
+  const getTaskByID = (IDtoCheck) => {
+    const IDNumber = Number(IDtoCheck);
+    let result = [];
     for (let i = 0; i < projectArray.length; i++) {
-      const element = projectArray[i];
-      console.log('element is', element);
+      const project = projectArray[i];
+      if (project.taskID === IDNumber) {
+        result = [project.project - 1, null];
+        break;
+      }
+      for (let index = 0; index < project.taskList.length; index++) {
+        const task = project.taskList[index];
+        if (task.taskID === IDNumber) {
+          result = [project.project - 1, index];
+          break;
+        }
+      }
+      //console.log('element is', element);
     }
+    return (result);
   };
 
-  const returnProjectArray = projectArray;
-
-  const deleteTask = () => {
-
+  const modifyTask = (project, task, attr, newValue) => {
+    if (attr === 0) { // i.e. if this is a task title
+      console.log('TITLE!!!!');
+      if (!task) {
+        projectArray[project].title = newValue;
+        return (projectArray[project].title);
+      }
+      projectArray[project].taskList[task].title = newValue;
+      return (projectArray[project].taskList[task].title);
+    }
+    if (attr === 1) {
+      if (!task) {
+        projectArray[project].dueDate = newValue;
+        return (projectArray[project].dueDate);
+      }
+      projectArray[project].taskList[task].dueDate = newValue;
+      return (projectArray[project].taskList[task].dueDate);
+    }
+    if (attr === 4) {
+      console.log('NOTES!!!');
+      if (!task) {
+        projectArray[project].notes = newValue;
+        return (projectArray[project].notes);
+      }
+      projectArray[project].taskList[task].notes = newValue;
+      return (projectArray[project].taskList[task].notes);
+    }
+    
+    
   };
 
-  return { returnProjectArray, getObjectByID, addTask, taskFactory };
-})();
+  const returnProjectArray = () => { return (projectArray) }
 
-const constructNewTask = (() => {
+  const deleteTask = (project, task) => {
+    // this should not actually remove the task from the array, but rather set a
+    // 'deleted' attribute. Tasks will then be available for undeletion, trash bin,
+    // etc. in future version.
+  };
   
+  
+  
+  return {
+    returnProjectArray, getTaskByID, addTask, taskFactory, modifyTask,
+  };
 })();
+
 
 /*
 const oldTasks = (() => {
