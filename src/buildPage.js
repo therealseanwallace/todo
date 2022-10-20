@@ -65,7 +65,7 @@ const clearDisplay = () => {
 
 const buildDisplay = () => {
   const displayArray = Object.entries(displayObject);
-  for (let i = 0; i < 4; i += 1) {
+  for (let i = 0; i < 7; i += 1) {
     const element = displayArray[i];
     componentFactory(element[1]);
   }
@@ -119,17 +119,41 @@ const assignValuesToInputs = (taskCard, isProject, task, index) => {
 // Composes task and project cards and their contents
 const buildTaskCard = (reference, isProject, card) => {
   const {
-    titleDiv, taskTitle, dueDate, prioritySelect, projectSelect, notes, innerDisplay, taskCard,
+    titleDiv, taskTitle, dueDate, prioritySelect,
+    projectSelect, notes, innerDisplay, taskCard, taskAttributes,
   } = displayObject;
   const assembleCard = (component) => {
     const newComponent = component;
-    if (newComponent === taskTitle) {
-      newComponent.parent = `#title-div-${reference}`;
-    } else { newComponent.parent = `#task-card-${reference}`; }
+    if (isProject) {
+      console.log('this is a project');
+      if (component === titleDiv || component === innerDisplay) {
+        console.log('new component is titleDiv or innerDisplay');
+        newComponent.parent = `#task-card-${reference}`;
+        console.log('newComponent is', newComponent);
+      }
+      if (component === taskAttributes || component === notes) {
+        newComponent.parent = `#title-div-${reference}`;
+        console.log('newComponent is taskAttributes or notes');
+      }
+      if (component === taskTitle || component === dueDate || component === prioritySelect) {
+        newComponent.parent = `#attributes-${reference}`;
+      }
+    } else {
+      console.log('is not a project');
+      if (component === notes || component === titleDiv) {
+        newComponent.parent = `#task-card-${reference}`;
+      } else {
+        newComponent.parent = `#title-div-${reference}`;
+      }
+    }
     return (componentFactory(newComponent, reference));
   };
   assembleCard(titleDiv);
-  const cardTitle = assembleCard(taskTitle);
+  if (isProject) {
+    console.log('this is a project');
+    assembleCard(taskAttributes);
+  }
+  assembleCard(taskTitle);
   assembleCard(dueDate);
   if (!isProject) {
     assembleCard(projectSelect);

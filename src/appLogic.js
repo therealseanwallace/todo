@@ -71,9 +71,7 @@ const tasks = (() => {
       projectCounter += 1;
     }
     if (newTask.type === 'task') {
-      console.log('newTask is', newTask);
       const newProjectRef = newTask.project;
-      console.log('newProjectRef is', newProjectRef);
       projectArray[newProjectRef].newTask(newTaskObject);
     }
   };

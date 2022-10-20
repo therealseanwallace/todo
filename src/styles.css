@@ -1,0 +1,113 @@
+/* RESET STYLES */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+* {
+  margin: 0;
+}
+html, body {
+  height: 100%;
+}
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+}
+input, button, textarea, select {
+  font: inherit;
+}
+p, h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word;
+}
+#root, #__next {
+  isolation: isolate;
+}
+
+* {
+  font-family: 'Merriweather', serif;
+}
+
+/************** STYLES **************/
+
+/* Header and display */
+
+body {
+  background-image: url("./bg.JPG");
+  background: black url("./bg.JPG") no-repeat;
+  background-size: cover;
+}
+
+#content {
+  width: 360px;
+  margin: auto;
+}
+
+header {
+  padding: 30px 0 30px 0;
+  text-align: center;
+}
+
+h1 {
+  padding-bottom: 14px;
+  color: whitesmoke;
+}
+
+.new-task-button-div {
+  display: flex;
+  justify-content: center;
+}
+
+.new-task-button-div > input {
+  width: 200px;
+}
+
+.new-task-button-div > input:first-of-type {
+  margin-right: 10px;
+}
+
+.new-task-button-div > input:last-of-type {
+  margin-left: 10px;
+}
+
+
+
+.display {
+  display: flex;
+  background-size: cover;
+  height: 100vh;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin: auto;
+}
+
+@media only screen and (min-width: 601px) {
+  #content {
+    width: 601px;
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  #content {
+    width: 1024px;
+  }
+}
+
+/* New Task Display */
+
+.new-task-form {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto 0 auto;
+}
+
+
+/* Task and project cards */
+
+.project-card {
+  width: 90%;
+  margin: auto;
+}

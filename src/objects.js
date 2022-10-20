@@ -1,22 +1,33 @@
 const displayObject = {
+  header: {
+    name: 'header',
+    nodeType: 'header',
+    parent: '#content',
+  },
   pageTitle: {
     name: 'pageTitle',
     nodeType: 'h1',
-    parent: '#content',
+    parent: 'header',
     text: 'To-Do List',
+  },
+  newTaskButtonDiv: {
+    name: 'new-task-button-div',
+    nodeType: 'div',
+    parent: 'header',
+    class1: 'new-task-button-div',
   },
   newTaskButton: {
     name: 'newTaskButton',
     nodeType: 'input',
-    parent: '#content',
+    parent: '.new-task-button-div',
     inputType: 'button',
     value: 'New Task',
     objID: 'new-task',
   },
   newProjectButton: {
-    name: 'newTaskButton',
+    name: 'newProjectButton',
     nodeType: 'input',
-    parent: '#content',
+    parent: '.new-task-button-div',
     inputType: 'button',
     value: 'New Project',
     objID: 'new-project',
@@ -32,6 +43,7 @@ const displayObject = {
     nodeType: 'div',
     parent: '.display',
     class1: 'task-card',
+    class2: 'project-card',
   },
   taskCard: {
     name: 'taskCard',
@@ -42,6 +54,11 @@ const displayObject = {
     name: 'title-div',
     nodeType: 'div',
     class1: 'title-div',
+  },
+  taskAttributes: {
+    name: 'attributes',
+    nodeType: 'div',
+    class1: 'attributes',
   },
   taskTitle: {
     name: 'taskTitle',
