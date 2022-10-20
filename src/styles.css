@@ -54,31 +54,26 @@ header {
 h1 {
   padding-bottom: 14px;
   color: whitesmoke;
+  font-size: 42px;
 }
 
 .new-task-button-div {
   display: flex;
-  justify-content: center;
-}
-
-.new-task-button-div > input {
-  width: 200px;
+  flex-direction: column;
+  align-items: center;
 }
 
 .new-task-button-div > input:first-of-type {
-  margin-right: 10px;
+  margin-bottom: 8px;
 }
 
-.new-task-button-div > input:last-of-type {
-  margin-left: 10px;
+.new-task-button-div > input {
+  width: 95%;
 }
-
-
 
 .display {
   display: flex;
   background-size: cover;
-  height: 100vh;
   flex-direction: column;
   justify-content: flex-start;
   margin: auto;
@@ -108,6 +103,93 @@ h1 {
 /* Task and project cards */
 
 .project-card {
-  width: 90%;
+  width: 95%;
   margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  margin-bottom: 30px;
 }
+
+.title-div {
+  display: flex;
+  flex-direction: column;
+  padding: 5% 3% 5% 3%;
+  background: rgba(153, 0, 0, 0.85);
+  border-radius: 10px 10px 0 0;
+  gap: 3px;
+}
+
+.project-card > .title-div {
+  height: 300px;
+}
+
+.task-card > .title-div > input:not(.notes),
+.attributes > input, .attributes > select,
+.task-card > .title-div > select, .notes  {
+  background: rgba(245, 245, 245, 0.9);
+  color: black;
+  border: 1px solid rgba(245, 245, 245, 0.4);
+  
+}
+
+.attributes > input, .attributes > select, .title-div > input, .title-div > select {
+  border-radius: 2px;
+} 
+.attributes > input:first-child, .title-div > input:first-child {
+  border-radius: 4px 4px 1px 1px;
+}
+
+.attributes > select:last-child, .title-div > select:last-child {
+  border-radius: 1px 1px 4px 4px;
+}
+
+.notes {
+  background: whitesmoke;
+}
+
+.attributes {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 6px;
+}
+
+.project-card > .title-div > .notes {
+  flex-basis: 180px;
+  border-radius: 6px;
+}
+
+.project-card > .title-div > .notes:focus-visible {
+  outline:1px solid rgba(245, 245, 245, 0.8)
+}
+
+.task-card > .notes {
+  flex-basis: 180px;
+  border-radius: 0 0 6px 6px;
+}
+
+.notes:hover, input:hover, select:hover {
+  outline:1px solid rgba(245, 245, 245, 0.8);
+}
+  
+
+
+select:hover {
+  outline:1px solid rgba(245, 245, 245, 0.8)
+}
+
+
+.task-card {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 30px;
+  border-radius: 8px;
+}
+
+.inner-display {
+  padding: 10px;
+  background: rgba(245, 245, 245, 0.35);
+  border-radius: 0 0 10px 10px;
+}
+
