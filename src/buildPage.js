@@ -182,10 +182,10 @@ const buildTasks = (reference) => {
     taskCard,
   } = displayObject;
   const currentProjectArray = projectArray();
-  console.log('building tasks!!! currentProjectArray is', currentProjectArray);
+  //console.log('building tasks!!! currentProjectArray is', currentProjectArray);
   const projectTasks = projectArray()[reference].taskList;
   //console.log('project is', projectArray()[reference]);
-  console.log('projectTasks is', projectTasks);
+  //console.log('projectTasks is', projectTasks);
   const projectTaskID = currentProjectArray[reference].taskID;
   //console.log('projectTaskID is', projectTaskID);
   for (let i = 0; i < projectTasks.length; i += 1) {
@@ -230,6 +230,14 @@ const buildProjectCards = () => {
 };
 // we are setting it to not draw if the project is deleted. However, we also need to modify
 // the above function so that we're not using i to make the project card id numbers
+
+const rebuildDisplay = () => {
+  clearDisplay();
+  buildProjectCards();
+  addDataSrc(0);
+  addEventListeners();
+};
+
 const buildUI = () => {
   buildDisplay();
   clearDisplay();
@@ -301,19 +309,16 @@ const assembleNewTask = (e) => {
       if (!newTask.project) {
         newTask.project = 0;
       }
-      console.log('adding new task to array! array is', currentProjectArray);
-      console.log('about to add new task. newTask is', newTask);
+      //console.log('adding new task to array! array is', currentProjectArray);
+      //console.log('about to add new task. newTask is', newTask);
       tasks.addTask(newTask);
       currentProjectArray = projectArray();
-      console.log('new task added to array! array is', currentProjectArray);
-      console.log('Resetting newTask. newTask is', newTask);
+      //console.log('new task added to array! array is', currentProjectArray);
+      //console.log('Resetting newTask. newTask is', newTask);
       newTask = tasks.returnEmptyTask(emptyTask);
-      console.log('Reset newTask. newTask is', newTask);
+      //console.log('Reset newTask. newTask is', newTask);
       //console.log(newTask)
-      clearDisplay();
-      buildProjectCards();
-      addDataSrc(0);
-      addEventListeners();
+      rebuildDisplay();
   }
 };
 
@@ -337,9 +342,11 @@ const getInput = (e) => {
     }
     if (e.target.classList.contains('project-select')) {
       tasks.modifyTask(task[0], task[1], 2, e.target.selectedIndex);
+      rebuildDisplay();
     }
     if (e.target.classList.contains('priority-select')) {
       //console.log('PRIORITY SELECT!!!');
+      tasks.modifyTask(task[0], task[1], 3, e.target.selectedIndex);
       
     }
     if (e.target.classList.contains('notes')) {

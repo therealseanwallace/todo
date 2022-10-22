@@ -10,7 +10,7 @@ const tasks = (() => {
     let {
       title, dueDate, priority, project, notes, taskList, type, isProject, completed, taskID,
     } = task;
-    console.log('taskFactory active. taskList is', taskList);
+    //console.log('taskFactory active. taskList is', taskList);
     return {
       title,
       dueDate,
@@ -30,7 +30,7 @@ const tasks = (() => {
       title, dueDate, priority, project, notes, type, isProject, completed, taskID,
     } = task;
     let { taskList } = task;
-    console.log('taskList is', taskList, '- but WHY?');
+    //console.log('taskList is', taskList, '- but WHY?');
     taskList = [];
     return {
       title, dueDate, priority, project, notes, taskList, type, isProject, completed, taskID,
@@ -39,27 +39,27 @@ const tasks = (() => {
 
   const addTask = (task) => {
     const newTask = task;
-    console.log('addTask!!! newTask is', newTask);
+    //console.log('addTask!!! newTask is', newTask);
     if (newTask.type === 'project') {
-      console.log('adding project! new project is', newTask);
+      //console.log('adding project! new project is', newTask);
       newTask.project = projectCounter;
       newTask.taskID = taskCounter;
       const newNewTask = taskFactory(newTask);
       projectArray.push(newNewTask);
       projectCounter += 1;
       taskCounter += 1;
-      console.log('PROJECT ADDED by addTask. projectArray is', projectArray);
+      //console.log('PROJECT ADDED by addTask. projectArray is', projectArray);
     }
     if (newTask.type === 'task') {
-      console.log('addTask adding task');
+      //console.log('addTask adding task');
       const newProjectRef = newTask.project;
-      console.log('newProjectRef is', newProjectRef);
+      //console.log('newProjectRef is', newProjectRef);
       newTask.taskID = taskCounter;
-      console.log('making new task. project is', newTask.project);
-      console.log('projectArray[newProjectRef] is', projectArray[newProjectRef]);
+      //console.log('making new task. project is', newTask.project);
+      //console.log('projectArray[newProjectRef] is', projectArray[newProjectRef]);
       const newNewTask = taskFactory(newTask);
       projectArray[newProjectRef].taskList.push(newNewTask);
-      console.log('TASK ADDED by addTask. projectArray is', projectArray);
+      //console.log('TASK ADDED by addTask. projectArray is', projectArray);
       taskCounter += 1;
     }
   };
@@ -107,7 +107,7 @@ const tasks = (() => {
   // Attr is used to determine which attribute of the destination task
   // should be altered
   const modifyTask = (project, task, attr, newValue) => {
-    //console.log('modifying task! arguments are: ', project, task, attr, newValue);
+    console.log('modifying task! arguments are: ', project, task, attr, newValue);
     if (attr === 0) { // i.e. if this is a task title
       //console.log('TITLE!!!!');
       if (task === null) {
@@ -126,12 +126,25 @@ const tasks = (() => {
       return (projectArray[project].taskList[task].dueDate);
     }
     if (attr === 2) { // i.e. if this is a project selector
-      //console.log('moving task! projectArray=', projectArray);
+      console.log('moving task! projectArray=', projectArray);
       projectArray[project].taskList[task].project = newValue;
       projectArray[newValue].taskList.push(projectArray[project].taskList[task]);
-      
-      //console.log('task moved! projectArray=', projectArray);
-      return (projectArray[project].taskList[task].project);
+      console.log('projectArray[project].taskList is', projectArray[project].taskList);
+      console.log('projectArray[project].taskList[task] is', projectArray[project].taskList[task]);
+      console.log('projectArray[newValue].taskList is', projectArray[newValue].taskList);
+      projectArray[project].taskList.splice(task, 1);
+      console.log('task moved! projectArray=', projectArray);
+      const { length } = projectArray[newValue].taskList;
+      console.log(length);
+      return (projectArray[newValue].taskList[length - 1]);
+    }
+    if (attr === 3) { // i.e. if this is a priority selector
+      if (task === null) {
+        projectArray[project].priority = newValue;
+        return (projectArray[project].priority);
+      }
+      projectArray[project].taskList[task].priority = newValue;
+      return (projectArray[project].taskList[task].priority);
     }
     if (attr === 4) {
       //console.log('NOTES!!!');
@@ -145,7 +158,6 @@ const tasks = (() => {
       //console.log('projectArray[project].taskList[task].notes is now', projectArray[project].taskList[task].notes);
       return (projectArray[project].taskList[task].notes);
     }
-    
     
   };
 
