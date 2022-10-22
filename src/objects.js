@@ -218,7 +218,7 @@ const emptyTask = {
   notes: '',
   type: '',
   taskList: [],
-  numberProjects: 0,
+  completed: false,
+};
 
-}
 export { displayObject, demo, emptyTask };

@@ -8,71 +8,59 @@ const tasks = (() => {
 
   const taskFactory = (task) => {
     let {
-      title, dueDate, priority, project, notes, taskList, type, taskID, isProject,
+      title, dueDate, priority, project, notes, taskList, type, isProject, completed, taskID,
     } = task;
-    taskCounter += 1;
-    let completed = false;
-    let altered = false;
-    const toggleComplete = () => {
-      completed = !completed;
-      return (completed);
-    };
-    const toggleAltered = () => {
-      altered = !altered;
-      return (altered);
-    };
-    const newTask = (taskToAdd) => {
-      taskList.push(taskToAdd);
-    };
+    console.log('taskFactory active. taskList is', taskList);
     return {
-      toggleComplete,
-      toggleAltered,
-      newTask,
+      title,
+      dueDate,
+      priority,
+      project,
+      notes,
+      type,
       isProject,
-      get title() { return title; },
-      set title(newTitle) {
-        title = newTitle;
-      },
-      get dueDate() { return dueDate; },
-      set dueDate(newDate) {
-        dueDate = newDate;
-      },
-      get priority() { return priority; },
-      set priority(newPrio) {
-        priority = newPrio;
-      },
-      get project() { return project; },
-      set project(newProj) {
-        project = newProj;
-      },
-      get notes() { return notes; },
-      set notes(newNotes) {
-        notes = newNotes;
-      },
-      get type() { return type; },
-      set type(newType) {
-        type = newType;
-      },
-      get taskList() { return taskList; },
-      get taskID() { return taskID; },
-      set taskID(newTaskID) {
-        taskID = newTaskID;
-      },
+      completed,
+      taskID,
+      taskList,
+    };
+  };
+
+  const returnEmptyTask = (task) => {
+    const {
+      title, dueDate, priority, project, notes, type, isProject, completed, taskID,
+    } = task;
+    let { taskList } = task;
+    console.log('taskList is', taskList, '- but WHY?');
+    taskList = [];
+    return {
+      title, dueDate, priority, project, notes, taskList, type, isProject, completed, taskID,
     };
   };
 
   const addTask = (task) => {
     const newTask = task;
-    newTask.taskID = taskCounter;
-    const newTaskObject = taskFactory(task);
+    console.log('addTask!!! newTask is', newTask);
     if (newTask.type === 'project') {
-      projectArray.push(newTaskObject);
-      newTaskObject.project = projectCounter;
+      console.log('adding project! new project is', newTask);
+      newTask.project = projectCounter;
+      newTask.taskID = taskCounter;
+      const newNewTask = taskFactory(newTask);
+      projectArray.push(newNewTask);
       projectCounter += 1;
+      taskCounter += 1;
+      console.log('PROJECT ADDED by addTask. projectArray is', projectArray);
     }
     if (newTask.type === 'task') {
+      console.log('addTask adding task');
       const newProjectRef = newTask.project;
-      projectArray[newProjectRef].newTask(newTaskObject);
+      console.log('newProjectRef is', newProjectRef);
+      newTask.taskID = taskCounter;
+      console.log('making new task. project is', newTask.project);
+      console.log('projectArray[newProjectRef] is', projectArray[newProjectRef]);
+      const newNewTask = taskFactory(newTask);
+      projectArray[newProjectRef].taskList.push(newNewTask);
+      console.log('TASK ADDED by addTask. projectArray is', projectArray);
+      taskCounter += 1;
     }
   };
 
@@ -115,32 +103,46 @@ const tasks = (() => {
     }
     return (result);
   };
-
+  
+  // Attr is used to determine which attribute of the destination task
+  // should be altered
   const modifyTask = (project, task, attr, newValue) => {
+    //console.log('modifying task! arguments are: ', project, task, attr, newValue);
     if (attr === 0) { // i.e. if this is a task title
-      console.log('TITLE!!!!');
-      if (!task) {
+      //console.log('TITLE!!!!');
+      if (task === null) {
         projectArray[project].title = newValue;
         return (projectArray[project].title);
       }
       projectArray[project].taskList[task].title = newValue;
       return (projectArray[project].taskList[task].title);
     }
-    if (attr === 1) {
-      if (!task) {
+    if (attr === 1) { // i.e. if this is a dueDate
+      if (task === null) {
         projectArray[project].dueDate = newValue;
         return (projectArray[project].dueDate);
       }
       projectArray[project].taskList[task].dueDate = newValue;
       return (projectArray[project].taskList[task].dueDate);
     }
+    if (attr === 2) { // i.e. if this is a project selector
+      //console.log('moving task! projectArray=', projectArray);
+      projectArray[project].taskList[task].project = newValue;
+      projectArray[newValue].taskList.push(projectArray[project].taskList[task]);
+      
+      //console.log('task moved! projectArray=', projectArray);
+      return (projectArray[project].taskList[task].project);
+    }
     if (attr === 4) {
-      console.log('NOTES!!!');
-      if (!task) {
+      //console.log('NOTES!!!');
+      if (task === null) {
+        //console.log('task is null!');
         projectArray[project].notes = newValue;
         return (projectArray[project].notes);
       }
+      //console.log('task! projectArray[project].taskList[task].notes is', projectArray[project].taskList[task].notes);
       projectArray[project].taskList[task].notes = newValue;
+      //console.log('projectArray[project].taskList[task].notes is now', projectArray[project].taskList[task].notes);
       return (projectArray[project].taskList[task].notes);
     }
     
@@ -158,7 +160,7 @@ const tasks = (() => {
   
   
   return {
-    returnProjectArray, getTaskByID, addTask, taskFactory, modifyTask,
+    returnProjectArray, getTaskByID, addTask, taskFactory, modifyTask, returnEmptyTask,
   };
 })();
 
