@@ -107,7 +107,7 @@ const tasks = (() => {
   // Attr is used to determine which attribute of the destination task
   // should be altered
   const modifyTask = (project, task, attr, newValue) => {
-    console.log('modifying task! arguments are: ', project, task, attr, newValue);
+    //console.log('modifying task! arguments are: ', project, task, attr, newValue);
     if (attr === 0) { // i.e. if this is a task title
       //console.log('TITLE!!!!');
       if (task === null) {
@@ -126,21 +126,24 @@ const tasks = (() => {
       return (projectArray[project].taskList[task].dueDate);
     }
     if (attr === 2) { // i.e. if this is a project selector
-      console.log('moving task! projectArray=', projectArray);
+      //console.log('moving task! projectArray=', projectArray);
       projectArray[project].taskList[task].project = newValue;
       projectArray[newValue].taskList.push(projectArray[project].taskList[task]);
-      console.log('projectArray[project].taskList is', projectArray[project].taskList);
-      console.log('projectArray[project].taskList[task] is', projectArray[project].taskList[task]);
-      console.log('projectArray[newValue].taskList is', projectArray[newValue].taskList);
+      //console.log('projectArray[project].taskList is', projectArray[project].taskList);
+      //console.log('projectArray[project].taskList[task] is', projectArray[project].taskList[task]);
+      //console.log('projectArray[newValue].taskList is', projectArray[newValue].taskList);
       projectArray[project].taskList.splice(task, 1);
-      console.log('task moved! projectArray=', projectArray);
+      //console.log('task moved! projectArray=', projectArray);
       const { length } = projectArray[newValue].taskList;
-      console.log(length);
+      //console.log(length);
       return (projectArray[newValue].taskList[length - 1]);
     }
     if (attr === 3) { // i.e. if this is a priority selector
+      console.log('changing priority!');
       if (task === null) {
+        console.log(projectArray[project].priority);
         projectArray[project].priority = newValue;
+        console.log(projectArray[project].priority);
         return (projectArray[project].priority);
       }
       projectArray[project].taskList[task].priority = newValue;

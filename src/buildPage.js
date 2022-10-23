@@ -80,7 +80,7 @@ const assembleProjectString = (projectNames) => {
   let assembledString = '';
   for (let i = 0; i < projectNames.length; i += 1) {
     const string = projectNames[i].title;
-    const newString = ` <option value="${i + 1}">${string}</option>`;
+    const newString = ` <option value="${i}">${string}</option>`;
     assembledString += newString;
   }
   return (assembledString);
@@ -101,6 +101,20 @@ const assignIDToCard = (newCard, index, isProject, task) => {
   return (cardToAssign);
 };
 
+const assignValuesToProjectSelectors = () => {
+  const projectSelectors = document.querySelectorAll('.project-select');
+  console.log('projectSelectors is', projectSelectors);
+  for (let i = 0; i < projectSelectors.length; i += 1) {
+    const element = projectSelectors[i];
+    console.log('element is', element);
+    const taskIDNum = Number(element.getAttribute('data-taskID'));
+    const task = tasks.getTaskByID(taskIDNum);
+    console.log('task is', task);
+    console.log('projectArray()[task[0]].taskList[task[1]] is', projectArray()[task[0]].taskList[task[1]]);
+    element.selectedIndex = projectArray()[task[0]].taskList[task[1]].project;
+  }
+};
+
 // Sets the displayed inputs to match the corresponding value from each task
 const assignValuesToInputs = (taskCard, isProject, task, index) => {
   const { taskID, project } = taskCard;
@@ -113,6 +127,8 @@ const assignValuesToInputs = (taskCard, isProject, task, index) => {
     date.value = currentProjectArray[project - 1].dueDate;
     const notes = document.querySelector(`#notes-${taskID}`);
     notes.value = currentProjectArray[project - 1].notes;
+    const prio = document.querySelector(`#priority-select-${taskID}`);
+    prio.selectedIndex = currentProjectArray[project - 1].priority;
   } else {
     const title = document.querySelector(`#task-title-${taskID}`);
     title.value = currentProjectArray[project].taskList[task].title;
@@ -120,6 +136,8 @@ const assignValuesToInputs = (taskCard, isProject, task, index) => {
     date.value = currentProjectArray[project].taskList[task].dueDate;
     const notes = document.querySelector(`#notes-${taskID}`);
     notes.value = currentProjectArray[project].taskList[task].notes;
+    const prio = document.querySelector(`#priority-select-${taskID}`);
+    prio.selectedIndex = currentProjectArray[project].taskList[task].priority;
   }
 };
 
@@ -194,8 +212,6 @@ const buildTasks = (reference) => {
     const { project } = element;
     const taskCardWithID = assignIDToCard(taskCard, project, false, i);
     //console.log('taskCardWithID is', taskCardWithID);
-    const parentProj = element.project;
-    //console.log('parentProj is', parentProj);
     const parent = `#inner-display-${projectTaskID}`;
     taskCardWithID.parent = parent;
     const { taskID } = taskCardWithID;
@@ -236,6 +252,7 @@ const rebuildDisplay = () => {
   buildProjectCards();
   addDataSrc(0);
   addEventListeners();
+  assignValuesToProjectSelectors();
 };
 
 const buildUI = () => {
@@ -244,6 +261,7 @@ const buildUI = () => {
   buildProjectCards();
   addDataSrc(0);
   addEventListeners();
+  assignValuesToProjectSelectors();
 };
 
 const newTaskDisplay = (type) => {
@@ -288,7 +306,7 @@ const assembleNewTask = (e) => {
     // Updates newTask according to user input
     case e.target.classList.contains('task-title'):
       newTask.title = e.target.value;
-      console.log('task title updated. newTask is', newTask);
+      //console.log('task title updated. newTask is', newTask);
       break;
     case e.target.classList.contains('due-date'):
       newTask.dueDate = e.target.value;
@@ -345,7 +363,7 @@ const getInput = (e) => {
       rebuildDisplay();
     }
     if (e.target.classList.contains('priority-select')) {
-      //console.log('PRIORITY SELECT!!!');
+      console.log('PRIORITY SELECT!!!');
       tasks.modifyTask(task[0], task[1], 3, e.target.selectedIndex);
       
     }
