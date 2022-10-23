@@ -14,29 +14,148 @@ const tasks = (() => {
     } = task;
     //console.log('taskFactory active. taskList is', taskList);
     return {
-      title,
-      dueDate,
-      priority,
-      project,
-      notes,
-      type,
-      isProject,
-      completed,
-      taskID,
-      taskList,
-      deleted,
+      get title() {
+        return (title);
+      },
+      set title(newTitle) {
+        title = newTitle;
+      },
+      get dueDate() {
+        return (dueDate);
+      },
+      set dueDate(newDueDate) {
+        dueDate = newDueDate;
+      },
+      get priority() {
+        return (priority);
+      },
+      set priority(newPriority) {
+        priority = newPriority;
+      },
+      get project() {
+        return (project);
+      },
+      set project(newProject) {
+        project = newProject;
+      },
+      get notes() {
+        return (notes);
+      },
+      set notes(newNotes) {
+        notes = newNotes;
+      },
+      get taskList() {
+        return (taskList);
+      },
+      set taskList(newTaskList) {
+        taskList = newTaskList;
+      },
+      get type() {
+        return (type);
+      },
+      set type(newType) {
+        type = newType;
+      },
+      get isProject() {
+        return (isProject);
+      },
+      set isProject(toggle) {
+        isProject = !isProject;
+      },
+      get completed() {
+        return (completed);
+      },
+      set completed(toggle) {
+        completed = !completed;
+      },
+      get taskID() {
+        return (taskID);
+      },
+      set taskID(newTaskID) {
+        taskID = newTaskID;
+      },
+      get deleted() {
+        return (deleted);
+      },
+      set deleted(toggle) {
+        deleted = !deleted;
+      },
     };
   };
 
   const returnEmptyTask = (task) => {
-    const {
-      title, dueDate, priority, project, notes, type, isProject, completed, taskID,
+    let {
+      title, dueDate, priority, taskList, project, notes, type, isProject, completed, taskID, deleted,
     } = task;
-    let { taskList } = task;
     //console.log('taskList is', taskList, '- but WHY?');
     taskList = [];
     return {
-      title, dueDate, priority, project, notes, taskList, type, isProject, completed, taskID,
+      get title() {
+        return (title);
+      },
+      set title(newTitle) {
+        title = newTitle;
+      },
+      get dueDate() {
+        return (dueDate);
+      },
+      set dueDate(newDueDate) {
+        dueDate = newDueDate;
+      },
+      get priority() {
+        return (priority);
+      },
+      set priority(newPriority) {
+        priority = newPriority;
+      },
+      get project() {
+        return (project);
+      },
+      set project(newProject) {
+        project = newProject;
+      },
+      get notes() {
+        return (notes);
+      },
+      set notes(newNotes) {
+        notes = newNotes;
+      },
+      get taskList() {
+        return (taskList);
+      },
+      set taskList(newTaskList) {
+        taskList = newTaskList;
+      },
+      get type() {
+        return (type);
+      },
+      set type(newType) {
+        type = newType;
+      },
+      get isProject() {
+        return (isProject);
+      },
+      set isProject(toggle) {
+        isProject = !isProject;
+      },
+      get completed() {
+        return (completed);
+      },
+      set completed(toggle) {
+        completed = !completed;
+      },
+      get taskID() {
+        return (taskID);
+      },
+      set taskID(newTaskID) {
+        taskID = newTaskID;
+      },
+      get deleted() {
+        return (deleted);
+      },
+      set deleted(toggle) {
+        deleted = !deleted;
+      },
     };
   };
 
@@ -48,7 +167,7 @@ const tasks = (() => {
       newTask.project = projectCounter;
       newTask.taskID = taskCounter;
       const newNewTask = taskFactory(newTask);
-      newNewTask.completed = false;
+      //newNewTask.completed = false;
       projectArray.push(newNewTask);
       projectCounter += 1;
       taskCounter += 1;
@@ -62,7 +181,7 @@ const tasks = (() => {
       //console.log('making new task. project is', newTask.project);
       //console.log('projectArray[newProjectRef] is', projectArray[newProjectRef]);
       const newNewTask = taskFactory(newTask);
-      newNewTask.completed = false;
+      //newNewTask.completed = false;
       projectArray[newProjectRef].taskList.push(newNewTask);
       //console.log('TASK ADDED by addTask. projectArray is', projectArray);
       taskCounter += 1;
@@ -108,7 +227,6 @@ const tasks = (() => {
     }
     return (result);
   };
-  
   // Attr is used to determine which attribute of the destination task
   // should be altered
   const modifyTask = (project, task, attr, newValue) => {

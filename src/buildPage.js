@@ -434,7 +434,8 @@ const getInput = (e) => {
           if (e.target.parentElement.parentElement.parentElement.parentElement.classList.contains('completed-task')) {
             e.target.parentElement.parentElement.parentElement.parentElement.classList.remove('completed-task');
           }
-          const toggleComplete = e.target.parentElement.parentElement.parentElement.parentElement.childNodes[0].childNodes[1];
+          const toggleComplete = e.target.parentElement.parentElement.parentElement.parentElement.childNodes[0].childNodes[2];
+          console.log('e.target.parentElement.parentElement.parentElement.parentElement.childNodes[0].childNodes[1]=', e.target.parentElement.parentElement.parentElement.parentElement.childNodes[0].childNodes[1]);
           if (toggleComplete.value === 'Mark project incomplete') {
             toggleComplete.value = 'Mark project complete';
             toggleComplete.classList.add('incomplete-button');
