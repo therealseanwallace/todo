@@ -10,7 +10,7 @@ const tasks = (() => {
 
   const taskFactory = (task) => {
     let {
-      title, dueDate, priority, project, notes, taskList, type, isProject, completed, taskID,
+      title, dueDate, priority, project, notes, taskList, type, isProject, completed, taskID, deleted,
     } = task;
     //console.log('taskFactory active. taskList is', taskList);
     return {
@@ -24,6 +24,7 @@ const tasks = (() => {
       completed,
       taskID,
       taskList,
+      deleted,
     };
   };
 
@@ -178,7 +179,6 @@ const tasks = (() => {
       return (projectArray[project].taskList[task].notes);
     }
     if (attr === 5) {
-      
       if (task === null) {
         console.log(projectArray[project].completed);
         projectArray[project].completed = !projectArray[project].completed;
@@ -189,6 +189,18 @@ const tasks = (() => {
       projectArray[project].taskList[task].completed = !projectArray[project].taskList[task].completed;
       console.log(projectArray[project].taskList[task].completed);
       return (projectArray[project].taskList[task].completed);
+    }
+    if (attr === 6) {
+      if (task === null) {
+        console.log(projectArray[project].deleted);
+        projectArray[project].deleted = !projectArray[project].deleted;
+        console.log(projectArray[project].deleted);
+        return (projectArray[project].deleted);
+      }
+      console.log(projectArray[project].taskList[task].deleted);
+      projectArray[project].taskList[task].deleted = !projectArray[project].taskList[task].deleted;
+      console.log(projectArray[project].taskList[task].deleted);
+      return (projectArray[project].taskList[task].deleted);
     }
     
   };

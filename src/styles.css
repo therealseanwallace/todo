@@ -123,6 +123,27 @@ h1 {
   gap: 3px;
 }
 
+.title-close {
+  display: flex;
+}
+
+.delete-button {
+  width: 24px;
+  height: 24px;
+  align-self: flex-end;
+  flex-shrink: 0;
+  background-image: url('./cross.svg');
+  background-color: inherit;
+  border: none;
+  filter: invert(1);
+  align-self: flex-start;
+  margin-right: -6px;
+  margin-left: 6px;
+}
+
+.task-title {
+  flex-basis: 100%;
+}
 .project-card > .title-div {
   height: 300px;
 }
@@ -211,10 +232,10 @@ select:hover {
   
 }
 
-.incomplete {
+.incomplete-button {
   background-color: #80aa87!important ;
 }
 
-.complete {
-  background-color: #fcd96c!important;
+.completed-task {
+  filter: grayscale(100%);
 }

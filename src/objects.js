@@ -116,6 +116,17 @@ const displayObject = {
     inputType: 'button',
     class1: 'toggle-complete',
   },
+  deleteButton: {
+    name: 'deleteButton',
+    nodeType: 'input',
+    inputType: 'button',
+    class1: 'delete-button',
+  },
+  titleClose: {
+    name: 'titleClose',
+    nodeType: 'div',
+    class1: 'title-close',
+  }
 };
 
 const demo = {
@@ -129,6 +140,7 @@ const demo = {
     numberTasks: 0,
     taskList: [],
     isProject: true,
+    deleted: false,
   },
   demoProject2: {
     title: 'A second demo project',
@@ -140,6 +152,7 @@ const demo = {
     numberTasks: 0,
     taskList: [],
     isProject: true,
+    deleted: false,
   },
   demoProject3: {
     title: 'A third demo project',
@@ -151,6 +164,7 @@ const demo = {
     numberTasks: 0,
     taskList: [],
     isProject: true,
+    deleted: false,
   },
   demoTask1: {
     title: 'Wash the dishes',
@@ -160,6 +174,7 @@ const demo = {
     type: 'task',
     isProject: false,
     project: 0,
+    deleted: false,
   },
   demoTask2: {
     title: 'Cook dinner',
@@ -169,6 +184,7 @@ const demo = {
     type: 'task',
     isProject: false,
     project: 0,
+    deleted: false,
   },
   demoTask3: {
     title: 'Go shopping',
@@ -178,6 +194,7 @@ const demo = {
     type: 'task',
     isProject: false,
     project: 1,
+    deleted: false,
   },
   demoTask4: {
     title: 'Play with dog',
@@ -187,6 +204,7 @@ const demo = {
     type: 'task',
     isProject: false,
     project: 1,
+    deleted: false,
   },
   demoTask5: {
     title: 'Go shopping',
@@ -196,6 +214,7 @@ const demo = {
     type: 'task',
     isProject: false,
     project: 2,
+    deleted: false,
   },
   demoTask6: {
     title: 'Play with dog 2',
@@ -205,6 +224,7 @@ const demo = {
     type: 'task',
     isProject: false,
     project: 2,
+    deleted: false,
   },
   demoTask7: {
     title: 'test this stupid program',
@@ -214,6 +234,7 @@ const demo = {
     type: 'task',
     isProject: false,
     project: 2,
+    deleted: false,
   }
 };
 
@@ -225,6 +246,7 @@ const emptyTask = {
   type: '',
   taskList: [],
   completed: false,
+  deleted: false,
 };
 
 export { displayObject, demo, emptyTask };
