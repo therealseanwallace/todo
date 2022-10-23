@@ -129,6 +129,14 @@ const assignValuesToInputs = (taskCard, isProject, task, index) => {
     notes.value = currentProjectArray[project - 1].notes;
     const prio = document.querySelector(`#priority-select-${taskID}`);
     prio.selectedIndex = currentProjectArray[project - 1].priority;
+    const toggleComplete = document.querySelector(`#toggle-complete-${taskID}`);
+    if (!currentProjectArray[project - 1].completed) {
+      toggleComplete.value = 'Mark project complete';
+      toggleComplete.classList.add('incomplete');
+    } else {
+      toggleComplete.value = 'Mark project incomplete';
+      toggleComplete.classList.add('complete');
+    }
   } else {
     const title = document.querySelector(`#task-title-${taskID}`);
     title.value = currentProjectArray[project].taskList[task].title;
@@ -138,6 +146,14 @@ const assignValuesToInputs = (taskCard, isProject, task, index) => {
     notes.value = currentProjectArray[project].taskList[task].notes;
     const prio = document.querySelector(`#priority-select-${taskID}`);
     prio.selectedIndex = currentProjectArray[project].taskList[task].priority;
+    const toggleComplete = document.querySelector(`#toggle-complete-${taskID}`);
+    if (!currentProjectArray[project].taskList[task].completed) {
+      toggleComplete.value = 'Mark task complete';
+      toggleComplete.classList.add('incomplete');
+    } else {
+      toggleComplete.value = 'Mark task incomplete';
+      toggleComplete.classList.add('complete');
+    }
   }
 };
 
@@ -367,14 +383,38 @@ const getInput = (e) => {
     if (e.target.classList.contains('priority-select')) {
       console.log('PRIORITY SELECT!!!');
       tasks.modifyTask(task[0], task[1], 3, e.target.selectedIndex);
-      
     }
     if (e.target.classList.contains('notes')) {
       //console.log('modifying notes of project:task', task[0], ':', task[1]);
       tasks.modifyTask(task[0], task[1], 4, e.target.value);
     }
-
-
+    if (e.target.classList.contains('toggle-complete')) {
+      //console.log('modifying notes of project:task', task[0], ':', task[1]);
+      tasks.modifyTask(task[0], task[1], 5);
+      console.log('e.target.value is', e.target.value);
+      switch (e.target.value) {
+        case 'Mark project complete':
+          e.target.value = 'Mark project incomplete';
+          e.target.classList.remove('incomplete');
+          e.target.classList.add('complete');
+          break;
+        case 'Mark project incomplete':
+          e.target.value = 'Mark project complete';
+          e.target.classList.remove('complete');
+          e.target.classList.add('incomplete');
+          break;
+        case 'Mark task complete':
+          e.target.value = 'Mark task incomplete';
+          e.target.classList.remove('incomplete');
+          e.target.classList.add('complete');
+          break;
+        default: // e.target.value === 'Mark task incomplete'
+          e.target.value = 'Mark task complete';
+          e.target.classList.remove('complete');
+          e.target.classList.add('incomplete');
+          break;
+      }
+    }
     
     // Handles all remaining inputs (i.e. those from new task/new project window)
   } else { assembleNewTask(e); }

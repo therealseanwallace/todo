@@ -1,3 +1,5 @@
+/* eslint-disable spaced-comment */
+/* eslint-disable max-len */
 import { demo } from './objects';
 export { tasks };
 
@@ -45,6 +47,7 @@ const tasks = (() => {
       newTask.project = projectCounter;
       newTask.taskID = taskCounter;
       const newNewTask = taskFactory(newTask);
+      newNewTask.completed = false;
       projectArray.push(newNewTask);
       projectCounter += 1;
       taskCounter += 1;
@@ -58,6 +61,7 @@ const tasks = (() => {
       //console.log('making new task. project is', newTask.project);
       //console.log('projectArray[newProjectRef] is', projectArray[newProjectRef]);
       const newNewTask = taskFactory(newTask);
+      newNewTask.completed = false;
       projectArray[newProjectRef].taskList.push(newNewTask);
       //console.log('TASK ADDED by addTask. projectArray is', projectArray);
       taskCounter += 1;
@@ -160,6 +164,31 @@ const tasks = (() => {
       projectArray[project].taskList[task].notes = newValue;
       //console.log('projectArray[project].taskList[task].notes is now', projectArray[project].taskList[task].notes);
       return (projectArray[project].taskList[task].notes);
+    }
+    if (attr === 4) {
+      //console.log('NOTES!!!');
+      if (task === null) {
+        //console.log('task is null!');
+        projectArray[project].notes = newValue;
+        return (projectArray[project].notes);
+      }
+      //console.log('task! projectArray[project].taskList[task].notes is', projectArray[project].taskList[task].notes);
+      projectArray[project].taskList[task].notes = newValue;
+      //console.log('projectArray[project].taskList[task].notes is now', projectArray[project].taskList[task].notes);
+      return (projectArray[project].taskList[task].notes);
+    }
+    if (attr === 5) {
+      
+      if (task === null) {
+        console.log(projectArray[project].completed);
+        projectArray[project].completed = !projectArray[project].completed;
+        console.log(projectArray[project].completed);
+        return (projectArray[project].completed);
+      }
+      console.log(projectArray[project].taskList[task].completed);
+      projectArray[project].taskList[task].completed = !projectArray[project].taskList[task].completed;
+      console.log(projectArray[project].taskList[task].completed);
+      return (projectArray[project].taskList[task].completed);
     }
     
   };

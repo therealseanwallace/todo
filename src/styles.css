@@ -198,7 +198,6 @@ select:hover {
   flex-wrap: wrap;
   gap: 20px;
   justify-content: space-evenly;
-  
 }
 
 .task-card:not(.project-card) {
@@ -212,4 +211,10 @@ select:hover {
   
 }
 
+.incomplete {
+  background-color: #80aa87!important ;
+}
 
+.complete {
+  background-color: #fcd96c!important;
+}
