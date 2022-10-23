@@ -126,7 +126,7 @@ const displayObject = {
     name: 'titleClose',
     nodeType: 'div',
     class1: 'title-close',
-  }
+  },
 };
 
 const demo = {
@@ -235,7 +235,7 @@ const demo = {
     isProject: false,
     project: 2,
     deleted: false,
-  }
+  },
 };
 
 const emptyTask = {

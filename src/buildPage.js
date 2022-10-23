@@ -7,8 +7,6 @@
 import { displayObject, emptyTask } from './objects';
 import { tasks } from './appLogic';
 
-export { buildUI };
-
 let newTask = tasks.returnEmptyTask(emptyTask);
 
 const projectArray = () => {
@@ -16,7 +14,7 @@ const projectArray = () => {
   return (currentProjectArray);
 };
 
-const componentFactory = (element, id, projectID) => {
+const componentFactory = (element, id) => {
   const { // use destructuring assignment to get properties of new object
     name, nodeType, parent, text, inputType, value, class1,
     class2, taskID, objID, placeholder, innerHTML,
@@ -111,7 +109,7 @@ const assignValuesToProjectSelectors = () => {
 };
 
 // Sets the displayed inputs to match the corresponding value from each task
-const assignValuesToInputs = (taskCard, isProject, task, index) => {
+const assignValuesToInputs = (taskCard, isProject, task) => {
   const { taskID, project } = taskCard;
   const currentProjectArray = projectArray();
   if (isProject) {
@@ -151,12 +149,11 @@ const assignValuesToInputs = (taskCard, isProject, task, index) => {
 };
 
 // Composes task and project cards and their contents
-const buildTaskCard = (reference, isProject, card) => {
+const buildTaskCard = (reference, isProject) => {
   const {
     titleDiv, taskTitle, dueDate, prioritySelect,
-    projectSelect, notes, innerDisplay, taskCard,
-    taskAttributes, toggleCompleteButton, deleteButton,
-    titleClose,
+    projectSelect, notes, innerDisplay, taskAttributes,
+    toggleCompleteButton, deleteButton, titleClose,
   } = displayObject;
   const assembleCard = (component) => {
     const newComponent = component;
@@ -195,7 +192,6 @@ const buildTaskCard = (reference, isProject, card) => {
   if (isProject) {
     assembleCard(taskAttributes);
   }
-  
   assembleCard(dueDate);
   if (!isProject) {
     assembleCard(projectSelect);
@@ -212,7 +208,6 @@ const buildTaskCard = (reference, isProject, card) => {
   assembleCard(notes);
   if (isProject) {
     assembleCard(innerDisplay);
-    //buildTasks(reference);
   }
 };
 
@@ -250,7 +245,7 @@ const buildProjectCards = () => {
     const element = currentProjectArray[i];
     if (!element.deleted) {
       const projectCardWithID = assignIDToCard(projectCard, currentProjectArray[i].project, true);
-      const { taskID, project } = projectCardWithID;
+      const { taskID } = projectCardWithID;
       componentFactory(projectCardWithID, taskID);
       buildTaskCard(projectCardWithID.taskID, true);
       assignValuesToInputs(projectCardWithID, true, null, i);
@@ -259,21 +254,43 @@ const buildProjectCards = () => {
   }
 };
 
-const rebuildDisplay = () => {
-  clearDisplay();
-  buildProjectCards();
-  addDataSrc(0);
-  addEventListeners();
-  assignValuesToProjectSelectors();
+// Adds a data-src attribute to all inputs which will
+// be used to handle user inputs
+const addDataSrc = (func) => {
+  const inputs = document.querySelectorAll('input');
+  const dropdowns = document.querySelectorAll('select');
+  if (func === 0) { // if func === 0, this was called from buildTasks
+    //                 and so the data-src should be 'home'
+    for (let i = 0; i < inputs.length; i += 1) {
+      inputs[i].setAttribute('data-src', 'home');
+    }
+    for (let i = 0; i < dropdowns.length; i += 1) {
+      dropdowns[i].setAttribute('data-src', 'home');
+    }
+  }
+  if (func === 1) { // 1 corresponds to newTaskDisplay
+    for (let i = 0; i < inputs.length; i += 1) {
+      inputs[i].setAttribute('data-src', 'new-task');
+    }
+    for (let i = 0; i < dropdowns.length; i += 1) {
+      dropdowns[i].setAttribute('data-src', 'new-task');
+    }
+  }
 };
 
-const buildUI = () => {
-  buildDisplay();
-  clearDisplay();
-  buildProjectCards();
-  addDataSrc(0);
-  addEventListeners();
-  assignValuesToProjectSelectors();
+const addEventListeners = () => {
+  const inputs = document.querySelectorAll('input');
+  const dropdowns = document.querySelectorAll('select');
+  for (let i = 0; i < inputs.length; i += 1) {
+    if (inputs[i].type === 'button') {
+      inputs[i].addEventListener('click', getInput);
+    } else {
+      inputs[i].addEventListener('change', getInput);
+    }
+  }
+  for (let i = 0; i < dropdowns.length; i += 1) {
+    dropdowns[i].addEventListener('change', getInput);
+  }
 };
 
 const newTaskDisplay = (type) => {
@@ -309,41 +326,6 @@ const newTaskDisplay = (type) => {
   }
   addDataSrc(1);
   addEventListeners();
-};
-
-const assembleNewTask = (e) => {
-  // eslint-disable-next-line default-case
-  let currentProjectArray = projectArray();
-  switch (true) {
-    // Updates newTask according to user input
-    case e.target.classList.contains('task-title'):
-      newTask.title = e.target.value;
-      break;
-    case e.target.classList.contains('due-date'):
-      newTask.dueDate = e.target.value;
-      break;
-    case e.target.classList.contains('priority-select'):
-      newTask.priority = e.target.selectedIndex;
-      break;
-    case e.target.classList.contains('notes'):
-      newTask.notes = e.target.value;
-      break;
-    case e.target.classList.contains('project-select'):
-      newTask.project = e.target.selectedIndex;
-      break;
-    default:
-      if (e.target.classList.contains('new-project')) {
-        newTask.type = 'project';
-      } else { newTask.type = 'task'; }
-      if (!newTask.project) {
-        newTask.project = 0;
-      }
-      tasks.addTask(newTask);
-      currentProjectArray = projectArray();
-      tasks.storeTask(newTask);
-      newTask = tasks.returnEmptyTask(emptyTask);
-      rebuildDisplay();
-  }
 };
 
 // Handles all user inputs received by the event listeners
@@ -410,46 +392,59 @@ const getInput = (e) => {
       tasks.deleteTaskFromStorage(taskIDNum);
       rebuildDisplay();
     }
-    
     // Handles all remaining inputs (i.e. those from new task/new project window)
   } else { assembleNewTask(e); }
 };
 
-const addEventListeners = () => {
-  const inputs = document.querySelectorAll('input');
-  const dropdowns = document.querySelectorAll('select');
-  for (let i = 0; i < inputs.length; i += 1) {
-    if (inputs[i].type === 'button') {
-      inputs[i].addEventListener('click', getInput);
-    } else {
-      inputs[i].addEventListener('change', getInput);
-    }
-  }
-  for (let i = 0; i < dropdowns.length; i += 1) {
-    dropdowns[i].addEventListener('change', getInput);
+const rebuildDisplay = () => {
+  clearDisplay();
+  buildProjectCards();
+  addDataSrc(0);
+  addEventListeners();
+  assignValuesToProjectSelectors();
+};
+
+const buildUI = () => {
+  buildDisplay();
+  clearDisplay();
+  buildProjectCards();
+  addDataSrc(0);
+  addEventListeners();
+  assignValuesToProjectSelectors();
+};
+
+const assembleNewTask = (e) => {
+  // eslint-disable-next-line default-case
+  let currentProjectArray = projectArray();
+  switch (true) {
+    // Updates newTask according to user input
+    case e.target.classList.contains('task-title'):
+      newTask.title = e.target.value;
+      break;
+    case e.target.classList.contains('due-date'):
+      newTask.dueDate = e.target.value;
+      break;
+    case e.target.classList.contains('priority-select'):
+      newTask.priority = e.target.selectedIndex;
+      break;
+    case e.target.classList.contains('notes'):
+      newTask.notes = e.target.value;
+      break;
+    case e.target.classList.contains('project-select'):
+      newTask.project = e.target.selectedIndex;
+      break;
+    default:
+      if (e.target.classList.contains('new-project')) {
+        newTask.type = 'project';
+      } else { newTask.type = 'task'; }
+      if (!newTask.project) {
+        newTask.project = 0;
+      }
+      tasks.addTask(newTask);
+      tasks.storeTask(newTask);
+      newTask = tasks.returnEmptyTask(emptyTask);
+      rebuildDisplay();
   }
 };
 
-// Adds a data-src attribute to all inputs which will
-// be used to handle user inputs
-const addDataSrc = (func) => {
-  const inputs = document.querySelectorAll('input');
-  const dropdowns = document.querySelectorAll('select');
-  if (func === 0) { // if func === 0, this was called from buildTasks
-    //                 and so the data-src should be 'home'
-    for (let i = 0; i < inputs.length; i += 1) {
-      inputs[i].setAttribute('data-src', 'home');
-    }
-    for (let i = 0; i < dropdowns.length; i += 1) {
-      dropdowns[i].setAttribute('data-src', 'home');
-    }
-  }
-  if (func === 1) { // 1 corresponds to newTaskDisplay
-    for (let i = 0; i < inputs.length; i += 1) {
-      inputs[i].setAttribute('data-src', 'new-task');
-    }
-    for (let i = 0; i < dropdowns.length; i += 1) {
-      dropdowns[i].setAttribute('data-src', 'new-task');
-    }
-  }
-};
+export { buildUI };

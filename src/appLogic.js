@@ -1,7 +1,6 @@
 /* eslint-disable spaced-comment */
 /* eslint-disable max-len */
 import { demo } from './objects';
-export { tasks };
 
 const tasks = (() => {
   const projectArray = [];
@@ -187,7 +186,6 @@ const tasks = (() => {
 
   const addDemo = (() => {
     // Adds dummy content to projectArray
-    const demoObjects = Object.entries(demo);
     addTask(demo.demoProject1);
     addTask(demo.demoProject2);
     addTask(demo.demoProject3);
@@ -203,7 +201,7 @@ const tasks = (() => {
   const retrieveTasksFromStorage = (() => {
     const retrievedProjects = [];
     const retrievedTasks = [];
-    for (let i = 0; i < window.localStorage.length; i++) {
+    for (let i = 0; i < window.localStorage.length; i += 1) {
       const key = localStorage.key(i);
       const item = window.localStorage.getItem(key);
       const itemObject = JSON.parse(item);
@@ -218,12 +216,12 @@ const tasks = (() => {
       //retrievedTaskArray.push(sendToTaskFactory);
     }
     const sortedProjects = retrievedProjects.sort((a, b) => a.project - b.project);
-    for (let i = 0; i < sortedProjects.length; i++) {
+    for (let i = 0; i < sortedProjects.length; i += 1) {
       const element = sortedProjects[i];
       projectArray.push(element);
     }
     const sortedTasks = retrievedTasks.sort((a, b) => a.taskID - b.taskID);
-    for (let i = 0; i < sortedTasks.length; i++) {
+    for (let i = 0; i < sortedTasks.length; i += 1) {
       const element = sortedTasks[i];
       projectArray[element.project].taskList.push(element);
     }
@@ -236,13 +234,13 @@ const tasks = (() => {
   const getTaskByID = (IDtoCheck) => {
     const IDNumber = Number(IDtoCheck);
     let result = [];
-    for (let i = 0; i < projectArray.length; i++) {
+    for (let i = 0; i < projectArray.length; i += 1) {
       const project = projectArray[i];
       if (project.taskID === IDNumber) {
         result = [project.project - 1, null];
         break;
       }
-      for (let index = 0; index < project.taskList.length; index++) {
+      for (let index = 0; index < project.taskList.length; index += 1) {
         const task = project.taskList[index];
         if (task.taskID === IDNumber) {
           result = [project.project - 1, index];
@@ -320,9 +318,11 @@ const tasks = (() => {
     }
   };
 
-  const returnProjectArray = () => { return (projectArray) }
+  const returnProjectArray = () => (projectArray);
 
   return {
     returnProjectArray, getTaskByID, addTask, taskFactory, modifyTask, returnEmptyTask, storeTask, deleteTaskFromStorage,
   };
 })();
+
+export { tasks };
