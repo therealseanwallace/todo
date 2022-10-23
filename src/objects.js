@@ -86,8 +86,7 @@ const displayObject = {
   },
   notes: {
     name: 'notes',
-    nodeType: 'input',
-    inputType: 'text',
+    nodeType: 'textarea',
     class1: 'notes',
     placeholder: 'Please enter any notes about this task',
   },
