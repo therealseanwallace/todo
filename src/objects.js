@@ -110,6 +110,12 @@ const displayObject = {
     parent: '.new-task-form',
     value: 'Submit',
   },
+  toggleCompleteButton: {
+    name: 'toggleCompleteButton',
+    nodeType: 'input',
+    inputType: 'button',
+    class1: 'toggle-complete',
+  },
 };
 
 const demo = {

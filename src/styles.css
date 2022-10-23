@@ -179,7 +179,7 @@ h1 {
 
 
 select:hover {
-  outline:1px solid rgba(245, 245, 245, 0.8)
+  outline:1px solid rgba(245, 245, 245, 0.8);
 }
 
 
@@ -194,5 +194,22 @@ select:hover {
   padding: 10px;
   background: rgba(245, 245, 245, 0.35);
   border-radius: 0 0 10px 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: space-evenly;
+  
 }
+
+.task-card:not(.project-card) {
+  width: 320px;
+}
+
+@media only screen and (min-width: 601px) {
+  .task-card:not(.project-card) {
+    width: 400px;
+  }
+  
+}
+
 

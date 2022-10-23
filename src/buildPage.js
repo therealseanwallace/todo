@@ -145,7 +145,7 @@ const assignValuesToInputs = (taskCard, isProject, task, index) => {
 const buildTaskCard = (reference, isProject, card) => {
   const {
     titleDiv, taskTitle, dueDate, prioritySelect,
-    projectSelect, notes, innerDisplay, taskCard, taskAttributes,
+    projectSelect, notes, innerDisplay, taskCard, taskAttributes, toggleCompleteButton,
   } = displayObject;
   //console.log('building task card,', reference);
   //console.log('projectArray is', projectArray());
@@ -155,7 +155,8 @@ const buildTaskCard = (reference, isProject, card) => {
       if (component === titleDiv || component === innerDisplay) {
         newComponent.parent = `#task-card-${reference}`;
       }
-      if (component === taskAttributes || component === notes) {
+      if (component === taskAttributes
+        || component === notes || component === toggleCompleteButton) {
         newComponent.parent = `#title-div-${reference}`;
       }
       if (component === taskTitle || component === dueDate || component === prioritySelect) {
@@ -187,6 +188,7 @@ const buildTaskCard = (reference, isProject, card) => {
     }
   }
   assembleCard(prioritySelect);
+  assembleCard(toggleCompleteButton);
   assembleCard(notes);
   if (isProject) {
     assembleCard(innerDisplay);
@@ -371,6 +373,8 @@ const getInput = (e) => {
       //console.log('modifying notes of project:task', task[0], ':', task[1]);
       tasks.modifyTask(task[0], task[1], 4, e.target.value);
     }
+
+
     
     // Handles all remaining inputs (i.e. those from new task/new project window)
   } else { assembleNewTask(e); }
