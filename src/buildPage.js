@@ -10,7 +10,6 @@ import { tasks } from './appLogic';
 export { buildUI };
 
 let newTask = tasks.returnEmptyTask(emptyTask);
-//console.log('taskFactory complete. newTask is', newTask);
 
 const projectArray = () => {
   const currentProjectArray = tasks.returnProjectArray();
@@ -24,7 +23,6 @@ const componentFactory = (element, id, projectID) => {
   } = element;
   const createDOMNode = () => {
     // creates a DOM node according to the supplied properties
-    //console.log('creating DOM node! parent=', parent);
     const parentNode = document.querySelector(parent);
     const newDOMNode = document.createElement(nodeType);
     if (text) {
@@ -90,7 +88,6 @@ const assembleProjectString = (projectNames) => {
 
 // Assigns a taskID and project to each card object, corresponding to the task's taskID
 const assignIDToCard = (newCard, index, isProject, task) => {
-  //console.log('assigning ID to card! parameters are: ', newCard, index, isProject, task);
   const cardToAssign = newCard;
   const currentProjectArray = projectArray();
   if (isProject) {
@@ -105,14 +102,10 @@ const assignIDToCard = (newCard, index, isProject, task) => {
 
 const assignValuesToProjectSelectors = () => {
   const projectSelectors = document.querySelectorAll('.project-select');
-  //console.log('projectSelectors is', projectSelectors);
   for (let i = 0; i < projectSelectors.length; i += 1) {
     const element = projectSelectors[i];
-    //console.log('element is', element);
     const taskIDNum = Number(element.getAttribute('data-taskID'));
     const task = tasks.getTaskByID(taskIDNum);
-    //console.log('task is', task);
-    //console.log('projectArray()[task[0]].taskList[task[1]] is', projectArray()[task[0]].taskList[task[1]]);
     element.selectedIndex = projectArray()[task[0]].taskList[task[1]].project;
   }
 };
@@ -121,7 +114,6 @@ const assignValuesToProjectSelectors = () => {
 const assignValuesToInputs = (taskCard, isProject, task, index) => {
   const { taskID, project } = taskCard;
   const currentProjectArray = projectArray();
-  //console.log('taskID, isProject, task, index is', taskID, isProject, task, index);
   if (isProject) {
     const title = document.querySelector(`#task-title-${taskID}`);
     title.value = currentProjectArray[project - 1].title;
@@ -132,7 +124,6 @@ const assignValuesToInputs = (taskCard, isProject, task, index) => {
     const prio = document.querySelector(`#priority-select-${taskID}`);
     prio.selectedIndex = currentProjectArray[project - 1].priority;
     const toggleComplete = document.querySelector(`#toggle-complete-${taskID}`);
-    //console.log('parent card is', toggleComplete.parentElement.parentElement);
     if (!currentProjectArray[project - 1].completed) {
       toggleComplete.value = 'Mark project complete';
       toggleComplete.classList.add('incomplete-button');
@@ -167,8 +158,6 @@ const buildTaskCard = (reference, isProject, card) => {
     taskAttributes, toggleCompleteButton, deleteButton,
     titleClose,
   } = displayObject;
-  //console.log('building task card,', reference);
-  //console.log('projectArray is', projectArray());
   const assembleCard = (component) => {
     const newComponent = component;
     if (isProject) {
@@ -233,24 +222,17 @@ const buildTasks = (reference) => {
     taskCard,
   } = displayObject;
   const currentProjectArray = projectArray();
-  //console.log('building tasks!!! currentProjectArray is', currentProjectArray);
   const projectTasks = projectArray()[reference].taskList;
-  //console.log('project is', projectArray()[reference]);
-  //console.log('projectTasks is', projectTasks);
   const projectTaskID = currentProjectArray[reference].taskID;
-  //console.log('projectTaskID is', projectTaskID);
   for (let i = 0; i < projectTasks.length; i += 1) {
     const element = projectTasks[i];
     if (!element.deleted) {
-      //console.log('element is', element);
       const { project } = element;
       const taskCardWithID = assignIDToCard(taskCard, project, false, i);
-      //console.log('taskCardWithID is', taskCardWithID);
       const parent = `#inner-display-${projectTaskID}`;
       taskCardWithID.parent = parent;
       const { taskID } = taskCardWithID;
       componentFactory(taskCardWithID, taskID);
-      //console.log('building task card (buildTasks)');
       buildTaskCard(taskCardWithID.taskID, false);
       assignValuesToInputs(taskCardWithID, false, i);
     }
@@ -264,27 +246,18 @@ const buildProjectCards = () => {
     projectCard,
   } = displayObject;
   const currentProjectArray = projectArray();
-  //console.log('building project cards! projectsArray is', projectsArray);
-  //console.log('building project cards! projectsArray.length is', projectsArray.length);
   for (let i = 0; i < currentProjectArray.length; i += 1) {
     const element = currentProjectArray[i];
     if (!element.deleted) {
-      //console.log('building projects. element is', element);
-      //console.log('project building for loop. i is', i, 'and project is', projectsArray[i]);
       const projectCardWithID = assignIDToCard(projectCard, currentProjectArray[i].project, true);
-      //console.log('projectCardWithID is', projectCardWithID);
       const { taskID, project } = projectCardWithID;
       componentFactory(projectCardWithID, taskID);
-      //console.log('building task card (buildProjectCards');
       buildTaskCard(projectCardWithID.taskID, true);
       assignValuesToInputs(projectCardWithID, true, null, i);
-      //console.log('prepping to buildTasks. projectsArray()[i] is', projectsArray[i]);
       buildTasks(projectCardWithID.project - 1);
     }
   }
 };
-// we are setting it to not draw if the project is deleted. However, we also need to modify
-// the above function so that we're not using i to make the project card id numbers
 
 const rebuildDisplay = () => {
   clearDisplay();
@@ -345,7 +318,6 @@ const assembleNewTask = (e) => {
     // Updates newTask according to user input
     case e.target.classList.contains('task-title'):
       newTask.title = e.target.value;
-      //console.log('task title updated. newTask is', newTask);
       break;
     case e.target.classList.contains('due-date'):
       newTask.dueDate = e.target.value;
@@ -366,16 +338,10 @@ const assembleNewTask = (e) => {
       if (!newTask.project) {
         newTask.project = 0;
       }
-      //console.log('adding new task to array! array is', currentProjectArray);
-      //console.log('about to add new task. newTask is', newTask);
       tasks.addTask(newTask);
       currentProjectArray = projectArray();
-      //console.log('new task added to array! array is', currentProjectArray);
-      //console.log('Resetting newTask. newTask is', newTask);
       tasks.storeTask(newTask);
       newTask = tasks.returnEmptyTask(emptyTask);
-      //console.log('Reset newTask. newTask is', newTask);
-      //console.log(newTask)
       rebuildDisplay();
   }
 };
@@ -403,17 +369,13 @@ const getInput = (e) => {
       rebuildDisplay();
     }
     if (e.target.classList.contains('priority-select')) {
-      console.log('PRIORITY SELECT!!!');
       tasks.modifyTask(task[0], task[1], 3, e.target.selectedIndex);
     }
     if (e.target.classList.contains('notes')) {
-      //console.log('modifying notes of project:task', task[0], ':', task[1]);
       tasks.modifyTask(task[0], task[1], 4, e.target.value);
     }
     if (e.target.classList.contains('toggle-complete')) {
-      //console.log('modifying notes of project:task', task[0], ':', task[1]);
       tasks.modifyTask(task[0], task[1], 5);
-      console.log('e.target.value is', e.target.value);
       switch (e.target.value) {
         case 'Mark project complete':
           e.target.value = 'Mark project incomplete';
@@ -436,12 +398,10 @@ const getInput = (e) => {
             e.target.parentElement.parentElement.parentElement.parentElement.classList.remove('completed-task');
           }
           const toggleComplete = e.target.parentElement.parentElement.parentElement.parentElement.childNodes[0].childNodes[2];
-          //console.log('e.target.parentElement.parentElement.parentElement.parentElement.childNodes[0].childNodes[1]=', e.target.parentElement.parentElement.parentElement.parentElement.childNodes[0].childNodes[1]);
           if (toggleComplete.value === 'Mark project incomplete') {
             toggleComplete.value = 'Mark project complete';
             toggleComplete.classList.add('incomplete-button');
           }
-          //console.log(toggleComplete);
           break;
       }
     }
