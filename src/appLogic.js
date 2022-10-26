@@ -228,7 +228,7 @@ const tasks = (() => {
       //console.log('parentProject is', parentProject);
       if (!newNewTask.isDemo) {
         projectArray[parentProject].taskList = newNewTask;
-      }
+       }
       taskCounter += 1;
       //console.log('newNewTask after adding is', newNewTask);
       //console.log('projectArray after adding is', projectArray);
@@ -285,7 +285,11 @@ const tasks = (() => {
     const sortedProjects = retrievedProjects.sort((a, b) => a.project - b.project);
     for (let i = 0; i < sortedProjects.length; i += 1) {
       const element = sortedProjects[i];
+      console.log('adding sorted projects. element is', element);
       projectArray.push(element);
+      if (element.taskID > taskCounter) {
+        taskCounter = element.taskID;
+      }
     }
     const sortedTasks = retrievedTasks.sort((a, b) => a.taskID - b.taskID);
     console.log('projectArray is', projectArray);
@@ -297,6 +301,9 @@ const tasks = (() => {
       const parentArrayIndex = getTaskByID(parentProj)[0];
       console.log('parentArrayIndex is', parentArrayIndex);
       projectArray[parentArrayIndex].taskList.push(element);
+      if (element.taskID > taskCounter) {
+        taskCounter = element.taskID;
+      }
     }
   })();
 

@@ -468,8 +468,8 @@ const assembleNewTask = (e) => {
       if (e.target.classList.contains('new-project')) {
         newTask.isProject = true;
       } else { newTask.isProject = false; }
-      //console.log('newTask.parentTask =', newTask.parentTask);
-      if (e.target.classList.contains('new-task')) {
+      console.log('newTask=', newTask);
+      if (newTask.isProject === false) {
         if (newTask.parentTask === -1 || newTask.parentTask === undefined) {
           newTask.parentTask = 0;
         }
