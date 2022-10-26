@@ -357,6 +357,7 @@ const getInput = (e) => {
   // Handles inputs which come from the home screen/main display
   if (e.target.getAttribute('data-src') === 'home') {
     const taskIDNum = Number(e.target.getAttribute('data-taskID'));
+    console.log('taskIDNum is', taskIDNum);
     const task = tasks.getTaskByID(taskIDNum);
     //console.log('task is', task);
     if (e.target.id === 'new-task') {
@@ -366,26 +367,26 @@ const getInput = (e) => {
       newTaskDisplay(1);
     }
     if (e.target.classList.contains('task-title')) {
-      tasks.modifyTask(task[0], task[1], 0, e.target.value);
+      tasks.modifyTask(task[0], task[1], 0, e.target.value, taskIDNum);
     }
     if (e.target.classList.contains('due-date')) {
-      tasks.modifyTask(task[0], task[1], 1, e.target.value);
+      tasks.modifyTask(task[0], task[1], 1, e.target.value, taskIDNum);
     }
     if (e.target.classList.contains('project-select')) {
       let select = document.querySelector(`#project-select-${e.target.getAttribute('data-taskID')}`);
       let value = select.options[select.selectedIndex].value;
-      tasks.modifyTask(task[0], task[1], 2, value);
+      tasks.modifyTask(task[0], task[1], 2, value, taskIDNum);
       //console.log("e.target.getAttribute('data-taskID')=", e.target.getAttribute('data-taskID'));
       rebuildDisplay();
     }
     if (e.target.classList.contains('priority-select')) {
-      tasks.modifyTask(task[0], task[1], 3, e.target.selectedIndex);
+      tasks.modifyTask(task[0], task[1], 3, e.target.selectedIndex, taskIDNum);
     }
     if (e.target.classList.contains('notes')) {
-      tasks.modifyTask(task[0], task[1], 4, e.target.value);
+      tasks.modifyTask(task[0], task[1], 4, e.target.value, taskIDNum);
     }
     if (e.target.classList.contains('toggle-complete')) {
-      tasks.modifyTask(task[0], task[1], 5);
+      tasks.modifyTask(task[0], task[1], 5), taskIDNum;
       switch (e.target.value) {
         case 'Mark project complete':
           e.target.value = 'Mark project incomplete';
@@ -416,7 +417,7 @@ const getInput = (e) => {
       }
     }
     if (e.target.classList.contains('delete-button')) {
-      tasks.modifyTask(task[0], task[1], 6);
+      tasks.modifyTask(task[0], task[1], 6, taskIDNum);
       tasks.deleteTaskFromStorage(taskIDNum);
       rebuildDisplay();
     }
@@ -465,12 +466,15 @@ const assembleNewTask = (e) => {
       break;
     default:
       if (e.target.classList.contains('new-project')) {
-        newTask.type = 'project';
-      } else { newTask.type = 'task'; }
+        newTask.isProject = true;
+      } else { newTask.isProject = false; }
       //console.log('newTask.parentTask =', newTask.parentTask);
-      if (newTask.parentTask === -1 || newTask.parentTask === undefined) {
-        newTask.parentTask = 0;
+      if (e.target.classList.contains('new-task')) {
+        if (newTask.parentTask === -1 || newTask.parentTask === undefined) {
+          newTask.parentTask = 0;
+        }
       }
+      console.log('pre-adding task. task is', newTask, 'parentTask is', newTask.parentTask);
       tasks.addTask(newTask);
       newTask = tasks.returnEmptyTask(emptyTask);
       rebuildDisplay();
