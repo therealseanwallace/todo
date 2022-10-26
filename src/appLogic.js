@@ -191,7 +191,7 @@ const tasks = (() => {
   };
 
   const storeTask = (task) => {
-    //console.log('storing task', task);
+    console.log('storing task', task);
     const taskAsString = JSON.stringify(task);
     window.localStorage.setItem(task.taskID, taskAsString);
   };
@@ -265,7 +265,7 @@ const tasks = (() => {
 
   const retrieveTasksFromStorage = (() => {
     //localStorage.clear();
-    //console.log('retrieving localStorage. value is:', window.localStorage, 'projectArray is', projectArray);
+    console.log('retrieving localStorage. value is:', window.localStorage, 'projectArray is', projectArray);
     const retrievedProjects = [];
     const retrievedTasks = [];
     for (let i = 0; i < window.localStorage.length; i += 1) {
@@ -313,12 +313,18 @@ const tasks = (() => {
   const modifyTask = (project, task, attr, newValue, taskID) => {
     //console.log('taskID is', taskID);
     const getTask = getTaskByID(taskID);
+    const stripTaskList = (proj) => {
+      const strippedProj = proj;
+      strippedProj.taskList = [];
+      return (strippedProj);
+    };
     //console.log('getTask is', getTask);
     if (attr === 0) { // i.e. if this is a task title
       if (task === null) {
         projectArray[project].title = newValue;
         console.log('localStorage is', localStorage);
-        storeTask(projectArray[project]);
+        const projWithTasksStripped = stripTaskList(projectArray[project]);
+        storeTask(projWithTasksStripped);
         console.log('localStorage is', localStorage);
         return (projectArray[project].title);
       }
@@ -332,7 +338,8 @@ const tasks = (() => {
       if (task === null) {
         projectArray[project].dueDate = newValue;
         console.log('localStorage is', localStorage);
-        storeTask(projectArray[project]);
+        const projWithTasksStripped = stripTaskList(projectArray[project]);
+        storeTask(projWithTasksStripped);
         console.log('localStorage is', localStorage);
         return (projectArray[project].dueDate);
       }
@@ -358,7 +365,8 @@ const tasks = (() => {
       if (task === null) {
         projectArray[project].priority = newValue;
         console.log('localStorage is', localStorage);
-        storeTask(projectArray[project]);
+        const projWithTasksStripped = stripTaskList(projectArray[project]);
+        storeTask(projWithTasksStripped);
         console.log('localStorage is', localStorage);
         return (projectArray[project].priority);
       }
@@ -372,7 +380,8 @@ const tasks = (() => {
       if (task === null) {
         projectArray[project].notes = newValue;
         console.log('localStorage is', localStorage);
-        storeTask(projectArray[project]);
+        const projWithTasksStripped = stripTaskList(projectArray[project]);
+        storeTask(projWithTasksStripped);
         console.log('localStorage is', localStorage);
         return (projectArray[project].notes);
       }
@@ -386,7 +395,8 @@ const tasks = (() => {
       if (task === null) {
         projectArray[project].completed = !projectArray[project].completed;
         console.log('localStorage is', localStorage);
-        storeTask(projectArray[project]);
+        const projWithTasksStripped = stripTaskList(projectArray[project]);
+        storeTask(projWithTasksStripped);
         console.log('localStorage is', localStorage);
         return (projectArray[project].completed);
       }
@@ -400,7 +410,8 @@ const tasks = (() => {
       if (task === null) {
         projectArray[project].deleted = !projectArray[project].deleted;
         console.log('localStorage is', localStorage);
-        storeTask(projectArray[project]);
+        const projWithTasksStripped = stripTaskList(projectArray[project]);
+        storeTask(projWithTasksStripped);
         console.log('localStorage is', localStorage);
         return (projectArray[project].deleted);
       }
