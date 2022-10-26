@@ -288,7 +288,7 @@ const tasks = (() => {
       console.log('adding sorted projects. element is', element);
       projectArray.push(element);
       if (element.taskID > taskCounter) {
-        taskCounter = element.taskID;
+        taskCounter = element.taskID + 1;
       }
     }
     const sortedTasks = retrievedTasks.sort((a, b) => a.taskID - b.taskID);
@@ -303,7 +303,7 @@ const tasks = (() => {
       console.log('parentArrayIndex is', parentArrayIndex);
       projectArray[parentArrayIndex].taskList.push(element);
       if (element.taskID > taskCounter) {
-        taskCounter = element.taskID;
+        taskCounter = element.taskID + 1;
       }
     }
   })();
