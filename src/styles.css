@@ -99,7 +99,10 @@ h1 {
   display: flex;
   flex-direction: column;
   margin: 0 auto 0 auto;
+  gap: 20px;
 }
+
+
 
 
 /* Task and project cards */
@@ -141,7 +144,7 @@ h1 {
   margin-left: 6px;
 }
 
-.task-title {
+.task-title:not(.new-task-form > .task-title) {
   flex-basis: 100%;
 }
 .project-card > .title-div {

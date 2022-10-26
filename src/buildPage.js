@@ -19,6 +19,7 @@ const componentFactory = (element, id) => {
     name, nodeType, parent, text, inputType, value, class1,
     class2, taskID, objID, placeholder, innerHTML,
   } = element;
+  //console.log('componentFactory active. parent is', parent, 'id is', id);
   const createDOMNode = () => {
     // creates a DOM node according to the supplied properties
     const parentNode = document.querySelector(parent);
@@ -38,7 +39,8 @@ const componentFactory = (element, id) => {
     if (class2) {
       newDOMNode.classList.add(class2);
     }
-    if (id) {
+    if (id !== undefined) {
+      //console.log('id!!');
       newDOMNode.id = `${class1}-${id}`;
       newDOMNode.setAttribute('data-taskID', id);
     }
@@ -74,11 +76,12 @@ const buildDisplay = () => {
 };
 
 // Creates a string of project names which will be used to populate project select elements
-const assembleProjectString = (projectNames) => {
+const assembleProjectString = (currentProjectArray) => {
   let assembledString = '';
-  for (let i = 0; i < projectNames.length; i += 1) {
-    const string = projectNames[i].title;
-    const newString = ` <option value="${i}">${string}</option>`;
+  for (let i = 0; i < currentProjectArray.length; i += 1) {
+    const string = currentProjectArray[i].title;
+    const id = currentProjectArray[i].taskID;
+    const newString = ` <option value="${id}">${string}</option>`;
     assembledString += newString;
   }
   return (assembledString);
@@ -86,14 +89,16 @@ const assembleProjectString = (projectNames) => {
 
 // Assigns a taskID and project to each card object, corresponding to the task's taskID
 const assignIDToCard = (newCard, index, isProject, task) => {
-  const cardToAssign = newCard;
+  console.log('assigning ID to card! params are', newCard, index, isProject, task);
   const currentProjectArray = projectArray();
+  console.log('currentProjectArray is', currentProjectArray);
+  const cardToAssign = newCard;
+
   if (isProject) {
-    cardToAssign.taskID = currentProjectArray[index - 1].taskID;
-    cardToAssign.project = currentProjectArray[index - 1].project;
+    cardToAssign.taskID = currentProjectArray[index].taskID;
   } else {
+    console.log('currentProjectArray, index is', currentProjectArray, index);
     cardToAssign.taskID = currentProjectArray[index].taskList[task].taskID;
-    cardToAssign.project = currentProjectArray[index].taskList[task].project;
   }
   return (cardToAssign);
 };
@@ -104,25 +109,29 @@ const assignValuesToProjectSelectors = () => {
     const element = projectSelectors[i];
     const taskIDNum = Number(element.getAttribute('data-taskID'));
     const task = tasks.getTaskByID(taskIDNum);
-    element.selectedIndex = projectArray()[task[0]].taskList[task[1]].project;
+    console.log('assigning values to project selectors! task =', task);
+    console.log(projectArray()[task[0]]);
+    element.selectedIndex = task[0];
   }
 };
 
-// Sets the displayed inputs to match the corresponding value from each task
-const assignValuesToInputs = (taskCard, isProject, task) => {
-  const { taskID, project } = taskCard;
+const assignValuesToInputs = (taskCard, isProject, task, project) => {
+  //console.log('assigning values. params are', taskCard, isProject, task, project);
+  const { taskID } = taskCard;
   const currentProjectArray = projectArray();
+  //console.log('taskCard.parent is', taskCard.parentTask);
+  //console.log('currentProjectArray is', currentProjectArray);
   if (isProject) {
     const title = document.querySelector(`#task-title-${taskID}`);
-    title.value = currentProjectArray[project - 1].title;
+    title.value = currentProjectArray[project].title;
     const date = document.querySelector(`#due-date-${taskID}`);
-    date.value = currentProjectArray[project - 1].dueDate;
+    date.value = currentProjectArray[project].dueDate;
     const notes = document.querySelector(`#notes-${taskID}`);
-    notes.value = currentProjectArray[project - 1].notes;
+    notes.value = currentProjectArray[project].notes;
     const prio = document.querySelector(`#priority-select-${taskID}`);
-    prio.selectedIndex = currentProjectArray[project - 1].priority;
+    prio.selectedIndex = currentProjectArray[project].priority;
     const toggleComplete = document.querySelector(`#toggle-complete-${taskID}`);
-    if (!currentProjectArray[project - 1].completed) {
+    if (!currentProjectArray[project].completed) {
       toggleComplete.value = 'Mark project complete';
       toggleComplete.classList.add('incomplete-button');
     } else {
@@ -130,6 +139,7 @@ const assignValuesToInputs = (taskCard, isProject, task) => {
       toggleComplete.parentElement.parentElement.classList.add('completed-task');
     }
   } else {
+    //const currentTasks = 
     const title = document.querySelector(`#task-title-${taskID}`);
     title.value = currentProjectArray[project].taskList[task].title;
     const date = document.querySelector(`#due-date-${taskID}`);
@@ -212,27 +222,36 @@ const buildTaskCard = (reference, isProject) => {
 };
 
 // Builds task cards which fill the inner-displays of the project cards
-const buildTasks = (reference) => {
+const buildTasks = (reference, parentTask) => {
   const {
     taskCard,
   } = displayObject;
   const currentProjectArray = projectArray();
   const projectTasks = projectArray()[reference].taskList;
   const projectTaskID = currentProjectArray[reference].taskID;
+  console.log('projectTaskID is', projectTaskID);
   for (let i = 0; i < projectTasks.length; i += 1) {
     const element = projectTasks[i];
     if (!element.deleted) {
-      const { project } = element;
-      const taskCardWithID = assignIDToCard(taskCard, project, false, i);
+      console.log('element is', element);
+      console.log('parentTask is', parentTask);
+      const tasksParent = tasks.getTaskByID(parentTask)[0];
+      console.log('tasksParent is', tasksParent);
+      const taskCardWithID = assignIDToCard(taskCard, tasksParent, false, i);
+      //console.log('taskCardWithID is', taskCardWithID);
       const parent = `#inner-display-${projectTaskID}`;
       taskCardWithID.parent = parent;
       const { taskID } = taskCardWithID;
       componentFactory(taskCardWithID, taskID);
       buildTaskCard(taskCardWithID.taskID, false);
-      assignValuesToInputs(taskCardWithID, false, i);
+      assignValuesToInputs(taskCardWithID, false, i, tasksParent);
     }
   }
 };
+
+// When we're building these tasks, we need to get the parent project
+// via looking up its parentTask attribute and getting that task's
+// projectArray reference
 
 // Builds cards corresponding to each project
 const buildProjectCards = () => {
@@ -243,13 +262,18 @@ const buildProjectCards = () => {
   const currentProjectArray = projectArray();
   for (let i = 0; i < currentProjectArray.length; i += 1) {
     const element = currentProjectArray[i];
+    const taskID = element.taskID;
+    //console.log('taskID is', taskID);
+    //console.log('bPC - element is', element);
     if (!element.deleted) {
-      const projectCardWithID = assignIDToCard(projectCard, currentProjectArray[i].project, true);
+      const projectCardWithID = assignIDToCard(projectCard, i, true);
       const { taskID } = projectCardWithID;
+      //console.log('taskID is', taskID);
+      //console.log('projectCardWithID is', projectCardWithID);
       componentFactory(projectCardWithID, taskID);
       buildTaskCard(projectCardWithID.taskID, true);
       assignValuesToInputs(projectCardWithID, true, null, i);
-      buildTasks(projectCardWithID.project - 1);
+      buildTasks(i, taskID);
     }
   }
 };
@@ -334,6 +358,7 @@ const getInput = (e) => {
   if (e.target.getAttribute('data-src') === 'home') {
     const taskIDNum = Number(e.target.getAttribute('data-taskID'));
     const task = tasks.getTaskByID(taskIDNum);
+    console.log('task is', task);
     if (e.target.id === 'new-task') {
       newTaskDisplay(0);
     }
@@ -347,7 +372,10 @@ const getInput = (e) => {
       tasks.modifyTask(task[0], task[1], 1, e.target.value);
     }
     if (e.target.classList.contains('project-select')) {
-      tasks.modifyTask(task[0], task[1], 2, e.target.selectedIndex);
+      let select = document.querySelector(`#project-select-${e.target.getAttribute('data-taskID')}`);
+      let value = select.options[select.selectedIndex].value;
+      tasks.modifyTask(task[0], task[1], 2, value);
+      console.log("e.target.getAttribute('data-taskID')=", e.target.getAttribute('data-taskID'));
       rebuildDisplay();
     }
     if (e.target.classList.contains('priority-select')) {
@@ -415,7 +443,6 @@ const buildUI = () => {
 
 const assembleNewTask = (e) => {
   // eslint-disable-next-line default-case
-  let currentProjectArray = projectArray();
   switch (true) {
     // Updates newTask according to user input
     case e.target.classList.contains('task-title'):
@@ -431,17 +458,20 @@ const assembleNewTask = (e) => {
       newTask.notes = e.target.value;
       break;
     case e.target.classList.contains('project-select'):
-      newTask.project = e.target.selectedIndex;
+      let select = document.querySelector('.project-select');
+      let value = select.options[select.selectedIndex].value;
+      console.log(value);
+      newTask.parentTask = value;
       break;
     default:
       if (e.target.classList.contains('new-project')) {
         newTask.type = 'project';
       } else { newTask.type = 'task'; }
-      if (!newTask.project) {
-        newTask.project = 0;
+      console.log('newTask.parentTask =', newTask.parentTask);
+      if (newTask.parentTask === -1 || newTask.parentTask === undefined) {
+        newTask.parentTask = 0;
       }
       tasks.addTask(newTask);
-      tasks.storeTask(newTask);
       newTask = tasks.returnEmptyTask(emptyTask);
       rebuildDisplay();
   }
