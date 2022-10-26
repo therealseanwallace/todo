@@ -357,7 +357,7 @@ const getInput = (e) => {
   // Handles inputs which come from the home screen/main display
   if (e.target.getAttribute('data-src') === 'home') {
     const taskIDNum = Number(e.target.getAttribute('data-taskID'));
-    console.log('taskIDNum is', taskIDNum);
+    //console.log('taskIDNum is', taskIDNum);
     const task = tasks.getTaskByID(taskIDNum);
     //console.log('task is', task);
     if (e.target.id === 'new-task') {
@@ -468,13 +468,13 @@ const assembleNewTask = (e) => {
       if (e.target.classList.contains('new-project')) {
         newTask.isProject = true;
       } else { newTask.isProject = false; }
-      console.log('newTask=', newTask);
+      //console.log('newTask=', newTask);
       if (newTask.isProject === false) {
         if (newTask.parentTask === -1 || newTask.parentTask === undefined) {
           newTask.parentTask = 0;
         }
       }
-      console.log('pre-adding task. task is', newTask, 'parentTask is', newTask.parentTask);
+      //console.log('pre-adding task. task is', newTask, 'parentTask is', newTask.parentTask);
       tasks.addTask(newTask);
       newTask = tasks.returnEmptyTask(emptyTask);
       rebuildDisplay();
