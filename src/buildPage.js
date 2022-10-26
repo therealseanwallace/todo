@@ -89,15 +89,15 @@ const assembleProjectString = (currentProjectArray) => {
 
 // Assigns a taskID and project to each card object, corresponding to the task's taskID
 const assignIDToCard = (newCard, index, isProject, task) => {
-  console.log('assigning ID to card! params are', newCard, index, isProject, task);
+  //console.log('assigning ID to card! params are', newCard, index, isProject, task);
   const currentProjectArray = projectArray();
-  console.log('currentProjectArray is', currentProjectArray);
+  //console.log('currentProjectArray is', currentProjectArray);
   const cardToAssign = newCard;
 
   if (isProject) {
     cardToAssign.taskID = currentProjectArray[index].taskID;
   } else {
-    console.log('currentProjectArray, index is', currentProjectArray, index);
+    //console.log('currentProjectArray, index is', currentProjectArray, index);
     cardToAssign.taskID = currentProjectArray[index].taskList[task].taskID;
   }
   return (cardToAssign);
@@ -109,8 +109,8 @@ const assignValuesToProjectSelectors = () => {
     const element = projectSelectors[i];
     const taskIDNum = Number(element.getAttribute('data-taskID'));
     const task = tasks.getTaskByID(taskIDNum);
-    console.log('assigning values to project selectors! task =', task);
-    console.log(projectArray()[task[0]]);
+    //console.log('assigning values to project selectors! task =', task);
+    //console.log(projectArray()[task[0]]);
     element.selectedIndex = task[0];
   }
 };
@@ -229,14 +229,14 @@ const buildTasks = (reference, parentTask) => {
   const currentProjectArray = projectArray();
   const projectTasks = projectArray()[reference].taskList;
   const projectTaskID = currentProjectArray[reference].taskID;
-  console.log('projectTaskID is', projectTaskID);
+  //console.log('projectTaskID is', projectTaskID);
   for (let i = 0; i < projectTasks.length; i += 1) {
     const element = projectTasks[i];
     if (!element.deleted) {
-      console.log('element is', element);
-      console.log('parentTask is', parentTask);
+      //console.log('element is', element);
+      //console.log('parentTask is', parentTask);
       const tasksParent = tasks.getTaskByID(parentTask)[0];
-      console.log('tasksParent is', tasksParent);
+      //console.log('tasksParent is', tasksParent);
       const taskCardWithID = assignIDToCard(taskCard, tasksParent, false, i);
       //console.log('taskCardWithID is', taskCardWithID);
       const parent = `#inner-display-${projectTaskID}`;
@@ -358,7 +358,7 @@ const getInput = (e) => {
   if (e.target.getAttribute('data-src') === 'home') {
     const taskIDNum = Number(e.target.getAttribute('data-taskID'));
     const task = tasks.getTaskByID(taskIDNum);
-    console.log('task is', task);
+    //console.log('task is', task);
     if (e.target.id === 'new-task') {
       newTaskDisplay(0);
     }
@@ -375,7 +375,7 @@ const getInput = (e) => {
       let select = document.querySelector(`#project-select-${e.target.getAttribute('data-taskID')}`);
       let value = select.options[select.selectedIndex].value;
       tasks.modifyTask(task[0], task[1], 2, value);
-      console.log("e.target.getAttribute('data-taskID')=", e.target.getAttribute('data-taskID'));
+      //console.log("e.target.getAttribute('data-taskID')=", e.target.getAttribute('data-taskID'));
       rebuildDisplay();
     }
     if (e.target.classList.contains('priority-select')) {
@@ -460,14 +460,14 @@ const assembleNewTask = (e) => {
     case e.target.classList.contains('project-select'):
       let select = document.querySelector('.project-select');
       let value = select.options[select.selectedIndex].value;
-      console.log(value);
+      //console.log(value);
       newTask.parentTask = value;
       break;
     default:
       if (e.target.classList.contains('new-project')) {
         newTask.type = 'project';
       } else { newTask.type = 'task'; }
-      console.log('newTask.parentTask =', newTask.parentTask);
+      //console.log('newTask.parentTask =', newTask.parentTask);
       if (newTask.parentTask === -1 || newTask.parentTask === undefined) {
         newTask.parentTask = 0;
       }

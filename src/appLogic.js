@@ -227,7 +227,7 @@ const tasks = (() => {
       //console.log('newNewTask before adding is', newNewTask);
       //console.log('projectArray before adding is', projectArray);
       //console.log('projectArray[parentProject is', projectArray[parentProject]);
-      console.log('parentProject is', parentProject);
+      //console.log('parentProject is', parentProject);
       projectArray[parentProject].taskList = newNewTask;
       taskCounter += 1;
       //console.log('newNewTask after adding is', newNewTask);
@@ -257,15 +257,15 @@ const tasks = (() => {
       const key = localStorage.key(i);
       const item = window.localStorage.getItem(key);
       const itemObject = JSON.parse(item);
-      if (itemObject.isProject) {
-      }
-      const sendToTaskFactory = taskFactory(itemObject);
-      if (sendToTaskFactory.type === 'project') {
-        retrievedProjects.push(sendToTaskFactory);
+      console.log('itemObject is', itemObject);
+      const sentToTaskFactory = taskFactory(itemObject);
+      console.log('sentToTaskFactory =', sentToTaskFactory);
+      if (sentToTaskFactory.type === 'project') {
+        retrievedProjects.push(sentToTaskFactory);
       } else {
-        retrievedTasks.push(sendToTaskFactory);
+        retrievedTasks.push(sentToTaskFactory);
       }
-      //retrievedTaskArray.push(sendToTaskFactory);
+      //retrievedTaskArray.push(sentToTaskFactory);
     }
     const sortedProjects = retrievedProjects.sort((a, b) => a.project - b.project);
     for (let i = 0; i < sortedProjects.length; i += 1) {
@@ -276,8 +276,10 @@ const tasks = (() => {
     //console.log(projectArray);
     for (let i = 0; i < sortedTasks.length; i += 1) {
       const element = sortedTasks[i];
-      //console.log(element);
-      projectArray[0].taskList.push(element);
+      console.log('readdind tasks. element is', element);
+      const parentProj = element.parentTask;
+      const parentArrayIndex = getTaskByID(parentProj)[0];
+      projectArray[parentArrayIndex].taskList.push(element);
     }
   })();
 

@@ -1,6 +1,5 @@
 import { buildUI } from './buildPage';
 import './styles.css';
 
-localStorage.clear();
-
+//localStorage.clear();
 buildUI();
