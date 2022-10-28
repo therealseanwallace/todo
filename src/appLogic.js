@@ -49,10 +49,18 @@ const tasks = (() => {
         notes = newNotes;
       },
       get taskList() {
+        if (taskList === undefined) {
+          return ([]);
+        }
         return (taskList);
       },
       set taskList(newTask) {
+        console.log('setting taskList. taskList is', taskList);
+        if (taskList === undefined) {
+          taskList = [];
+        }
         taskList.push(newTask);
+        console.log('taskList set. taskList is', taskList);
       },
       get isProject() {
         return (isProject);
@@ -118,10 +126,18 @@ const tasks = (() => {
         notes = newNotes;
       },
       get taskList() {
+        if (taskList === undefined) {
+          return ([]);
+        }
         return (taskList);
       },
-      set taskList(newTaskList) {
-        taskList = newTaskList;
+      set taskList(newTask) {
+        console.log('setting taskList. taskList is', taskList);
+        if (taskList === undefined) {
+          taskList = [];
+        }
+        taskList.push(newTask);
+        console.log('taskList set. taskList is', taskList);
       },
       get isProject() {
         return (isProject);
@@ -192,17 +208,15 @@ const tasks = (() => {
 
   const storeTask = (task) => {
     console.log('storing task', task);
-    const taskAsString = JSON.stringify(task);
+    const taskToStore = task;
+    delete taskToStore.taskList;
+    const taskAsString = JSON.stringify(taskToStore);
     window.localStorage.setItem(task.taskID, taskAsString);
-  };
-
-  const deleteTaskFromStorage = (taskID) => {
-    window.localStorage.removeItem(taskID);
   };
 
   const addTask = (task) => {
     const newTask = task;
-    //console.log('adding task. newTask is', newTask);
+    console.log('adding task. newTask is', newTask);
     let newNewTask;
     //console.log('addTask! task is', task);
     if (newTask.isProject === true) {
@@ -216,16 +230,20 @@ const tasks = (() => {
       //console.log('Is this task a demo?', newNewTask.isDemo);
     }
     if (newTask.isProject === false) {
-      //console.log('type === task. parentTask is', newTask.parentTask);
+      console.log('type === task. parentTask is', newTask.parentTask);
       const parentProject = getTaskByID(newTask.parentTask)[0];
-      //console.log('parentProject is', parentProject);
+      if (!task.isDemo && projectArray[parentProject].deleted) {
+        projectArray[parentProject].deleted = false;
+      }
+      console.log('projectArray[parentProject] is', projectArray[parentProject]);
+      console.log('parentProject is', parentProject);
       newTask.taskID = taskCounter;
       newNewTask = taskFactory(newTask);
-      //console.log('new task after taskFactory is', newNewTask);
-      //console.log('newNewTask before adding is', newNewTask);
-      //console.log('projectArray before adding is', projectArray);
-      //console.log('projectArray[parentProject is', projectArray[parentProject]);
-      //console.log('parentProject is', parentProject);
+      console.log('new task after taskFactory is', newNewTask);
+      console.log('newNewTask before adding is', newNewTask);
+      console.log('projectArray before adding is', projectArray);
+      console.log('projectArray[parentProject is', projectArray[parentProject]);
+      console.log('parentProject is', parentProject);
       if (!newNewTask.isDemo) {
         projectArray[parentProject].taskList = newNewTask;
        }
@@ -257,7 +275,7 @@ const tasks = (() => {
       storeTask(demo0);
       storeTask(demo1);
       storeTask(demo2);
-    } else {console.log('localStorage is populated. Skipping addDemo.')}
+    } else { console.log('localStorage is populated. Skipping addDemo.'); }
 
     //console.log('addDemo finished. localStorage is', localStorage);
     //console.log('addDemo finished. projectArray is', returnProjectArray());
@@ -272,9 +290,10 @@ const tasks = (() => {
       const key = localStorage.key(i);
       const item = window.localStorage.getItem(key);
       const itemObject = JSON.parse(item);
+      //itemObject.taskList = [];
       console.log('itemObject is', itemObject);
       const sentToTaskFactory = taskFactory(itemObject);
-      console.log('sentToTaskFactory =', sentToTaskFactory);
+      //console.log('sentToTaskFactory =', sentToTaskFactory);
       if (sentToTaskFactory.isProject === true) {
         retrievedProjects.push(sentToTaskFactory);
       } else {
@@ -282,26 +301,28 @@ const tasks = (() => {
       }
     }
     const sortedProjects = retrievedProjects.sort((a, b) => a.project - b.project);
-    console.log('about to add sortedProjects, sortedProjects is', sortedProjects);
+    //console.log('about to add sortedProjects, sortedProjects is', sortedProjects);
     for (let i = 0; i < sortedProjects.length; i += 1) {
       const element = sortedProjects[i];
-      console.log('adding sorted projects. element is', element);
+      //element.taskList = [];
+      console.log('element with taskList is', element);
+      //console.log('adding sorted projects. element is', element);
       projectArray.push(element);
       if (element.taskID > taskCounter) {
         taskCounter = element.taskID + 1;
       }
     }
     const sortedTasks = retrievedTasks.sort((a, b) => a.taskID - b.taskID);
-    console.log('about to add sortedTasks, sortedTasks is', sortedTasks);
-    console.log('projectArray is', projectArray);
+    //console.log('about to add sortedTasks, sortedTasks is', sortedTasks);
+    //console.log('projectArray is', projectArray);
     for (let i = 0; i < sortedTasks.length; i += 1) {
       const element = sortedTasks[i];
-      console.log('reading tasks. element is', element);
+      //console.log('reading tasks. element is', element);
       const parentProj = element.parentTask;
-      console.log('parentProj is', parentProj);
+      //console.log('parentProj is', parentProj);
       const parentArrayIndex = getTaskByID(parentProj)[0];
-      console.log('parentArrayIndex is', parentArrayIndex);
-      projectArray[parentArrayIndex].taskList.push(element);
+      //console.log('parentArrayIndex is', parentArrayIndex);
+      projectArray[parentArrayIndex].taskList = element;
       if (element.taskID > taskCounter) {
         taskCounter = element.taskID + 1;
       }
@@ -313,48 +334,41 @@ const tasks = (() => {
   const modifyTask = (project, task, attr, newValue, taskID) => {
     //console.log('taskID is', taskID);
     const getTask = getTaskByID(taskID);
-    const stripTaskList = (proj) => {
-      const strippedProj = proj;
-      strippedProj.taskList = [];
-      return (strippedProj);
-    };
     //console.log('getTask is', getTask);
     if (attr === 0) { // i.e. if this is a task title
       if (task === null) {
         projectArray[project].title = newValue;
-        console.log('localStorage is', localStorage);
-        const projWithTasksStripped = stripTaskList(projectArray[project]);
-        storeTask(projWithTasksStripped);
-        console.log('localStorage is', localStorage);
+        //console.log('localStorage is', localStorage);
+        storeTask(projectArray[project]);
+        //console.log('localStorage is', localStorage);
         return (projectArray[project].title);
       }
       projectArray[project].taskList[task].title = newValue;
-      console.log('localStorage is', localStorage);
+      //console.log('localStorage is', localStorage);
       storeTask(projectArray[project].taskList[task]);
-      console.log('localStorage is', localStorage);
+      //console.log('localStorage is', localStorage);
       return (projectArray[project].taskList[task].title);
     }
     if (attr === 1) { // i.e. if this is a dueDate
       if (task === null) {
         projectArray[project].dueDate = newValue;
-        console.log('localStorage is', localStorage);
-        const projWithTasksStripped = stripTaskList(projectArray[project]);
-        storeTask(projWithTasksStripped);
-        console.log('localStorage is', localStorage);
+        //console.log('localStorage is', localStorage);
+        storeTask(projectArray[project]);
+        //console.log('localStorage is', localStorage);
         return (projectArray[project].dueDate);
       }
       projectArray[project].taskList[task].dueDate = newValue;
-      console.log('localStorage is', localStorage);
+      //console.log('localStorage is', localStorage);
       storeTask(projectArray[project].taskList[task]);
-      console.log('localStorage is', localStorage);
+      //console.log('localStorage is', localStorage);
       return (projectArray[project].taskList[task].dueDate);
     }
     if (attr === 2) { // i.e. if this is a project selector
       const getNewProject = getTaskByID(newValue, true)[0];
-      console.log('localStorage is', localStorage);
+      //console.log('localStorage is', localStorage);
       projectArray[project].taskList[task].parentTask = newValue;
       storeTask(projectArray[project].taskList[task]);
-      console.log('localStorage is', localStorage);
+      //console.log('localStorage is', localStorage);
       //console.log('new parent task is', projectArray[project].taskList[task].parentTask);
       projectArray[getNewProject].taskList.push(projectArray[project].taskList[task]);
       projectArray[project].taskList.splice(task, 1);
@@ -364,61 +378,64 @@ const tasks = (() => {
     if (attr === 3) { // i.e. if this is a priority selector
       if (task === null) {
         projectArray[project].priority = newValue;
-        console.log('localStorage is', localStorage);
-        const projWithTasksStripped = stripTaskList(projectArray[project]);
-        storeTask(projWithTasksStripped);
-        console.log('localStorage is', localStorage);
+        //console.log('localStorage is', localStorage);
+        storeTask(projectArray[project]);
+        //console.log('localStorage is', localStorage);
         return (projectArray[project].priority);
       }
       projectArray[project].taskList[task].priority = newValue;
-      console.log('localStorage is', localStorage);
+      //console.log('localStorage is', localStorage);
       storeTask(projectArray[project].taskList[task]);
-      console.log('localStorage is', localStorage);
+      //console.log('localStorage is', localStorage);
       return (projectArray[project].taskList[task].priority);
     }
     if (attr === 4) { // i.e. if this is notes
       if (task === null) {
         projectArray[project].notes = newValue;
-        console.log('localStorage is', localStorage);
-        const projWithTasksStripped = stripTaskList(projectArray[project]);
-        storeTask(projWithTasksStripped);
-        console.log('localStorage is', localStorage);
+        //console.log('localStorage is', localStorage);
+        storeTask(projectArray[project]);
+        //console.log('localStorage is', localStorage);
         return (projectArray[project].notes);
       }
       projectArray[project].taskList[task].notes = newValue;
-      console.log('localStorage is', localStorage);
+      //console.log('localStorage is', localStorage);
       storeTask(projectArray[project].taskList[task]);
-      console.log('localStorage is', localStorage);
+      //console.log('localStorage is', localStorage);
       return (projectArray[project].taskList[task].notes);
     }
     if (attr === 5) {
-      if (task === null) {
+      if (task === null) { // i.e. toggle complete
         projectArray[project].completed = !projectArray[project].completed;
-        console.log('localStorage is', localStorage);
-        const projWithTasksStripped = stripTaskList(projectArray[project]);
-        storeTask(projWithTasksStripped);
-        console.log('localStorage is', localStorage);
+        //console.log('localStorage is', localStorage);
+        storeTask(projectArray[project]);
+        //console.log('localStorage is', localStorage);
         return (projectArray[project].completed);
       }
       projectArray[project].taskList[task].completed = !projectArray[project].taskList[task].completed;
-      console.log('localStorage is', localStorage);
+      //console.log('localStorage is', localStorage);
       storeTask(projectArray[project].taskList[task]);
-      console.log('localStorage is', localStorage);
+      //console.log('localStorage is', localStorage);
       return (projectArray[project].taskList[task].completed);
     }
-    if (attr === 6) {
+    if (attr === 6) { // i.e. delete task
       if (task === null) {
         projectArray[project].deleted = !projectArray[project].deleted;
-        console.log('localStorage is', localStorage);
-        const projWithTasksStripped = stripTaskList(projectArray[project]);
-        storeTask(projWithTasksStripped);
-        console.log('localStorage is', localStorage);
+        console.log('projectArray[project] =', projectArray[project]);
+        //console.log('localStorage is', localStorage);
+        storeTask(projectArray[project]);
+        const projectTasks = projectArray[project].taskList;
+        for (let i = 0; i < projectTasks.length; i++) {
+          const element = projectTasks[i];
+          console.log('deleting projectTasks. element is', element);
+          element.deleted = true;
+        }
+        console.log('projectArray[project].taskList is', projectArray[project].taskList);
+        //console.log('localStorage is', localStorage);
         return (projectArray[project].deleted);
       }
-      projectArray[project].taskList[task].deleted = !projectArray[project].taskList[task].deleted;
-      console.log('localStorage is', localStorage);
+      //console.log('localStorage is', localStorage);
       storeTask(projectArray[project].taskList[task]);
-      console.log('localStorage is', localStorage);
+      //console.log('localStorage is', localStorage);
       return (projectArray[project].taskList[task].deleted);
     }
   };
@@ -426,7 +443,7 @@ const tasks = (() => {
   
 
   return {
-    returnProjectArray, getTaskByID, addTask, taskFactory, modifyTask, returnEmptyTask, storeTask, deleteTaskFromStorage,
+    returnProjectArray, getTaskByID, addTask, taskFactory, modifyTask, returnEmptyTask, storeTask,
   };
 })();
 

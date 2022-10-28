@@ -130,10 +130,10 @@ const displayObject = {
 
 const demo = {
   demoProject1: {
-    title: 'A demo project',
+    title: 'Default project',
     dueDate: '2021-12-31',
     priority: 1,
-    notes: 'This is a test project',
+    notes: '',
     taskList: [],
     isProject: true,
     deleted: false,

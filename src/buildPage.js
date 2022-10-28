@@ -17,11 +17,13 @@ const projectArray = () => {
 const componentFactory = (element, id) => {
   const { // use destructuring assignment to get properties of new object
     name, nodeType, parent, text, inputType, value, class1,
-    class2, taskID, objID, placeholder, innerHTML,
+    class2, taskID, objID, placeholder, innerHTML, prioStyle,
   } = element;
-  //console.log('componentFactory active. parent is', parent, 'id is', id);
+  //console.log('componentFactory active. parent is', parent, 'id is', id, 'element is', element);
   const createDOMNode = () => {
     // creates a DOM node according to the supplied properties
+    //console.log('creatingDOMNode. parent is', parent);
+    //console.log('projectArray is', projectArray());
     const parentNode = document.querySelector(parent);
     const newDOMNode = document.createElement(nodeType);
     if (text) {
@@ -38,6 +40,9 @@ const componentFactory = (element, id) => {
     }
     if (class2) {
       newDOMNode.classList.add(class2);
+    }
+    if (prioStyle) {
+      newDOMNode.classList.add(prioStyle);
     }
     if (id !== undefined) {
       //console.log('id!!');
@@ -159,7 +164,7 @@ const assignValuesToInputs = (taskCard, isProject, task, project) => {
 };
 
 // Composes task and project cards and their contents
-const buildTaskCard = (reference, isProject) => {
+const buildTaskCard = (reference, isProject, prioStyle) => {
   const {
     titleDiv, taskTitle, dueDate, prioritySelect,
     projectSelect, notes, innerDisplay, taskAttributes,
@@ -167,9 +172,13 @@ const buildTaskCard = (reference, isProject) => {
   } = displayObject;
   const assembleCard = (component) => {
     const newComponent = component;
+    //console.log('newComponent is', newComponent);
     if (isProject) {
       if (component === titleClose) {
         newComponent.parent = `#title-div-${reference}`;
+      }
+      if (component === titleDiv) {
+        newComponent.prioStyle = `prio-style-${prioStyle}`;
       }
       if (component === titleDiv || component === innerDisplay) {
         newComponent.parent = `#task-card-${reference}`;
@@ -221,6 +230,21 @@ const buildTaskCard = (reference, isProject) => {
   }
 };
 
+const assignStyleToCard = (card, priority) => {
+  let cardToAssign = card;
+  switch (priority) {
+    case 0:
+      cardToAssign.prioStyle = '0';
+      break;
+    case 1:
+      cardToAssign.prioStyle = '1';
+      break;
+    default:
+      cardToAssign.prioStyle = '2';
+  }
+  return (cardToAssign);
+};
+
 // Builds task cards which fill the inner-displays of the project cards
 const buildTasks = (reference, parentTask) => {
   const {
@@ -230,10 +254,11 @@ const buildTasks = (reference, parentTask) => {
   const projectTasks = projectArray()[reference].taskList;
   const projectTaskID = currentProjectArray[reference].taskID;
   //console.log('projectTaskID is', projectTaskID);
+  //console.log('buildTasks - projectTasks is', projectTasks);
   for (let i = 0; i < projectTasks.length; i += 1) {
     const element = projectTasks[i];
     if (!element.deleted) {
-      //console.log('element is', element);
+      //console.log('buildTasks - element is', element);
       //console.log('parentTask is', parentTask);
       const tasksParent = tasks.getTaskByID(parentTask)[0];
       //console.log('tasksParent is', tasksParent);
@@ -243,15 +268,14 @@ const buildTasks = (reference, parentTask) => {
       taskCardWithID.parent = parent;
       const { taskID } = taskCardWithID;
       componentFactory(taskCardWithID, taskID);
-      buildTaskCard(taskCardWithID.taskID, false);
+      const { priority } = element;
+      //console.log('priority is', priority);
+      //console.log('buildTasks > buildTaskCard. taskCardWithID.taskID, false, priority are', taskCardWithID.taskID, false, priority);
+      buildTaskCard(taskCardWithID.taskID, false, priority);
       assignValuesToInputs(taskCardWithID, false, i, tasksParent);
     }
   }
 };
-
-// When we're building these tasks, we need to get the parent project
-// via looking up its parentTask attribute and getting that task's
-// projectArray reference
 
 // Builds cards corresponding to each project
 const buildProjectCards = () => {
@@ -262,17 +286,21 @@ const buildProjectCards = () => {
   const currentProjectArray = projectArray();
   for (let i = 0; i < currentProjectArray.length; i += 1) {
     const element = currentProjectArray[i];
-    const taskID = element.taskID;
+    const { taskID, priority } = element;
     //console.log('taskID is', taskID);
     //console.log('bPC - element is', element);
+    //console.log('priority is', priority);
     if (!element.deleted) {
       const projectCardWithID = assignIDToCard(projectCard, i, true);
-      const { taskID } = projectCardWithID;
+      //console.log('projectCardWithID is', projectCardWithID);
+      const projectCardWithStyle = assignStyleToCard(projectCardWithID);
+      const { taskID } = projectCardWithStyle;
       //console.log('taskID is', taskID);
       //console.log('projectCardWithID is', projectCardWithID);
-      componentFactory(projectCardWithID, taskID);
-      buildTaskCard(projectCardWithID.taskID, true);
-      assignValuesToInputs(projectCardWithID, true, null, i);
+      componentFactory(projectCardWithStyle, taskID);
+      buildTaskCard(projectCardWithStyle.taskID, true, priority);
+      assignValuesToInputs(projectCardWithStyle, true, null, i);
+      //console.log('buildProjectCards > buildTasks. i, taskID are', i, taskID);
       buildTasks(i, taskID);
     }
   }
@@ -418,7 +446,7 @@ const getInput = (e) => {
     }
     if (e.target.classList.contains('delete-button')) {
       tasks.modifyTask(task[0], task[1], 6, taskIDNum);
-      tasks.deleteTaskFromStorage(taskIDNum);
+
       rebuildDisplay();
     }
     // Handles all remaining inputs (i.e. those from new task/new project window)
