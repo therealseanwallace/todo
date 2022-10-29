@@ -1,3 +1,4 @@
+/* eslint-disable spaced-comment */
 /* eslint-disable max-len */
 /* eslint-disable no-case-declarations */
 /* eslint-disable no-lonely-if */
@@ -255,24 +256,26 @@ const buildTasks = (reference, parentTask) => {
   const projectTaskID = currentProjectArray[reference].taskID;
   //console.log('projectTaskID is', projectTaskID);
   //console.log('buildTasks - projectTasks is', projectTasks);
-  for (let i = 0; i < projectTasks.length; i += 1) {
-    const element = projectTasks[i];
-    if (!element.deleted) {
-      //console.log('buildTasks - element is', element);
-      //console.log('parentTask is', parentTask);
-      const tasksParent = tasks.getTaskByID(parentTask)[0];
-      //console.log('tasksParent is', tasksParent);
-      const taskCardWithID = assignIDToCard(taskCard, tasksParent, false, i);
-      //console.log('taskCardWithID is', taskCardWithID);
-      const parent = `#inner-display-${projectTaskID}`;
-      taskCardWithID.parent = parent;
-      const { taskID } = taskCardWithID;
-      componentFactory(taskCardWithID, taskID);
-      const { priority } = element;
-      //console.log('priority is', priority);
-      //console.log('buildTasks > buildTaskCard. taskCardWithID.taskID, false, priority are', taskCardWithID.taskID, false, priority);
-      buildTaskCard(taskCardWithID.taskID, false, priority);
-      assignValuesToInputs(taskCardWithID, false, i, tasksParent);
+  if (projectTasks !== undefined) {
+    for (let i = 0; i < projectTasks.length; i += 1) {
+      const element = projectTasks[i];
+      if (!element.deleted) {
+        //console.log('buildTasks - element is', element);
+        //console.log('parentTask is', parentTask);
+        const tasksParent = tasks.getTaskByID(parentTask)[0];
+        //console.log('tasksParent is', tasksParent);
+        const taskCardWithID = assignIDToCard(taskCard, tasksParent, false, i);
+        //console.log('taskCardWithID is', taskCardWithID);
+        const parent = `#inner-display-${projectTaskID}`;
+        taskCardWithID.parent = parent;
+        const { taskID } = taskCardWithID;
+        componentFactory(taskCardWithID, taskID);
+        const { priority } = element;
+        //console.log('priority is', priority);
+        //console.log('buildTasks > buildTaskCard. taskCardWithID.taskID, false, priority are', taskCardWithID.taskID, false, priority);
+        buildTaskCard(taskCardWithID.taskID, false, priority);
+        assignValuesToInputs(taskCardWithID, false, i, tasksParent);
+      }
     }
   }
 };
@@ -382,12 +385,13 @@ const newTaskDisplay = (type) => {
 
 // Handles all user inputs received by the event listeners
 const getInput = (e) => {
+  console.log('getInput called. projectArray() is', projectArray());
   // Handles inputs which come from the home screen/main display
   if (e.target.getAttribute('data-src') === 'home') {
     const taskIDNum = Number(e.target.getAttribute('data-taskID'));
     //console.log('taskIDNum is', taskIDNum);
     const task = tasks.getTaskByID(taskIDNum);
-    //console.log('task is', task);
+    console.log('task is', task);
     if (e.target.id === 'new-task') {
       newTaskDisplay(0);
     }
@@ -402,8 +406,8 @@ const getInput = (e) => {
     }
     if (e.target.classList.contains('project-select')) {
       let select = document.querySelector(`#project-select-${e.target.getAttribute('data-taskID')}`);
-      let value = select.options[select.selectedIndex].value;
-      tasks.modifyTask(task[0], task[1], 2, value, taskIDNum);
+      let { value } = select.options[select.selectedIndex];
+      console.log('new project taskList is', tasks.modifyTask(task[0], task[1], 2, value, taskIDNum));
       //console.log("e.target.getAttribute('data-taskID')=", e.target.getAttribute('data-taskID'));
       rebuildDisplay();
     }
@@ -445,8 +449,8 @@ const getInput = (e) => {
       }
     }
     if (e.target.classList.contains('delete-button')) {
-      tasks.modifyTask(task[0], task[1], 6, taskIDNum);
-
+      console.log('delete button clicked!');
+      tasks.modifyTask(task[0], task[1], 6, undefined, taskIDNum);
       rebuildDisplay();
     }
     // Handles all remaining inputs (i.e. those from new task/new project window)
@@ -454,6 +458,7 @@ const getInput = (e) => {
 };
 
 const rebuildDisplay = () => {
+  console.log('rebuilding display!!');
   clearDisplay();
   buildProjectCards();
   addDataSrc(0);
@@ -495,6 +500,7 @@ const assembleNewTask = (e) => {
     default:
       if (e.target.classList.contains('new-project')) {
         newTask.isProject = true;
+        newTask.taskList = [];
       } else { newTask.isProject = false; }
       //console.log('newTask=', newTask);
       if (newTask.isProject === false) {
