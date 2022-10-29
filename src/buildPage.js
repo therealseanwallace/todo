@@ -418,7 +418,7 @@ const getInput = (e) => {
       tasks.modifyTask(task[0], task[1], 4, e.target.value, taskIDNum);
     }
     if (e.target.classList.contains('toggle-complete')) {
-      tasks.modifyTask(task[0], task[1], 5), taskIDNum;
+      tasks.modifyTask(task[0], task[1], 5, taskIDNum);
       switch (e.target.value) {
         case 'Mark project complete':
           e.target.value = 'Mark project incomplete';
@@ -500,7 +500,6 @@ const assembleNewTask = (e) => {
     default:
       if (e.target.classList.contains('new-project')) {
         newTask.isProject = true;
-        newTask.taskList = [];
       } else { newTask.isProject = false; }
       //console.log('newTask=', newTask);
       if (newTask.isProject === false) {
@@ -508,7 +507,7 @@ const assembleNewTask = (e) => {
           newTask.parentTask = 0;
         }
       }
-      //console.log('pre-adding task. task is', newTask, 'parentTask is', newTask.parentTask);
+      console.log('pre-adding task. task is', newTask, 'parentTask is', newTask.parentTask);
       tasks.addTask(newTask);
       newTask = tasks.returnEmptyTask(emptyTask);
       rebuildDisplay();

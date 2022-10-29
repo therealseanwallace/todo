@@ -138,6 +138,7 @@ const demo = {
     isProject: true,
     deleted: false,
     isDemo: true,
+    completed: false,
   },
   demoTask1: {
     title: 'Wash the dishes',
@@ -148,6 +149,7 @@ const demo = {
     deleted: false,
     isDemo: true,
     parentTask: 0,
+    completed: false,
   },
   demoTask2: {
     title: 'Cook dinner',
@@ -158,6 +160,7 @@ const demo = {
     deleted: false,
     isDemo: true,
     parentTask: 0,
+    completed: false,
   },
 };
 
@@ -167,10 +170,9 @@ const emptyTask = {
   priority: 1,
   notes: '',
   type: '',
-  taskList: [],
   completed: false,
   deleted: false,
-  parent: -1,
+  parentTask: -1,
 };
 
 export { displayObject, demo, emptyTask };

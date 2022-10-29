@@ -8,13 +8,16 @@ const tasks = (() => {
   let taskCounter = 0;
   const taskFactory = (task) => {
     let {
-      title, dueDate, priority, notes, taskList, isProject, completed, taskID, deleted, parentTask,
+      title, dueDate, priority, notes, isProject, completed, taskID, deleted, parentTask,
     } = task;
     const {
       isDemo,
     } = task;
-    //console.log('taskFactory active! task is', task);
+    console.log('taskFactory active! task is', task);
+    const taskList = [];
+    console.log('taskList is', taskList);
     return {
+      taskList,
       get parentTask() {
         return (parentTask);
       },
@@ -47,21 +50,15 @@ const tasks = (() => {
       },
       set notes(newNotes) {
         notes = newNotes;
-      },
+      },/*
       get taskList() {
-        if (taskList === undefined) {
-          return ([]);
-        }
         return (taskList);
       },
       set taskList(newTask) {
         //console.log('setting taskList. taskList is', taskList);
-        if (taskList === undefined) {
-          taskList = [];
-        }
         taskList.push(newTask);
         //console.log('taskList set. taskList is', taskList);
-      },
+      },*/
       get isProject() {
         return (isProject);
       },
@@ -71,8 +68,8 @@ const tasks = (() => {
       get completed() {
         return (completed);
       },
-      set completed(toggle) {
-        completed = !completed;
+      set completed(newValue) {
+        completed = newValue;
       },
       get taskID() {
         return (taskID);
@@ -83,17 +80,16 @@ const tasks = (() => {
       get deleted() {
         return (deleted);
       },
-      set deleted(toggle) {
-        deleted = !deleted;
+      set deleted(newValue) {
+        deleted = newValue;
       },
     };
   };
 
   const returnEmptyTask = (task) => {
     let {
-      title, dueDate, priority, taskList, notes, isProject, completed, taskID, deleted, parentTask,
+      title, dueDate, priority, notes, isProject, completed, taskID, deleted, parentTask,
     } = task;
-    taskList = [];
     return {
       get parentTask() {
         return (parentTask);
@@ -125,20 +121,6 @@ const tasks = (() => {
       set notes(newNotes) {
         notes = newNotes;
       },
-      get taskList() {
-        if (taskList === undefined) {
-          return ([]);
-        }
-        return (taskList);
-      },
-      set taskList(newTask) {
-        //console.log('setting taskList. taskList is', taskList);
-        if (taskList === undefined) {
-          taskList = [];
-        }
-        taskList.push(newTask);
-        //console.log('taskList set. taskList is', taskList);
-      },
       get isProject() {
         return (isProject);
       },
@@ -148,8 +130,8 @@ const tasks = (() => {
       get completed() {
         return (completed);
       },
-      set completed(toggle) {
-        completed = !completed;
+      set completed(newValue) {
+        completed = newValue;
       },
       get taskID() {
         return (taskID);
@@ -160,8 +142,8 @@ const tasks = (() => {
       get deleted() {
         return (deleted);
       },
-      set deleted(toggle) {
-        deleted = !deleted;
+      set deleted(newValue) {
+        deleted = newValue;
       },
     };
   };
@@ -215,25 +197,47 @@ const tasks = (() => {
 
   const addTask = (task) => {
     const newTask = task;
-    //console.log('adding task. newTask is', newTask);
+    console.log('adding task. newTask is', newTask);
     let newNewTask;
+    console.log('adding task, projectArray is', JSON.stringify(projectArray));
     //console.log('addTask! task is', task);
     if (newTask.isProject === true) {
       newTask.taskID = taskCounter;
+      console.log('new project before taskFactory is', newTask);
       newNewTask = taskFactory(newTask);
-      //console.log('new project after taskFactory is', newNewTask);
+      console.log('new project after taskFactory is', newNewTask);
+      //newNewTask.taskList.push('test');
+      //console.log('newNewTask.taskList is', newNewTask.taskList);
       if (!newNewTask.isDemo) {
+        console.log('adding project, newNewTask is', newNewTask);
         projectArray.push(newNewTask);
+        console.log('projectArray is', projectArray);
+        console.log('projectArray.length is', projectArray.length);
+        projectArray[projectArray.length - 1].taskList = [];
+        console.log('added project, projectArray is', JSON.stringify(projectArray));
+        console.log('projectArray[projectArray.length - 1] is', projectArray[projectArray.length - 1]);
+        console.log('projectArray is', projectArray);
+        console.log('projectArray[projectArray.length - 1].taskList is', projectArray[projectArray.length - 1].taskList);
       }
-      taskCounter += 1;
       //console.log('Is this task a demo?', newNewTask.isDemo);
     }
     if (newTask.isProject === false) {
-      //console.log('type === task. parentTask is', newTask.parentTask);
+      console.log('type === task. parentTask is', newTask.parentTask);
+      console.log('projectArray is', projectArray);
       const parentProject = getTaskByID(newTask.parentTask)[0];
+      console.log('parentProject is', parentProject);
       if (!task.isDemo && projectArray[parentProject].deleted) {
         projectArray[parentProject].deleted = false;
       }
+      if (projectArray[parentProject]) {
+        if (projectArray[parentProject].taskList === undefined) {
+          projectArray[parentProject].taskList = [];
+        }
+      }
+
+      
+      //console.log('projectArray[parentProject].taskList is', projectArray[parentProject].taskList);
+      //console.log('parentProject is', JSON.stringify(projectArray[parentProject]));
       //console.log('projectArray[parentProject] is', projectArray[parentProject]);
       //console.log('parentProject is', parentProject);
       newTask.taskID = taskCounter;
@@ -245,12 +249,16 @@ const tasks = (() => {
       console.log('projectArray[parentProject is', projectArray[parentProject]);
       console.log('parentProject is', parentProject);*/
       if (!newNewTask.isDemo) {
-        projectArray[parentProject].taskList = newNewTask;
-       }
-      taskCounter += 1;/*
+        console.log('parentProject is', JSON.stringify(projectArray[parentProject]));
+        console.log(projectArray[parentProject].taskList);
+        projectArray[parentProject].taskList.push(newNewTask);
+        console.log(projectArray[parentProject].taskList);
+      }/*
       //console.log('newNewTask after adding is', newNewTask);
       //console.log('projectArray after adding is', projectArray);
       //console.log('Is this task a demo?', newNewTask.isDemo);*/
+      console.log('parentProject is', JSON.stringify(projectArray[parentProject]));
+      console.log('parentProject is', projectArray[parentProject]);
     }
     //console.log('adding task. newNewTask is', newNewTask, 'projectArray is', projectArray);
     //console.log('adding task, localStorage is', window.localStorage);
@@ -259,19 +267,21 @@ const tasks = (() => {
       storeTask(newNewTask);
     }
     //console.log('added task, localStorage is', window.localStorage, 'projectArray is', projectArray);
+    taskCounter += 1;
+    
+    
     return (newNewTask);
   };
 
   const addDemo = (() => {
     //localStorage.clear();
-    //addTask(demo.demoTask1);
-    //addTask(demo.demoTask2);
     if (window.localStorage.length === 0) {
-      //console.log('addDemo active. projectArray is', returnProjectArray());
-      //console.log('window.localStorage.length=', window.localStorage.length);
+      console.log('addDemo active. projectArray is', returnProjectArray());
+      console.log('window.localStorage.length=', window.localStorage.length);
       const demo0 = addTask(demo.demoProject1);
       const demo1 = addTask(demo.demoTask1);
       const demo2 = addTask(demo.demoTask2);
+      console.log('storing tasks');
       storeTask(demo0);
       storeTask(demo1);
       storeTask(demo2);
@@ -283,7 +293,7 @@ const tasks = (() => {
 
   const retrieveTasksFromStorage = (() => {
     //localStorage.clear();
-    //console.log('retrieving localStorage. value is:', window.localStorage, 'projectArray is', projectArray);
+    console.log('retrieving localStorage. value is:', window.localStorage, 'projectArray is', projectArray);
     const retrievedProjects = [];
     const retrievedTasks = [];
     for (let i = 0; i < window.localStorage.length; i += 1) {
@@ -308,7 +318,7 @@ const tasks = (() => {
       //console.log('element with taskList is', element);
       //console.log('adding sorted projects. element is', element);
       projectArray.push(element);
-      if (element.taskID > taskCounter) {
+      if (element.taskID >= taskCounter) {
         taskCounter = element.taskID + 1;
       }
     }
@@ -322,7 +332,7 @@ const tasks = (() => {
       //console.log('parentProj is', parentProj);
       const parentArrayIndex = getTaskByID(parentProj)[0];
       //console.log('parentArrayIndex is', parentArrayIndex);
-      projectArray[parentArrayIndex].taskList = element;
+      projectArray[parentArrayIndex].taskList.push(element);
       if (element.taskID === taskCounter) {
         taskCounter = element.taskID + 1;
       }
@@ -375,7 +385,11 @@ const tasks = (() => {
       //console.log('localStorage is', localStorage);
       console.log('new parentTask value is', taskToMove.parentTask);
       console.log('new project is', projectArray[getNewProject]);
-      projectArray[getNewProject].taskList = taskToMove;
+      console.log('projectArray[getNewProject =', projectArray[getNewProject]);
+      if (!projectArray[getNewProject].taskList) {
+        projectArray[getNewProject].taskList = [];
+      }
+      projectArray[getNewProject].taskList.push(taskToMove);
       console.log('new project is', projectArray[getNewProject]);
       console.log('old project taskList is', projectArray[project].taskList);
       projectArray[project].taskList.splice(task, 1);
@@ -410,15 +424,19 @@ const tasks = (() => {
       //console.log('localStorage is', localStorage);
       return (projectArray[project].taskList[task].notes);
     }
-    if (attr === 5) {
-      if (task === null) { // i.e. toggle complete
+    if (attr === 5) { // i.e. toggle complete
+      if (task === null) {
+        console.log('projectArray[project].completed =', projectArray[project].completed);
         projectArray[project].completed = !projectArray[project].completed;
+        console.log('projectArray[project].completed =', projectArray[project].completed);
         //console.log('localStorage is', localStorage);
         storeTask(projectArray[project]);
         //console.log('localStorage is', localStorage);
         return (projectArray[project].completed);
       }
+      console.log('projectArray[project].taskList[task].completed=', projectArray[project].completed);
       projectArray[project].taskList[task].completed = !projectArray[project].taskList[task].completed;
+      console.log('projectArray[project].taskList[task].completed=', projectArray[project].completed);
       //console.log('localStorage is', localStorage);
       storeTask(projectArray[project].taskList[task]);
       //console.log('localStorage is', localStorage);
