@@ -443,7 +443,7 @@ const tasks = (() => {
       return (projectArray[project].taskList[task].completed);
     }
     if (attr === 6) { // i.e. delete task
-      if (task === null) {
+      if (task === null) { // i.e. if the task to be deleted is a project
         console.log('localStorage is', JSON.stringify(localStorage));
         console.log('projectArray[project] =', JSON.stringify(projectArray[project]));
         console.log('projectArray[project].deleted =', projectArray[project].deleted);
@@ -466,6 +466,7 @@ const tasks = (() => {
         return (projectArray[project].deleted);
       }
       console.log('localStorage is', localStorage);
+      projectArray[project].taskList[task].deleted = !projectArray[project].taskList[task].deleted;
       storeTask(projectArray[project].taskList[task]);
       console.log('localStorage is', localStorage);
       return (projectArray[project].taskList[task].deleted);

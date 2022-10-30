@@ -125,28 +125,27 @@ const assignValuesToProjectSelectors = () => {
     }
   }
   const checkUndeletedProjects = (taskID) => {
-    console.log('undeletedProjects is', undeletedProjects);
-    console.log('taskID is', taskID);
+    //console.log('undeletedProjects is', undeletedProjects);
+    //console.log('taskID is', taskID);
     for (let i = 0; i < undeletedProjects.length; i += 1) {
       const element = undeletedProjects[i];
-      console.log('checkingUndeletedProjects. element is', element);
+      //console.log('checkingUndeletedProjects. element is', element);
       if (element == taskID) {
-        console.log('found a match! i is', i);
+        //console.log('found a match! i is', i);
         return(i);
       }
     }
   };
   for (let i = 0; i < projectSelectors.length; i += 1) {
     const element = projectSelectors[i];
-    console.log('assigning values. element is', element);
-    console.log("assigning values. element.parentElement.parentElement.parentElement.getAttribute('data-taskid') is", element.parentElement.parentElement.parentElement.getAttribute('data-taskid'));
+    //console.log('assigning values. element is', element);
+    //console.log("assigning values. element.parentElement.parentElement.parentElement.getAttribute('data-taskid') is", element.parentElement.parentElement.parentElement.getAttribute('data-taskid'));
     const parentTask = element.parentElement.parentElement.parentElement.getAttribute('data-taskid');
-    console.log('parentTask=', parentTask);
-    console.log('assigning values. projectArray is', projectArray());
-
-    console.log('parentTask is', parentTask);
+    //console.log('parentTask=', parentTask);
+    //console.log('assigning values. projectArray is', projectArray());
+    //console.log('parentTask is', parentTask);
     const task = checkUndeletedProjects(parentTask);
-    console.log('assigning values to project selectors! task =', task);
+    //console.log('assigning values to project selectors! task =', task);
     element.selectedIndex = task;
   }
 };
