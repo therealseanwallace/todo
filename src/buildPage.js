@@ -9,6 +9,7 @@ import { displayObject, emptyTask } from './objects';
 import { tasks } from './appLogic';
 
 let newTask = tasks.returnEmptyTask(emptyTask);
+let projectArrayTaskLookup = [];
 
 const projectArray = () => {
   const currentProjectArray = tasks.returnProjectArray();
@@ -85,10 +86,14 @@ const buildDisplay = () => {
 const assembleProjectString = (currentProjectArray) => {
   let assembledString = '';
   for (let i = 0; i < currentProjectArray.length; i += 1) {
-    const string = currentProjectArray[i].title;
-    const id = currentProjectArray[i].taskID;
-    const newString = ` <option value="${id}">${string}</option>`;
-    assembledString += newString;
+    if (!currentProjectArray[i].deleted) {
+      console.log('currentProjectArray[i] is', currentProjectArray[i]);
+      const string = currentProjectArray[i].title;
+      const id = currentProjectArray[i].taskID;
+
+      const newString = ` <option value="${id}">${string}</option>`;
+      assembledString += newString;
+    }
   }
   return (assembledString);
 };
@@ -111,13 +116,38 @@ const assignIDToCard = (newCard, index, isProject, task) => {
 
 const assignValuesToProjectSelectors = () => {
   const projectSelectors = document.querySelectorAll('.project-select');
+  const undeletedProjects = [];
+  const currentProjectArray = projectArray();
+  for (let i = 0; i < currentProjectArray.length; i += 1) {
+    const element = currentProjectArray[i];
+    if (!element.deleted) {
+      undeletedProjects.push(element.taskID);
+    }
+  }
+  const checkUndeletedProjects = (taskID) => {
+    console.log('undeletedProjects is', undeletedProjects);
+    console.log('taskID is', taskID);
+    for (let i = 0; i < undeletedProjects.length; i += 1) {
+      const element = undeletedProjects[i];
+      console.log('checkingUndeletedProjects. element is', element);
+      if (element == taskID) {
+        console.log('found a match! i is', i);
+        return(i);
+      }
+    }
+  };
   for (let i = 0; i < projectSelectors.length; i += 1) {
     const element = projectSelectors[i];
-    const taskIDNum = Number(element.getAttribute('data-taskID'));
-    const task = tasks.getTaskByID(taskIDNum);
-    //console.log('assigning values to project selectors! task =', task);
-    //console.log(projectArray()[task[0]]);
-    element.selectedIndex = task[0];
+    console.log('assigning values. element is', element);
+    console.log("assigning values. element.parentElement.parentElement.parentElement.getAttribute('data-taskid') is", element.parentElement.parentElement.parentElement.getAttribute('data-taskid'));
+    const parentTask = element.parentElement.parentElement.parentElement.getAttribute('data-taskid');
+    console.log('parentTask=', parentTask);
+    console.log('assigning values. projectArray is', projectArray());
+
+    console.log('parentTask is', parentTask);
+    const task = checkUndeletedProjects(parentTask);
+    console.log('assigning values to project selectors! task =', task);
+    element.selectedIndex = task;
   }
 };
 
@@ -145,7 +175,6 @@ const assignValuesToInputs = (taskCard, isProject, task, project) => {
       toggleComplete.parentElement.parentElement.classList.add('completed-task');
     }
   } else {
-    //const currentTasks = 
     const title = document.querySelector(`#task-title-${taskID}`);
     title.value = currentProjectArray[project].taskList[task].title;
     const date = document.querySelector(`#due-date-${taskID}`);
@@ -260,7 +289,7 @@ const buildTasks = (reference, parentTask) => {
     for (let i = 0; i < projectTasks.length; i += 1) {
       const element = projectTasks[i];
       if (!element.deleted) {
-        //console.log('buildTasks - element is', element);
+        console.log('buildTasks - element is', element);
         //console.log('parentTask is', parentTask);
         const tasksParent = tasks.getTaskByID(parentTask)[0];
         //console.log('tasksParent is', tasksParent);
@@ -413,6 +442,7 @@ const getInput = (e) => {
     }
     if (e.target.classList.contains('priority-select')) {
       tasks.modifyTask(task[0], task[1], 3, e.target.selectedIndex, taskIDNum);
+      rebuildDisplay();
     }
     if (e.target.classList.contains('notes')) {
       tasks.modifyTask(task[0], task[1], 4, e.target.value, taskIDNum);
@@ -449,7 +479,7 @@ const getInput = (e) => {
       }
     }
     if (e.target.classList.contains('delete-button')) {
-      console.log('delete button clicked!');
+      console.log('delete button clicked! task is', task);
       tasks.modifyTask(task[0], task[1], 6, undefined, taskIDNum);
       rebuildDisplay();
     }

@@ -444,17 +444,18 @@ const tasks = (() => {
     }
     if (attr === 6) { // i.e. delete task
       if (task === null) {
-        console.log('localStorage is', localStorage);
-        console.log('projectArray[project] =', projectArray[project]);
+        console.log('localStorage is', JSON.stringify(localStorage));
+        console.log('projectArray[project] =', JSON.stringify(projectArray[project]));
         console.log('projectArray[project].deleted =', projectArray[project].deleted);
         projectArray[project].deleted = !projectArray[project].deleted;
         console.log('projectArray[project].deleted =', projectArray[project].deleted);
-        console.log('localStorage is', localStorage);
+        console.log('localStorage is', JSON.stringify(localStorage));
+        console.log('projectArray[project] =', JSON.stringify(projectArray[project]));
         storeTask(projectArray[project]);
         const projectTasks = projectArray[project].taskList;
         console.log('projectTasks =', projectTasks);
         if (projectTasks !== undefined) {
-          for (let i = 0; i < projectTasks.length; i++) {
+          for (let i = 0; i < projectTasks.length; i += 1) {
             const element = projectTasks[i];
             console.log('deleting projectTasks. element is', element);
             element.deleted = true;

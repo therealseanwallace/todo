@@ -246,3 +246,15 @@ select:hover {
 .completed-task {
   filter: grayscale(100%);
 }
+
+.prio-style-0 {
+  background: #093b06;
+}
+
+.prio-style-1 {
+  background: #1a1c8d;
+}
+
+.prio-style-2 {
+  background: #b10303;
+}
