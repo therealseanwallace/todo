@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import HeaderProjectSelect from './headerProjectSelect';
+import NewProject from './newProject';
+import NewTask from './newTask';
 
 class Header extends Component {
   render() {
@@ -7,6 +9,8 @@ class Header extends Component {
       <div className="header">
         <h1>To-do</h1>
         <HeaderProjectSelect />
+        <NewProject />
+        <NewTask />
       </div>
     );
   }
