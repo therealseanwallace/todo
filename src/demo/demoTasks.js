@@ -8,7 +8,7 @@ const demo = [
     isDemo: true,
     isProject: true,
     parent: null,
-    taskUID: 0,
+    taskID: 0,
   },
   {
     title: 'Wash the dishes',
@@ -19,7 +19,7 @@ const demo = [
     notes: 'I hate dishes',
     isDemo: true,
     isProject: false,
-    taskUID: 1,
+    taskID: 1,
   },
   {
     title: 'Cook dinner',
@@ -30,7 +30,7 @@ const demo = [
     notes: 'I love cooking',
     isDemo: true,
     isProject: false,
-    taskUID: 2,
+    taskID: 2,
   },
 ];
 

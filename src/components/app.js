@@ -4,11 +4,18 @@ import CardContainer from './cardContainer';
 import demo from '../demo/demoTasks';
 
 class App extends Component {
+  constructor() { 
+    super();
+    this.state = {
+      tasks: demo,
+    }
+  }
+
   render() {
     return (
       <div className="App">
         <Header />
-        <CardContainer tasks={demo}/>
+        <CardContainer tasks={this.state.tasks}/>
       </div>
     );
   }
