@@ -10,22 +10,20 @@ class TaskCard extends Component {
     this.state = {
       task: this.props.task,
     }
-    console.log('*** props is: ', props);
-  }
-
-  handleChange = (e) => {
-    console.log('handling change! e is: ', e);
   }
 
   render() {
     return (
       <div className="task-card">
         <TaskCardTitle
-          title={this.props.task.title}
-          onChange={this.handleChange}
+          task={this.state.task}
+          onChange={this.props.onChange}
         />
         <TaskCardProjectSelect />
-        <TaskCardDueDate />
+        <TaskCardDueDate 
+          task={this.state.task}
+          onChange={this.props.onChange}
+        />
         <TaskPriority prio={this.props.task.priority}/>
       </div>
 

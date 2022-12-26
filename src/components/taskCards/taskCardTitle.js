@@ -1,20 +1,19 @@
 import React, { Component } from "react";
+import { makeClassName, makeID } from "../../helpers/makeClassName";
 
 class TaskCardTitle extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      title: this.props.title,
-    };
-    
-
   }
 
   render() {
     return (
       <input
+        className = {makeClassName("title", this.props.task.taskID)}
+        id = {makeID("title", this.props.task.taskID)}
+        data-task-id={this.props.task.taskID}
         type="text"
-        defaultValue={this.state.title}
+        defaultValue={this.props.task.title}
         onChange={this.props.onChange}
       />
     );

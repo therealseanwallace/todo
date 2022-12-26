@@ -1,16 +1,22 @@
 import React, { Component } from "react";
+import { makeClassName, makeID } from "../../helpers/makeClassName";
 
 class TaskCardDueDate extends Component {
   constructor(props) { 
     super(props);
-    this.state = {
-      dueDate: this.props.dueDate,
-    }
   }
   render() {
     return (
-      <div className="task-card-due-date">
-        <input type="date" defaultValue={this.state.dueDate}/>
+      <div>
+        <input
+           className="task-card-due-date"
+           id = {makeID("due-date", this.props.task.taskID)}
+           data-task-id={this.props.task.taskID}
+           defaultValue={this.props.task.dueDate}
+           onChange={this.props.onChange}
+           type="date"
+        />
+
       </div>
     );
   }
