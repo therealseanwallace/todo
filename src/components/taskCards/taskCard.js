@@ -18,7 +18,10 @@ class TaskCard extends Component {
           task={this.props.task}
           onChange={this.props.onChange}
         />
-        <TaskPriority prio={this.props.task.priority}/>
+        <TaskPriority
+          task={this.props.task}
+          onChange={this.props.onChange}
+        />
         <TaskNotes
           task={this.props.task}
           onChange={this.props.onChange}

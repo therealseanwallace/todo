@@ -1,20 +1,20 @@
 import React, { Component } from "react";
+import { makeClassName, makeID } from "../../helpers/makeClassName";
 
 class TaskPriority extends Component { 
-  constructor(props) { 
-    super(props);
-    this.state = {
-      priority: this.props.priority,
-    }
-  }
-
   render() { 
     return (
       <div className="task-priority">
-        <select defaultValue={this.state.priority}>
+        <select
+          defaultValue={this.props.task.priority}
+          className={makeClassName("priority", this.props.task.taskID)}
+          id={makeID("priority", this.props.task.taskID)}
+          data-task-id={this.props.task.taskID}
+          onChange={this.props.onChange}
+        >
           <option value="0">Low</option>
           <option value="1">Medium</option>
-          <option value="2 f">High</option>
+          <option value="2">High</option>
         </select>
       </div>
     );

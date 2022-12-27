@@ -34,6 +34,16 @@ class CardContainer extends Component {
         task.dueDate = e.target.value;
         console.log('task.dueDate is: ', task.dueDate);
         break;
+      case "task-notes":
+        task.notes = e.target.value;
+        console.log('task.notes is: ', task.notes);
+        break;
+      case "task-priority":
+        const prioNum = Number(e.target.value);
+        console.log('prioNum is: ', prioNum);
+        task.priority = prioNum;
+        console.log('task.priority is: ', task.priority);
+        break;
     }
 
     console.log('task is: ', task);

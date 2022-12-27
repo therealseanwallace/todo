@@ -7,6 +7,8 @@ function makeClassName(type, task) {
       return 'task-due-date';
     case "notes":
       return 'task-notes';
+    case "priority":
+      return 'task-priority';
   }
 
 }
@@ -19,6 +21,8 @@ function makeID(type, task) {
       return `task-due-date-${task}`;
     case "notes":
       return `task-notes-${task}`;
+    case "priority":
+      return `task-priority-${task}`;
   }
 }
 
