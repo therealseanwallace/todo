@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import TaskCard from "./taskCards/taskCard";
 import demo from "../demo/demoTasks";
 
+
 class CardContainer extends Component {
   constructor(props) {
     super(props);
@@ -57,7 +58,7 @@ class CardContainer extends Component {
           const key = task.taskID;
           return (
             <div key={key}>
-              <TaskCard task={task} onChange={this.onChange} />
+              <TaskCard task={task} onChange={this.onChange} tasklist={this.tasks}/>
             </div>
           );
         })}
@@ -65,7 +66,5 @@ class CardContainer extends Component {
     );
   }
 }
-
-function createCards(tasks) {}
 
 export default CardContainer;

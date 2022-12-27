@@ -1,13 +1,22 @@
 import React, { Component } from "react";
+import getProjectName from "../../helpers/getProjectName";
 
-class TaskCardProjectSelect extends Component { 
+class TaskCardProjectSelect extends Component {
   render() {
+    // takes the task list provided by propsand uses map to
+    // create a list of options for the select element
     return (
       <select className="task-card-project-select">
-        <option value="project1">Project 1</option>
-        <option value="project2">Project 2</option>
-        <option value="project3">Project 3</option>
+        {this.props.tasklist.map((task, index) => 
+          {if (task.isProject) {
+            return (
+              <option>{getProjectName(task)}</option>
+            );
+          }}
+        )}
+        
       </select>
+
     );
   }
 }

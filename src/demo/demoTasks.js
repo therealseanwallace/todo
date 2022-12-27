@@ -32,6 +32,17 @@ const demo = [
     isProject: false,
     taskID: 2,
   },
+  {
+    title: 'Clean the house',
+    dueDate: '2021-12-31',
+    priority: 1,
+    isComplete: false,
+    notes: 'Yawn',
+    isDemo: true,
+    isProject: true,
+    taskID: 3,
+    parent: null,
+  },
 ];
 
 export default demo;

@@ -13,7 +13,10 @@ class TaskCard extends Component {
           task={this.props.task}
           onChange={this.props.onChange}
         />
-        <TaskCardProjectSelect />
+        <TaskCardProjectSelect
+          tasklist={this.props.tasklist}
+          onChange={this.props.onChange}
+        />
         <TaskCardDueDate 
           task={this.props.task}
           onChange={this.props.onChange}
