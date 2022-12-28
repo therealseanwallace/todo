@@ -8,10 +8,11 @@ class TaskCompleteButton extends Component {
   render() {
     return (
       <input
+        onClick={this.props.completeTask}
         type="button"
         value="Complete Task"
         className="complete-button"
-        data-task-id={this.props.task}
+        data-taskid={this.props.task}
       />
     );
   }

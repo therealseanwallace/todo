@@ -26,6 +26,12 @@ class App extends Component {
     });
   };
 
+  completeTask = (e) => {
+    const task = this.getTaskByID(e.target.dataset.taskid);
+    task.isComplete = !task.isComplete;
+    console.log("task completed! task is: ", task);
+  };
+
   onChange = (e) => {
     console.log("***********handling change! e is: ", e);
     console.log(
@@ -73,13 +79,18 @@ class App extends Component {
           selectedProject={this.state.selectedProject}
         />
         <CurrentProject
+          completeTask={this.completeTask}
           task={() => {
             const project = this.getTaskByID(this.state.selectedProject);
             return project;
           }}
           onChange={this.onChange}
         />
-        <CardContainer tasks={this.state} onChange={this.onChange} />
+        <CardContainer
+          completeTask={this.completeTask}
+          tasks={this.state}
+          onChange={this.onChange}
+        />
       </div>
     );
   }

@@ -30,7 +30,7 @@ class TaskCard extends Component {
           task={this.props.task}
           onChange={this.props.onChange}
         />
-        <TaskCompleteButton task={this.props.task.taskID}/>
+        <TaskCompleteButton task={this.props.task.taskID} completeTask={this.props.completeTask}/>
         <TaskNotes
           task={this.props.task}
           onChange={this.props.onChange}

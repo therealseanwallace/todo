@@ -16,8 +16,6 @@ class CardContainer extends Component {
     });
   };
 
-  
-
   render() {
     return (
       <div className="card-container">
@@ -31,6 +29,7 @@ class CardContainer extends Component {
               return (
                 <div key={key}>
                   <TaskCard
+                    completeTask={this.props.completeTask}
                     task={task}
                     onChange={this.props.onChange}
                     tasklist={this.props.tasks}
