@@ -7,10 +7,10 @@ class TaskCardProjectSelect extends Component {
     // create a list of options for the select element
     return (
       <select className="task-card-project-select">
-        {this.props.tasklist.map((task, index) => 
+        {this.props.tasklist.tasks.map((task, index) => 
           {if (task.isProject) {
             return (
-              <option>{getProjectName(task)}</option>
+              <option key={task.taskID} data-taskid={task.taskID}>{getProjectName(task)}</option>
             );
           }}
         )}

@@ -6,6 +6,10 @@ import TaskNotes from "./taskNotes";
 import TaskPriority from "./taskPriority";
 
 class TaskCard extends Component {
+  constructor(props) {
+    super(props);
+    console.log('TaskCard props: ', props)
+  }
   render() {
     return (
       <div className="task-card">

@@ -1,14 +1,26 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
+import getProjectName from "../helpers/getProjectName";
 
 class HeaderProjectSelect extends Component {
+  constructor(props) {
+    super(props);
+    console.log("HeaderProjectSelect props: ", props);
+    console.log('this.props.tasks.tasks.tasks: ', this.props.tasks.tasks.tasks)
+  }
+
   render() {
     return (
-      <div className="header-project-select-container">
-        <select className="header-project-select">
-          <option value="project1">Project 1</option>
-          <option value="project2">Project 2</option>
-        </select>
-      </div>
+      <select
+        onChange={this.props.changeProject}
+        className="header-project-select">
+        {this.props.tasks.tasks.tasks.map((task, index) => {
+          if (task.isProject) {
+            return (
+              <option key={task.taskID} data-taskid={task.taskID}>{getProjectName(task)}</option>
+            );
+          }
+        })}
+      </select>
     );
   }
 }

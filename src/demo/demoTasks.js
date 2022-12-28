@@ -43,6 +43,17 @@ const demo = [
     taskID: 3,
     parent: null,
   },
+  {
+    title: 'Clean the windows',
+    dueDate: '2021-12-31',
+    priority: 1,
+    isComplete: false,
+    notes: 'omg',
+    isDemo: true,
+    isProject: false,
+    taskID: 4,
+    parent: 3,
+  },
 ];
 
 export default demo;
