@@ -4,6 +4,7 @@ import TaskCardProjectSelect from "./taskCardProjectSelect";
 import TaskCardTitle from "./taskCardTitle";
 import TaskNotes from "./taskNotes";
 import TaskPriority from "./taskPriority";
+import TaskCompleteButton from "./taskCompleteBtn";
 
 class TaskCard extends Component {
   constructor(props) {
@@ -29,6 +30,7 @@ class TaskCard extends Component {
           task={this.props.task}
           onChange={this.props.onChange}
         />
+        <TaskCompleteButton task={this.props.task.taskID}/>
         <TaskNotes
           task={this.props.task}
           onChange={this.props.onChange}

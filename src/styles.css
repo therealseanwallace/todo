@@ -94,12 +94,15 @@ input, select, textarea {
   text-shadow: 1px 1px #111111;
 }
 
+.current-project, .task-card {
+  width: 280px;
+}
+
 .task-card {
   display: flex;
   flex-direction: column;
   align-items: center;
   flex-shrink: none;
-  width: 280px;
   height: 361px;
   background-color: #FAFAFA;
   border: 4px solid #111111;
@@ -113,6 +116,6 @@ input, select, textarea {
   width: 248px;
 }
 
-.task-card > textarea {
+.task-card > textarea, .current-project > textarea {
   height: 150px;
 }

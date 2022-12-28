@@ -4,6 +4,7 @@ import { makeClassName, makeID } from "../../helpers/makeClassName";
 class TaskCardTitle extends Component {
   constructor(props) {
     super(props);
+    console.log("TaskCardTitle props: ", props);
   }
 
   render() {

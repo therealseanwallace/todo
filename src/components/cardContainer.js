@@ -16,43 +16,7 @@ class CardContainer extends Component {
     });
   };
 
-  onChange = (e) => {
-    console.log("***********handling change! e is: ", e);
-    console.log(
-      "***********handling change! e.target.dataset is: ",
-      e.target.dataset
-    );
-    console.log(
-      "***********handling change! e.target.dataset.taskId is: ",
-      e.target.dataset.taskId
-    );
-
-    const task = this.getTaskByID(e.target.dataset.taskId);
-
-    switch (e.target.classList[0]) {
-      case "task-title":
-        task.title = e.target.value;
-        console.log("task.title is: ", task.title);
-        break;
-      case "task-card-due-date":
-        task.dueDate = e.target.value;
-        console.log("task.dueDate is: ", task.dueDate);
-        break;
-      case "task-notes":
-        task.notes = e.target.value;
-        console.log("task.notes is: ", task.notes);
-        break;
-      case "task-priority":
-        const prioNum = Number(e.target.value);
-        console.log("prioNum is: ", prioNum);
-        task.priority = prioNum;
-        console.log("task.priority is: ", task.priority);
-        break;
-    }
-
-    console.log("task is: ", task);
-    //console.log('e.target is: ', e.target);
-  };
+  
 
   render() {
     return (
@@ -68,7 +32,7 @@ class CardContainer extends Component {
                 <div key={key}>
                   <TaskCard
                     task={task}
-                    onChange={this.onChange}
+                    onChange={this.props.onChange}
                     tasklist={this.props.tasks}
                   />
                 </div>
