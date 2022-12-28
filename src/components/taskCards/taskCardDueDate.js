@@ -7,16 +7,14 @@ class TaskCardDueDate extends Component {
   }
   render() {
     return (
-      <div>
-        <input
-          className="task-card-due-date"
-          id={makeID("due-date", this.props.task.taskID)}
-          data-task-id={this.props.task.taskID}
-          defaultValue={this.props.task.dueDate}
-          onChange={this.props.onChange}
-          type="date"
-        />
-      </div>
+      <input
+        className="task-card-due-date"
+        id={makeID("due-date", this.props.task.taskID)}
+        data-task-id={this.props.task.taskID}
+        defaultValue={this.props.task.dueDate}
+        onChange={this.props.onChange}
+        type="date"
+      />
     );
   }
 }

@@ -8,15 +8,13 @@ class TaskNotes extends Component {
 
   render() {
     return (
-      <div className="task-notes">
-        <textarea
-          className = {makeClassName("notes", this.props.task.taskID)}
-          id = {makeID("notes", this.props.task.taskID)}
-          data-task-id={this.props.task.taskID}
-          defaultValue={this.props.task.notes}
-          onChange={this.props.onChange}
-        ></textarea>
-      </div>
+      <textarea
+        className={makeClassName("notes", this.props.task.taskID)}
+        id={makeID("notes", this.props.task.taskID)}
+        data-task-id={this.props.task.taskID}
+        defaultValue={this.props.task.notes}
+        onChange={this.props.onChange}
+      ></textarea>
     );
   }
 }
