@@ -80,6 +80,13 @@ input, select, textarea {
   background-color: #FAFAFA;
 }
 
+.complete-button {
+  background-color: #5B7A67;
+  color: whitesmoke;
+  font-weight: bold;
+  text-shadow: 1px 1px #111111;
+}
+
 .new-project-button {
   background-color: #D64300;
   color: whitesmoke;
