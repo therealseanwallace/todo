@@ -57,6 +57,7 @@ class CardContainer extends Component {
   render() {
     return (
       <div className="card-container">
+        <h2>Tasks</h2>
         {this.props.tasks.tasks.map((task) => {
           const key = task.taskID;
           if (!task.isProject) {
