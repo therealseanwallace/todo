@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-class NewTask extends Component {
+class NewTaskButton extends Component {
   render() {
     return (
       <input type="button" className="new-task-button" value="New task" />
@@ -8,4 +8,4 @@ class NewTask extends Component {
   }
 }
 
-export default NewTask;
+export default NewTaskButton;

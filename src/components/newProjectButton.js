@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-class NewProject extends Component {
+class NewProjectButton extends Component {
   render() {
     return (
       <input type="button" className="new-project-button" value="New project" />
@@ -8,4 +8,4 @@ class NewProject extends Component {
   }
 }
 
-export default NewProject;
+export default NewProjectButton;
