@@ -8,10 +8,10 @@ import CurrentProject from "./currentProject";
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = { tasks: demo, selectedProject: 0 };
+    this.state = { tasks: demo, selectedProject: 0, showNewTaskDisplay: false, showNewProjectDisplay: false };
   }
 
-  newProject = () => {};
+  newTask = () => {};
 
   getTaskByID = (id) => {
     const idNum = Number(id);
@@ -27,6 +27,7 @@ class App extends Component {
   };
 
   completeTask = (e) => {
+    // modify this to use react's method to change state
     const task = this.getTaskByID(e.target.dataset.taskid);
     task.isComplete = !task.isComplete;
     console.log("task completed! task is: ", task);
@@ -71,26 +72,37 @@ class App extends Component {
   };
 
   render() {
+    const showNewProjectDisplay = this.state.showNewProjectDisplay;
+    const showNewTaskDisplay = this.state.showNewTaskDisplay;
+    let display = null;
+    
+    if (!showNewProjectDisplay && !showNewTaskDisplay) {
+      display = <div className="App">
+      <Header
+        tasks={this.state}
+        changeProject={this.changeProject}
+        selectedProject={this.state.selectedProject}
+      />
+      <CurrentProject
+        completeTask={this.completeTask}
+        task={() => {
+          const project = this.getTaskByID(this.state.selectedProject);
+          return project;
+        }}
+        onChange={this.onChange}
+      />
+      <CardContainer
+        completeTask={this.completeTask}
+        tasks={this.state}
+        onChange={this.onChange}
+      />
+    </div>
+    }
+
+    
     return (
       <div className="App">
-        <Header
-          tasks={this.state}
-          changeProject={this.changeProject}
-          selectedProject={this.state.selectedProject}
-        />
-        <CurrentProject
-          completeTask={this.completeTask}
-          task={() => {
-            const project = this.getTaskByID(this.state.selectedProject);
-            return project;
-          }}
-          onChange={this.onChange}
-        />
-        <CardContainer
-          completeTask={this.completeTask}
-          tasks={this.state}
-          onChange={this.onChange}
-        />
+        {display}
       </div>
     );
   }
