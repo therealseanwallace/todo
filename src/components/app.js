@@ -9,7 +9,7 @@ import NewProjectDisplay from "./newTaskProjectDisplay/newProjectDisplay";
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = { tasks: demo, selectedProject: 0, showNewTaskDisplay: false, showNewProjectDisplay: false };
+    this.state = { tasks: demo, selectedProject: 0, showNewTaskDisplay: false, showNewProjectDisplay: false, highestTaskID: 4 };
   }
 
   newTask = () => {};
@@ -40,6 +40,14 @@ class App extends Component {
     taskArray[taskIndex].isComplete = !taskArray[taskIndex].isComplete;
     this.setState({ tasks: taskArray });
   };
+
+  submitTaskToState = (task) => {
+    const taskToSubmit = task;
+    taskToSubmit.taskID = this.state.highestTaskID + 1;
+    const taskArray = this.state.tasks;
+    taskArray.push(taskToSubmit);
+    this.setState({ tasks: taskArray, showNewTaskDisplay: false, showNewProjectDisplay: false, highestTaskID: taskToSubmit.taskID });
+  }
 
   onChange = (e) => {
     console.log("***********handling change! e is: ", e);
@@ -112,7 +120,7 @@ class App extends Component {
         changeProject={this.changeProject}
         selectedProject={this.state.selectedProject}
       />
-      <NewProjectDisplay />
+      <NewProjectDisplay submitTaskToState={this.submitTaskToState}/>
     </div>
     }
 

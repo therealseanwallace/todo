@@ -4,7 +4,8 @@ import NewTaskTitle from "./newTaskTitle";
 import NewTaskDueDate from "./newTaskDueDate";
 import NewTaskPrio from "./newTaskPrio";
 import NewTaskNotes from "./newTaskNotes";
-import newTaskOnChange from "./newTaskOnChange";
+import newTaskOnChange from "../../helpers/newTaskOnChange";
+import NewTaskSubmitButton from "./newTaskSubmitButton";
 
 class NewProjectDisplay extends Component {
   constructor(props) {
@@ -24,6 +25,11 @@ class NewProjectDisplay extends Component {
     console.log("NewProjectDisplay! this.onChange is: ", this.onChange);
   }
 
+  submit = () => {
+    console.log("submitting new project!");
+    this.props.submitTaskToState(this.state);
+  };
+  
   render() {
     return (
       <div className="new-project-display">
@@ -32,6 +38,7 @@ class NewProjectDisplay extends Component {
         <NewTaskDueDate onChange={this.onChange} />
         <NewTaskPrio onChange={this.onChange} />
         <NewTaskNotes onChange={this.onChange} />
+        <NewTaskSubmitButton onClick={this.submit}/>
       </div>
     );
   }
