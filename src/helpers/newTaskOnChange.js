@@ -31,7 +31,7 @@ function newTaskOnChange(e) {
         const parentNum = Number(e.target.selectedOptions[0].dataset.taskid);
         task.parent = parentNum;
     }
-g    this.setState(task);
+    this.setState(task);
     console.log('this.state is: ', this.state);
 }
 
