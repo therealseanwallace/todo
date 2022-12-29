@@ -20,6 +20,13 @@ class App extends Component {
     });
   };
 
+  getTaskIndexByID = (id) => {
+    const idNum = Number(id);
+    return this.state.tasks.findIndex((task) => {
+      return task.taskID === idNum;
+    });
+  };
+
   changeProject = (e) => {
     this.setState({
       selectedProject: Number(e.target.selectedOptions[0].dataset.taskid),
@@ -27,10 +34,10 @@ class App extends Component {
   };
 
   completeTask = (e) => {
-    // modify this to use react's method to change state
-    const task = this.getTaskByID(e.target.dataset.taskid);
-    task.isComplete = !task.isComplete;
-    console.log("task completed! task is: ", task);
+    const taskIndex = this.getTaskIndexByID(e.target.dataset.taskid);
+    const taskArray = this.state.tasks;
+    taskArray[taskIndex].isComplete = !taskArray[taskIndex].isComplete;
+    this.setState({ tasks: taskArray });
   };
 
   onChange = (e) => {
