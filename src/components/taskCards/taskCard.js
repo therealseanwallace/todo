@@ -5,6 +5,7 @@ import TaskCardTitle from "./taskCardTitle";
 import TaskNotes from "./taskNotes";
 import TaskPriority from "./taskPriority";
 import TaskCompleteButton from "./taskCompleteBtn";
+import Close from "../../resources/close.svg";
 
 class TaskCard extends Component {
   constructor(props) {
@@ -23,6 +24,8 @@ class TaskCard extends Component {
 
     return (
       <div className={styles}>
+        <img src={Close} alt={"Close"} className={"close-button"}/>
+
         <TaskCardTitle
           task={this.props.task}
           onChange={this.props.onChange}
