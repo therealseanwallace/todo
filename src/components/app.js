@@ -50,32 +50,27 @@ class App extends Component {
       "***********handling change! e.target.dataset.taskId is: ",
       e.target.dataset.taskId
     );
-
-    const task = this.getTaskByID(e.target.dataset.taskId);
-
+    
+    const taskArray = this.state.tasks;
+    const taskIndex = this.getTaskIndexByID(e.target.dataset.taskId);
+    
     switch (e.target.classList[0]) {
       case "task-title":
-        task.title = e.target.value;
-        console.log("task.title is: ", task.title);
+        taskArray[taskIndex].title = e.target.value;
         break;
       case "task-card-due-date":
-        task.dueDate = e.target.value;
-        console.log("task.dueDate is: ", task.dueDate);
+        taskArray[taskIndex].dueDate = e.target.value;
         break;
       case "task-notes":
-        task.notes = e.target.value;
-        console.log("task.notes is: ", task.notes);
+        taskArray[taskIndex].notes = e.target.value;
         break;
       case "task-priority":
         const prioNum = Number(e.target.value);
         console.log("prioNum is: ", prioNum);
-        task.priority = prioNum;
-        console.log("task.priority is: ", task.priority);
+        taskArray[taskIndex].priority = prioNum;
         break;
     }
-
-    console.log("task is: ", task);
-    //console.log('e.target is: ', e.target);
+    this.setState({ tasks: taskArray });
   };
 
   render() {
