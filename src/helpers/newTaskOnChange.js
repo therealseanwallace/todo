@@ -27,8 +27,11 @@ function newTaskOnChange(e) {
         console.log("prioNum is: ", prioNum);
         task.priority = prioNum;
         break;
+      case "new-task-project-select":
+        const parentNum = Number(e.target.selectedOptions[0].dataset.taskid);
+        task.parent = parentNum;
     }
-    this.setState(task);
+g    this.setState(task);
     console.log('this.state is: ', this.state);
 }
 

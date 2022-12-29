@@ -16,7 +16,9 @@ class Header extends Component {
         <NewProjectButton 
           toggleNewProjectDisplay={this.props.toggleNewProjectDisplay}
         />
-        <NewTaskButton />
+        <NewTaskButton 
+          toggleNewTaskDisplay={this.props.toggleNewTaskDisplay}
+        />
       </div>
     );
   }

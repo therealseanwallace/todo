@@ -5,6 +5,7 @@ import CardContainer from "./cardContainer";
 import demo from "../demo/demoTasks";
 import CurrentProject from "./currentProject";
 import NewProjectDisplay from "./newTaskProjectDisplay/newProjectDisplay";
+import NewTaskDisplay from "./newTaskProjectDisplay/newTaskDisplay";
 
 class App extends Component {
   constructor(props) {
@@ -86,6 +87,10 @@ class App extends Component {
     this.setState({ showNewProjectDisplay: !this.state.showNewProjectDisplay });
   };
 
+  showNewTaskDisplay = () => {
+    this.setState({ showNewTaskDisplay: !this.state.showNewTaskDisplay });
+  };
+
   render() {
     let display = null;
     
@@ -96,6 +101,7 @@ class App extends Component {
         changeProject={this.changeProject}
         selectedProject={this.state.selectedProject}
         toggleNewProjectDisplay={this.showNewProjectDisplay}
+        toggleNewTaskDisplay={this.showNewTaskDisplay}
       />
       <CurrentProject
         completeTask={this.completeTask}
@@ -117,10 +123,17 @@ class App extends Component {
       display = <div className="App">
       <Header 
         tasks={this.state}
-        changeProject={this.changeProject}
-        selectedProject={this.state.selectedProject}
       />
       <NewProjectDisplay submitTaskToState={this.submitTaskToState}/>
+    </div>
+    }
+
+    if (this.state.showNewTaskDisplay) {
+      display = <div className="App">
+      <Header 
+        tasks={this.state}
+      />
+      <NewTaskDisplay submitTaskToState={this.submitTaskToState} tasks={this.state.tasks}/>
     </div>
     }
 

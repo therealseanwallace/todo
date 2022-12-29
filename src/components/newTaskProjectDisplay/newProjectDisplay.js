@@ -4,8 +4,8 @@ import NewTaskTitle from "./newTaskTitle";
 import NewTaskDueDate from "./newTaskDueDate";
 import NewTaskPrio from "./newTaskPrio";
 import NewTaskNotes from "./newTaskNotes";
-import newTaskOnChange from "../../helpers/newTaskOnChange";
 import NewTaskSubmitButton from "./newTaskSubmitButton";
+import newTaskOnChange from "../../helpers/newTaskOnChange";
 
 class NewProjectDisplay extends Component {
   constructor(props) {
@@ -29,7 +29,7 @@ class NewProjectDisplay extends Component {
     console.log("submitting new project!");
     this.props.submitTaskToState(this.state);
   };
-  
+
   render() {
     return (
       <div className="new-project-display">
