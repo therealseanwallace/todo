@@ -119,6 +119,10 @@ input, select, textarea {
   background-color: #D8E2DC;
 }
 
+.completed {
+  background-color: #7c7c7c;
+}
+
 .task-card > input, .task-card > select, .task-card > textarea {
   width: 248px;
 }

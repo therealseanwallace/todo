@@ -12,8 +12,17 @@ class TaskCard extends Component {
     console.log('TaskCard props: ', props)
   }
   render() {
+    let styles = "";
+
+    if (this.props.task.isComplete) {
+      styles = "task-card completed";  
+    } else {
+      styles = "task-card";
+    }
+
+
     return (
-      <div className="task-card">
+      <div className={styles}>
         <TaskCardTitle
           task={this.props.task}
           onChange={this.props.onChange}
@@ -30,7 +39,7 @@ class TaskCard extends Component {
           task={this.props.task}
           onChange={this.props.onChange}
         />
-        <TaskCompleteButton task={this.props.task.taskID} completeTask={this.props.completeTask}/>
+        <TaskCompleteButton task={this.props.task.taskID} completeTask={this.props.completeTask} isComplete={this.props.task.isComplete}/>
         <TaskNotes
           task={this.props.task}
           onChange={this.props.onChange}
