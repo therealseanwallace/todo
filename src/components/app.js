@@ -10,7 +10,13 @@ import NewTaskDisplay from "./newTaskProjectDisplay/newTaskDisplay";
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = { tasks: demo, selectedProject: 0, showNewTaskDisplay: false, showNewProjectDisplay: false, highestTaskID: 4 };
+    this.state = {
+      tasks: demo,
+      selectedProject: 0,
+      showNewTaskDisplay: false,
+      showNewProjectDisplay: false,
+      highestTaskID: 4,
+    };
   }
 
   newTask = () => {};
@@ -37,8 +43,25 @@ class App extends Component {
 
   completeTask = (e) => {
     const taskIndex = this.getTaskIndexByID(e.target.dataset.taskid);
+
     const taskArray = this.state.tasks;
-    taskArray[taskIndex].isComplete = !taskArray[taskIndex].isComplete;
+    const task = taskArray[taskIndex];
+    task.isComplete = !task.isComplete;
+    if (task.isProject) {
+      taskArray.forEach((item) => {
+        if (item.parent === task.taskID) {
+          item.isComplete = true;
+        }
+      });
+    }
+
+    if (task.parent !== null && task.isComplete === false) {
+      taskArray.forEach((item) => {
+        if (item.taskID === task.parent) {
+          item.isComplete = false;
+        }
+      });
+    }
     this.setState({ tasks: taskArray });
   };
 
@@ -47,8 +70,13 @@ class App extends Component {
     taskToSubmit.taskID = this.state.highestTaskID + 1;
     const taskArray = this.state.tasks;
     taskArray.push(taskToSubmit);
-    this.setState({ tasks: taskArray, showNewTaskDisplay: false, showNewProjectDisplay: false, highestTaskID: taskToSubmit.taskID });
-  }
+    this.setState({
+      tasks: taskArray,
+      showNewTaskDisplay: false,
+      showNewProjectDisplay: false,
+      highestTaskID: taskToSubmit.taskID,
+    });
+  };
 
   onChange = (e) => {
     console.log("***********handling change! e is: ", e);
@@ -60,10 +88,10 @@ class App extends Component {
       "***********handling change! e.target.dataset.taskId is: ",
       e.target.dataset.taskId
     );
-    
+
     const taskArray = this.state.tasks;
     const taskIndex = this.getTaskIndexByID(e.target.dataset.taskId);
-    
+
     switch (e.target.classList[0]) {
       case "task-title":
         taskArray[taskIndex].title = e.target.value;
@@ -93,56 +121,56 @@ class App extends Component {
 
   render() {
     let display = null;
-    
+
     if (!this.state.showNewProjectDisplay && !this.state.showNewTaskDisplay) {
-      display = <div className="App">
-      <Header
-        tasks={this.state}
-        changeProject={this.changeProject}
-        selectedProject={this.state.selectedProject}
-        toggleNewProjectDisplay={this.showNewProjectDisplay}
-        toggleNewTaskDisplay={this.showNewTaskDisplay}
-      />
-      <CurrentProject
-        completeTask={this.completeTask}
-        task={() => {
-          const project = this.getTaskByID(this.state.selectedProject);
-          return project;
-        }}
-        onChange={this.onChange}
-      />
-      <CardContainer
-        completeTask={this.completeTask}
-        tasks={this.state}
-        onChange={this.onChange}
-      />
-    </div>
+      display = (
+        <div className="App">
+          <Header
+            tasks={this.state}
+            changeProject={this.changeProject}
+            selectedProject={this.state.selectedProject}
+            toggleNewProjectDisplay={this.showNewProjectDisplay}
+            toggleNewTaskDisplay={this.showNewTaskDisplay}
+          />
+          <CurrentProject
+            completeTask={this.completeTask}
+            task={() => {
+              const project = this.getTaskByID(this.state.selectedProject);
+              return project;
+            }}
+            onChange={this.onChange}
+          />
+          <CardContainer
+            completeTask={this.completeTask}
+            tasks={this.state}
+            onChange={this.onChange}
+          />
+        </div>
+      );
     }
 
     if (this.state.showNewProjectDisplay) {
-      display = <div className="App">
-      <Header 
-        tasks={this.state}
-      />
-      <NewProjectDisplay submitTaskToState={this.submitTaskToState}/>
-    </div>
+      display = (
+        <div className="App">
+          <Header tasks={this.state} />
+          <NewProjectDisplay submitTaskToState={this.submitTaskToState} />
+        </div>
+      );
     }
 
     if (this.state.showNewTaskDisplay) {
-      display = <div className="App">
-      <Header 
-        tasks={this.state}
-      />
-      <NewTaskDisplay submitTaskToState={this.submitTaskToState} tasks={this.state.tasks}/>
-    </div>
+      display = (
+        <div className="App">
+          <Header tasks={this.state} />
+          <NewTaskDisplay
+            submitTaskToState={this.submitTaskToState}
+            tasks={this.state.tasks}
+          />
+        </div>
+      );
     }
 
-    
-    return (
-      <div className="App">
-        {display}
-      </div>
-    );
+    return <div className="App">{display}</div>;
   }
 }
 
