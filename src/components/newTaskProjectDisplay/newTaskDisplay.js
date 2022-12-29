@@ -15,6 +15,7 @@ class NewTaskDisplay extends Component {
       dueDate: "",
       priority: -1,
       isComplete: false,
+      isDeleted: false,
       notes: "",
       isDemo: false,
       isProject: false,

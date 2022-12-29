@@ -65,6 +65,15 @@ class App extends Component {
     this.setState({ tasks: taskArray });
   };
 
+  deleteTask = (taskID) => {
+    const taskIndex = this.getTaskIndexByID(Number(taskID));
+    const taskArray = this.state.tasks;
+    const task = taskArray[taskIndex];
+    console.log("task is: ", task);
+    task.isDeleted = true;
+    this.setState({ tasks: taskArray });
+  }
+
   submitTaskToState = (task) => {
     const taskToSubmit = task;
     taskToSubmit.taskID = this.state.highestTaskID + 1;
@@ -144,6 +153,7 @@ class App extends Component {
             completeTask={this.completeTask}
             tasks={this.state}
             onChange={this.onChange}
+            deleteTask={this.deleteTask}
           />
         </div>
       );

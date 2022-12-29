@@ -12,6 +12,12 @@ class TaskCard extends Component {
     super(props);
     console.log('TaskCard props: ', props)
   }
+
+  deleteTask = (e) => {
+    console.log('taskCard deleteTask called! e: ', e.target.attributes.taskid.value);
+    this.props.deleteTask(e.target.attributes.taskid.value);
+  }
+  
   render() {
     let styles = "";
 
@@ -24,7 +30,7 @@ class TaskCard extends Component {
 
     return (
       <div className={styles}>
-        <img src={Close} alt={"Close"} className={"close-button"}/>
+        <img src={Close} alt={"Close"} className={"close-button"} taskid={this.props.task.taskID} onClick={this.deleteTask}/>
 
         <TaskCardTitle
           task={this.props.task}

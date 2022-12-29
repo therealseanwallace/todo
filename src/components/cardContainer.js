@@ -25,7 +25,7 @@ class CardContainer extends Component {
           if (!task.isProject) {
             // if the task corresponds to the selected project,
             // render it as a task card
-            if (task.parent === this.props.tasks.selectedProject) {
+            if (task.parent === this.props.tasks.selectedProject && !task.isDeleted) {
               return (
                 <div key={key}>
                   <TaskCard
@@ -33,6 +33,7 @@ class CardContainer extends Component {
                     task={task}
                     onChange={this.props.onChange}
                     tasklist={this.props.tasks}
+                    deleteTask={this.props.deleteTask}
                   />
                 </div>
               );
