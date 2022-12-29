@@ -13,7 +13,9 @@ class Header extends Component {
       <div className="header">
         <h1>To-do</h1>
         <HeaderProjectSelect tasks={this.props} selectedProject={this.props.selectedProject} changeProject={this.props.changeProject} />
-        <NewProjectButton />
+        <NewProjectButton 
+          toggleNewProjectDisplay={this.props.toggleNewProjectDisplay}
+        />
         <NewTaskButton />
       </div>
     );

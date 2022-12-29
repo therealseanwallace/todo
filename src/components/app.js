@@ -4,6 +4,7 @@ import Header from "./header";
 import CardContainer from "./cardContainer";
 import demo from "../demo/demoTasks";
 import CurrentProject from "./currentProject";
+import NewProjectDisplay from "./newTaskProjectDisplay/newProjectDisplay";
 
 class App extends Component {
   constructor(props) {
@@ -73,17 +74,20 @@ class App extends Component {
     this.setState({ tasks: taskArray });
   };
 
+  showNewProjectDisplay = () => {
+    this.setState({ showNewProjectDisplay: !this.state.showNewProjectDisplay });
+  };
+
   render() {
-    const showNewProjectDisplay = this.state.showNewProjectDisplay;
-    const showNewTaskDisplay = this.state.showNewTaskDisplay;
     let display = null;
     
-    if (!showNewProjectDisplay && !showNewTaskDisplay) {
+    if (!this.state.showNewProjectDisplay && !this.state.showNewTaskDisplay) {
       display = <div className="App">
       <Header
         tasks={this.state}
         changeProject={this.changeProject}
         selectedProject={this.state.selectedProject}
+        toggleNewProjectDisplay={this.showNewProjectDisplay}
       />
       <CurrentProject
         completeTask={this.completeTask}
@@ -98,6 +102,17 @@ class App extends Component {
         tasks={this.state}
         onChange={this.onChange}
       />
+    </div>
+    }
+
+    if (this.state.showNewProjectDisplay) {
+      display = <div className="App">
+      <Header 
+        tasks={this.state}
+        changeProject={this.changeProject}
+        selectedProject={this.state.selectedProject}
+      />
+      <NewProjectDisplay />
     </div>
     }
 
