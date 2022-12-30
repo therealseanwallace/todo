@@ -5,7 +5,7 @@ class TaskPriority extends Component {
   render() {
     return (
       <select
-        defaultValue={this.props.task.priority}
+        value={this.props.task.priority}
         className={makeClassName("priority", this.props.task.taskID)}
         id={makeID("priority", this.props.task.taskID)}
         data-task-id={this.props.task.taskID}

@@ -4,18 +4,44 @@ import TaskCardTitle from "./taskCards/taskCardTitle";
 import TaskCompleteButton from "./taskCards/taskCompleteBtn";
 import TaskNotes from "./taskCards/taskNotes";
 import TaskPriority from "./taskCards/taskPriority";
+import Close from "../resources/close.svg";
+
+// this file should be refactored so as to avoid using its own state as much as possible
+// so that it updates correctly upon selecting a different project
 
 class CurrentProject extends Component {
   constructor(props) {
     super(props);
-    console.log('CurrentProject props: ', props);
-    this.state = { task: this.props.task() }
-    console.log('CurrentProject task: ', this.state.task);
+    console.log("CurrentProject props: ", props);
+  }
+
+  deleteTask = (e) => {
+    console.log(
+      "taskCard deleteTask called! e: ",
+      e.target.attributes.taskid.value
+    );
+    this.props.deleteTask(e.target.attributes.taskid.value);
+  };
+
+  componentDidUpdate(prevProps) {
+    console.log(
+      "CurrentProject componentDidUpdate called! prevProps: ",
+      prevProps,
+      "this.state is",
+      this.state
+    );
+    if (prevProps.task !== this.props.task) {
+      let newState = { ...this.state, task: this.props.task };
+      this.setState({
+        newState,
+      });
+    }
+    console.log("this.state is now: ", this.state);
   }
 
   render() {
     let classes = "";
-    if (this.state.task.isComplete) {
+    if (this.props.task.isComplete) {
       classes = "current-project completed";
     } else {
       classes = "current-project";
@@ -23,23 +49,39 @@ class CurrentProject extends Component {
 
     return (
       <div className={classes}>
-        <h2>Current Project</h2>
+        <div className="current-project-title-close-container">
+          <h2>Current Project</h2>
+          <img
+            src={Close}
+            alt={"Close"}
+            className={"close-button"}
+            taskid={this.props.task.taskID}
+            onClick={this.deleteTask}
+          />
+        </div>
         <TaskCardTitle
-          task={this.state.task}
+          taskid={this.props.task.taskid}
+          title={this.props.task.title}
           onChange={this.props.onChange}
         />
         <TaskCardDueDate
-          task={this.state.task}
+          taskid={this.props.task.taskid}
+          task={this.props.task}
           onChange={this.props.onChange}
         />
-        <TaskPriority task={this.state.task} onChange={this.props.onChange} />
+        <TaskPriority
+          taskid={this.props.task.taskid}
+          task={this.props.task}
+          onChange={this.props.onChange}
+        />
         <TaskCompleteButton
-          task={this.state.task.taskID}
+          taskid={this.props.task.taskid}
+          task={this.props.task.taskID}
           onChange={this.props.onChange}
           completeTask={this.props.completeTask}
-          isComplete={this.state.task.isComplete}
+          isComplete={this.props.task.isComplete}
         />
-        <TaskNotes task={this.state.task} onChange={this.props.onChange} />
+        <TaskNotes task={this.props.task} onChange={this.props.onChange} />
       </div>
     );
   }

@@ -10,11 +10,11 @@ class TaskCardTitle extends Component {
   render() {
     return (
       <input
-        className = {makeClassName("title", this.props.task.taskID)}
-        id = {makeID("title", this.props.task.taskID)}
-        data-task-id={this.props.task.taskID}
+        className = {makeClassName("title", this.props.taskid)}
+        id = {makeID("title", this.props.taskid)}
+        data-task-id={this.props.taskid}
         type="text"
-        defaultValue={this.props.task.title}
+        value={this.props.title}
         onChange={this.props.onChange}
       />
     );

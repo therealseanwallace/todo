@@ -12,7 +12,7 @@ class TaskCardDueDate extends Component {
         className="task-card-due-date"
         id={makeID("due-date", this.props.task.taskID)}
         data-task-id={this.props.task.taskID}
-        defaultValue={this.props.task.dueDate}
+        value={this.props.task.dueDate}
         onChange={this.props.onChange}
         type="date"
       />

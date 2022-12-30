@@ -16,6 +16,7 @@ class App extends Component {
       showNewTaskDisplay: false,
       showNewProjectDisplay: false,
       highestTaskID: 4,
+      currentProjectProps: {},
     };
   }
 
@@ -37,7 +38,7 @@ class App extends Component {
 
   changeProject = (e) => {
     this.setState({
-      selectedProject: Number(e.target.selectedOptions[0].dataset.taskid),
+      ...this.state, selectedProject: Number(e.target.selectedOptions[0].dataset.taskid),
     });
   };
 
@@ -62,17 +63,26 @@ class App extends Component {
         }
       });
     }
-    this.setState({ tasks: taskArray });
+    this.setState({ ...this.state, tasks: taskArray });
+    
   };
 
   deleteTask = (taskID) => {
-    const taskIndex = this.getTaskIndexByID(Number(taskID));
-    const taskArray = this.state.tasks;
-    const task = taskArray[taskIndex];
-    console.log("task is: ", task);
-    task.isDeleted = true;
-    this.setState({ tasks: taskArray });
-  }
+    console.log('deleteTask! taskID is: ', taskID)
+    console.log('Number(taskID) is: ', Number(taskID))
+    const taskIDNumb = Number(taskID);
+    if (taskIDNumb !== 0) {
+      console.log('taskID is not 0, deleting');
+      const taskIndex = this.getTaskIndexByID(Number(taskID));
+      const taskArray = this.state.tasks;
+      const task = taskArray[taskIndex];
+      console.log("task is: ", task);
+      task.isDeleted = true;
+      this.setState({ ...this.state, tasks: taskArray });
+    } else {
+      console.log('taskID is 0, not deleting')
+    }
+  };
 
   submitTaskToState = (task) => {
     const taskToSubmit = task;
@@ -80,6 +90,7 @@ class App extends Component {
     const taskArray = this.state.tasks;
     taskArray.push(taskToSubmit);
     this.setState({
+      ...this.state,
       tasks: taskArray,
       showNewTaskDisplay: false,
       showNewProjectDisplay: false,
@@ -117,19 +128,36 @@ class App extends Component {
         taskArray[taskIndex].priority = prioNum;
         break;
     }
-    this.setState({ tasks: taskArray });
+    this.setState({ ...this.state, tasks: taskArray });
   };
 
   showNewProjectDisplay = () => {
-    this.setState({ showNewProjectDisplay: !this.state.showNewProjectDisplay });
+    this.setState({ ...this.state, showNewProjectDisplay: !this.state.showNewProjectDisplay });
   };
 
   showNewTaskDisplay = () => {
-    this.setState({ showNewTaskDisplay: !this.state.showNewTaskDisplay });
+    this.setState({ ...this.state, showNewTaskDisplay: !this.state.showNewTaskDisplay });
   };
+
+  getSelectedProject = () => {
+    const project = this.getTaskByID(this.state.selectedProject);
+    return project; 
+  }
+
+  makeCurrentProjectProps = (project) => {
+    const currentProjectProps = {
+      title: project.title,
+      dueDate: project.dueDate,
+      notes: project.notes,
+      priority: project.priority,
+      isComplete: project.isComplete,
+    };
+    return currentProjectProps;
+  }
 
   render() {
     let display = null;
+    const currentProjectProps = this.makeCurrentProjectProps(this.getSelectedProject());
 
     if (!this.state.showNewProjectDisplay && !this.state.showNewTaskDisplay) {
       display = (
@@ -143,11 +171,9 @@ class App extends Component {
           />
           <CurrentProject
             completeTask={this.completeTask}
-            task={() => {
-              const project = this.getTaskByID(this.state.selectedProject);
-              return project;
-            }}
+            task={this.makeCurrentProjectProps(this.getSelectedProject())}
             onChange={this.onChange}
+            deleteTask={this.deleteTask}
           />
           <CardContainer
             completeTask={this.completeTask}

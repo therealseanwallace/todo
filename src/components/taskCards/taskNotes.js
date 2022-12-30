@@ -4,6 +4,7 @@ import { makeClassName, makeID } from "../../helpers/makeClassName";
 class TaskNotes extends Component {
   constructor(props) {
     super(props);
+    console.log("TaskNotes props: ", props);
   }
 
   render() {
@@ -12,9 +13,9 @@ class TaskNotes extends Component {
         className={makeClassName("notes", this.props.task.taskID)}
         id={makeID("notes", this.props.task.taskID)}
         data-task-id={this.props.task.taskID}
-        defaultValue={this.props.task.notes}
+        value={this.props.task.notes}
         onChange={this.props.onChange}
-      ></textarea>
+      />
     );
   }
 }
