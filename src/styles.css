@@ -202,6 +202,18 @@ textarea {
   margin-bottom: 8px;
 }
 
+.prio-0 {
+  background-color: #f2fff7;
+}
+
+.prio-1 {
+  background-color: #d2daff;
+}
+
+.prio-2 {
+  background-color: #ffa2a2;
+}
+
 @media only screen and (min-width: 600px) {
   .App {
     min-width: 600px;
