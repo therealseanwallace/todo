@@ -112,18 +112,11 @@ class App extends Component {
   };
 
   onChange = (e) => {
-    console.log("***********handling change! e is: ", e);
-    console.log(
-      "***********handling change! e.target.dataset is: ",
-      e.target.dataset
-    );
-    console.log(
-      "***********handling change! e.target.dataset.taskId is: ",
-      e.target.dataset.taskId
-    );
-
     const taskArray = this.state.tasks;
-    const taskIndex = this.getTaskIndexByID(e.target.dataset.taskId);
+    let taskIndex = this.getTaskIndexByID(e.target.dataset.taskId);
+    if (taskIndex === -1) {
+      taskIndex = this.getTaskIndexByID(e.target.selectedOptions[0].dataset.taskid);
+    }
 
     switch (e.target.classList[0]) {
       case "task-title":
@@ -139,6 +132,10 @@ class App extends Component {
         const prioNum = Number(e.target.value);
         console.log("prioNum is: ", prioNum);
         taskArray[taskIndex].priority = prioNum;
+        break;
+      case "task-card-project-select":
+        const projectNum = Number(taskIndex);
+        taskArray[taskIndex].parent = Number(e.target.selectedOptions[0].dataset.taskid);
         break;
     }
     this.setState({ ...this.state, tasks: taskArray });

@@ -48,6 +48,7 @@ class TaskCard extends Component {
         <TaskCardProjectSelect
           tasklist={this.props.tasklist}
           onChange={this.props.onChange}
+          taskid={this.props.task.taskID}
         />
         <TaskCardDueDate
           task={this.props.task}
