@@ -23,22 +23,6 @@ class CurrentProject extends Component {
     this.props.deleteTask(e.target.attributes.taskid.value);
   };
 
-  componentDidUpdate(prevProps) {
-    console.log(
-      "CurrentProject componentDidUpdate called! prevProps: ",
-      prevProps,
-      "this.state is",
-      this.state
-    );
-    if (prevProps.task !== this.props.task) {
-      let newState = { ...this.state, task: this.props.task };
-      this.setState({
-        newState,
-      });
-    }
-    console.log("this.state is now: ", this.state);
-  }
-
   render() {
     let classes = "";
     if (this.props.task.isComplete) {
@@ -60,22 +44,22 @@ class CurrentProject extends Component {
           />
         </div>
         <TaskCardTitle
-          taskid={this.props.task.taskid}
+          taskid={this.props.task.taskID}
           title={this.props.task.title}
           onChange={this.props.onChange}
         />
         <TaskCardDueDate
-          taskid={this.props.task.taskid}
+          taskid={this.props.task.taskID}
           task={this.props.task}
           onChange={this.props.onChange}
         />
         <TaskPriority
-          taskid={this.props.task.taskid}
+          taskid={this.props.task.taskID}
           task={this.props.task}
           onChange={this.props.onChange}
         />
         <TaskCompleteButton
-          taskid={this.props.task.taskid}
+          taskid={this.props.task.taskID}
           task={this.props.task.taskID}
           onChange={this.props.onChange}
           completeTask={this.props.completeTask}
