@@ -3,12 +3,13 @@ import React, { Component } from "react";
 class NewTaskSubmitButton extends Component {
   render() {
     return (
-      <button
-        className="new-task-submit-button"
-        onClick={this.props.onClick}
-      >
-        Submit
-      </button>
+        <input
+          type="button"
+          className="new-task-submit-button"
+          onClick={this.props.onClick}
+          value="Submit"
+        />
+
     );
   }
 }

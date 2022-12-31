@@ -213,7 +213,7 @@ class App extends Component {
       );
     }
 
-    return <div className="App">{display}</div>;
+    return display;
   }
 }
 
