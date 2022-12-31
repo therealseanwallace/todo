@@ -1,5 +1,5 @@
 /* eslint-disable default-case */
-function makeClassName(type, task) {
+function makeClassName(type, prio) {
   switch (type) {
     case "title":
       return 'task-title';
@@ -8,7 +8,7 @@ function makeClassName(type, task) {
     case "notes":
       return 'task-notes';
     case "priority":
-      return 'task-priority';
+      return `task-priority prio-${prio}`;
   }
 
 }
