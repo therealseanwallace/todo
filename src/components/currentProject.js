@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import TaskCardDueDate from "./taskCards/taskCardDueDate";
 import TaskCardTitle from "./taskCards/taskCardTitle";
-import TaskCompleteButton from "./taskCards/taskCompleteBtn";
+import ProjectCompleteButton from "./projectCompleteButton";
 import TaskNotes from "./taskCards/taskNotes";
 import TaskPriority from "./taskCards/taskPriority";
 import Close from "../resources/close.svg";
@@ -58,7 +58,7 @@ class CurrentProject extends Component {
           task={this.props.task}
           onChange={this.props.onChange}
         />
-        <TaskCompleteButton
+        <ProjectCompleteButton
           taskid={this.props.task.taskID}
           task={this.props.task.taskID}
           onChange={this.props.onChange}
