@@ -201,3 +201,16 @@ textarea {
   width: 100%;
   margin-bottom: 8px;
 }
+
+@media only screen and (min-width: 600px) {
+  .App {
+    min-width: 600px;
+    align-items: flex-start;
+  }
+
+  .card-container-inner {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+} 
