@@ -10,16 +10,7 @@ import Close from "../resources/close.svg";
 // so that it updates correctly upon selecting a different project
 
 class CurrentProject extends Component {
-  constructor(props) {
-    super(props);
-    console.log("CurrentProject props: ", props);
-  }
-
   deleteTask = (e) => {
-    console.log(
-      "taskCard deleteTask called! e: ",
-      e.target.attributes.taskid.value
-    );
     this.props.deleteTask(e.target.attributes.taskid.value);
   };
 

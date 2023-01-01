@@ -2,12 +2,6 @@ import React, { Component } from "react";
 import getProjectName from "../helpers/getProjectName";
 
 class HeaderProjectSelect extends Component {
-  constructor(props) {
-    super(props);
-    console.log("HeaderProjectSelect props: ", props);
-    console.log("this.props.tasks.tasks.tasks: ", this.props.tasks.tasks.tasks);
-  }
-
   render() {
     let output;
 

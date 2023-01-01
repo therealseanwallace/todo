@@ -3,12 +3,6 @@ import React, { Component } from "react";
 import TaskCard from "./taskCards/taskCard";
 
 class CardContainer extends Component {
-  constructor(props) {
-    super(props);
-    console.log("CardContainer props: ", props);
-    console.log("this.props.tasks.tasks: ", this.props.tasks.tasks);
-  }
-
   getTaskByID = (id) => {
     const idNum = Number(id);
     return this.props.tasks.find((task) => {

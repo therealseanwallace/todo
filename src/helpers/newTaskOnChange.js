@@ -1,15 +1,5 @@
 /* eslint-disable default-case */
 function newTaskOnChange(e) {
-    console.log("***********handling change! e is: ", e);
-    console.log(
-      "***********handling change! e.target.dataset is: ",
-      e.target.dataset
-    );
-    console.log(
-      "***********handling change! e.target.dataset.taskId is: ",
-      e.target.dataset.taskId
-    );
-    
     const task = this.state;
     
     switch (e.target.classList[0]) {
@@ -32,7 +22,6 @@ function newTaskOnChange(e) {
         task.parent = parentNum;
     }
     this.setState(task);
-    console.log('this.state is: ', this.state);
 }
 
 export default newTaskOnChange;

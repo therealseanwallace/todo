@@ -1,11 +1,6 @@
 import React, { Component } from "react";
 
 class ProjectCompleteButton extends Component {
-  constructor(props) {
-    super(props);
-    console.log("ProjectCompleteButton props: ", props);
-  }
-
   render() {
     let buttonValue = "";
     let classes = "";

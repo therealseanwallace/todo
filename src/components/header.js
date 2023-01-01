@@ -4,10 +4,6 @@ import NewProjectButton from './newProjectButton';
 import NewTaskButton from './newTaskButton';
 
 class Header extends Component {
-  constructor(props) {
-    super(props);
-    console.log("Header props: ", props);
-  }
   render() {
     return (
       <div className="header">

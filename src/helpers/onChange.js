@@ -19,7 +19,6 @@ function onChange(e) {
       break;
     case "task-priority":
       const prioNum = Number(e.target.value);
-      console.log("prioNum is: ", prioNum);
       taskArray[taskIndex].priority = prioNum;
       break;
     case "task-card-project-select":
