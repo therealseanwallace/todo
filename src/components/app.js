@@ -10,6 +10,7 @@ import submitTaskToState from "../helpers/submitTaskToState";
 import onChange from "../helpers/onChange";
 import getTaskByID from "../helpers/getTaskByID";
 import getTaskIndexByID from "../helpers/getTaskIndexByID";
+import setToDefaultProject from "../helpers/setToDefaultProject";
 
 class App extends Component {
   constructor(props) {
@@ -28,6 +29,7 @@ class App extends Component {
     this.onChange = onChange.bind(this);
     this.getTaskByID = getTaskByID.bind(this);
     this.getTaskIndexByID = getTaskIndexByID.bind(this);
+    this.setToDefaultProject = setToDefaultProject.bind(this);
   }
 
   
@@ -36,9 +38,7 @@ class App extends Component {
 
   
 
-  setToDefaultProject = () => {
-    this.setState({ ...this.state, selectedProject: 0 });
-  };
+  
 
   completeTask = (e) => {
     const taskIndex = this.getTaskIndexByID(e.target.dataset.taskid);
