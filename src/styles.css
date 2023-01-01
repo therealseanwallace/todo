@@ -50,7 +50,7 @@ h6 {
 
 .App {
   min-width: 360px;
-  background: #ffcad4;
+  background: #fcf5c7;
   font-family: "Poppins", sans-serif;
   letter-spacing: 4%;
   font-size: 1.2em;
@@ -91,31 +91,25 @@ textarea {
 }
 
 .complete-button {
-  background-color: #5b7a67;
-  color: whitesmoke;
-  font-weight: bold;
-  text-shadow: 1px 1px #111111;
+  background-color: #adf7b6;
+  color: black;
+
 }
 
 .new-project-button {
-  background-color: #d64300;
-  color: whitesmoke;
-  font-weight: bold;
-  text-shadow: 1px 1px #111111;
+  background-color: #ffc09f;
+  color: black;
+
 }
 
 .new-task-submit-button {
-  background-color: #5b7a67;
-  color: whitesmoke;
-  font-weight: bold;
-  text-shadow: 1px 1px #111111;
+  background-color: #adf7b6;
+  color: black;
 }
 
 .new-task-button {
-  background-color: #5b7a67;
-  color: whitesmoke;
-  font-weight: bold;
-  text-shadow: 1px 1px #111111;
+  background-color: #adf7b6;
+  color: black;
 }
 
 .new-task-display,
@@ -203,15 +197,15 @@ textarea {
 }
 
 .prio-0 {
-  background-color: #f2fff7;
+  background-color: #adf7b6;
 }
 
 .prio-1 {
-  background-color: #d2daff;
+  background-color: #ffee93;
 }
 
 .prio-2 {
-  background-color: #ffa2a2;
+  background-color: #ffc09f;
 }
 
 @media only screen and (min-width: 600px) {
