@@ -16,9 +16,9 @@ class TaskCard extends Component {
     let styles = "";
 
     if (this.props.task.isComplete) {
-      styles = "task-card completed";
+      styles = `task-card completed prio-${this.props.task.priority}`;
     } else {
-      styles = "task-card";
+      styles = `task-card prio-${this.props.task.priority}`;
     }
 
     return (

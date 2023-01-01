@@ -7,7 +7,7 @@ function makeClassName(type, prio) {
     case "notes":
       return 'task-notes';
     case "priority":
-      return `task-priority prio-${prio}`;
+      return 'task-priority';
     default:
       console.log('Error! Class name not found in makeClassName.js');
   }

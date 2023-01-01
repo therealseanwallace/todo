@@ -17,9 +17,9 @@ class CurrentProject extends Component {
   render() {
     let classes = "";
     if (this.props.task.isComplete) {
-      classes = "current-project completed";
+      classes = `task-card completed prio-${this.props.task.priority}`;
     } else {
-      classes = "current-project";
+      classes = `current-project prio-${this.props.task.priority}`;
     }
 
     return (
