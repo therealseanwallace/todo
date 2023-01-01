@@ -9,6 +9,7 @@ import NewTaskDisplay from "./newTaskProjectDisplay/newTaskDisplay";
 import submitTaskToState from "../helpers/submitTaskToState";
 import onChange from "../helpers/onChange";
 import getTaskByID from "../helpers/getTaskByID";
+import getTaskIndexByID from "../helpers/getTaskIndexByID";
 
 class App extends Component {
   constructor(props) {
@@ -26,23 +27,14 @@ class App extends Component {
     this.submitTaskToState = submitTaskToState.bind(this);
     this.onChange = onChange.bind(this);
     this.getTaskByID = getTaskByID.bind(this);
+    this.getTaskIndexByID = getTaskIndexByID.bind(this);
   }
 
   
 
-  getTaskIndexByID = (id) => {
-    const idNum = Number(id);
-    return this.state.tasks.findIndex((task) => {
-      return task.taskID === idNum;
-    });
-  };
+  
 
-  changeProject = (e) => {
-    this.setState({
-      ...this.state,
-      selectedProject: Number(e.target.selectedOptions[0].dataset.taskid),
-    });
-  };
+  
 
   setToDefaultProject = () => {
     this.setState({ ...this.state, selectedProject: 0 });
