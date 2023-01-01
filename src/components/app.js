@@ -98,14 +98,17 @@ class App extends Component {
     console.log("deleteTask complete. this.state is: ", this.state);
   };
 
-  submitTaskToState = (task) => {
+  submitTaskToState = (task, parent) => {
+    console.log('parent is: ', parent);
+    const parentToAssign = parent;
     const taskToSubmit = task;
+    taskToSubmit.parent = parentToAssign;
     taskToSubmit.taskID = this.state.highestTaskID + 1;
     const taskArray = this.state.tasks;
     taskArray.push(taskToSubmit);
     this.setState({
       ...this.state,
-      tasks: taskArray,
+      tasks: taskArray, 
       showNewTaskDisplay: false,
       showNewProjectDisplay: false,
       highestTaskID: taskToSubmit.taskID,
@@ -209,6 +212,7 @@ class App extends Component {
           <NewTaskDisplay
             submitTaskToState={this.submitTaskToState}
             tasks={this.state.tasks}
+            selectedProject={this.state.selectedProject}
           />
         </div>
       );

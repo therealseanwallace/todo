@@ -28,7 +28,8 @@ class NewTaskDisplay extends Component {
 
   submit = () => {
     console.log("submitting new task!");
-    this.props.submitTaskToState(this.state);
+    console.log('this.state is: ', this.state);
+    this.props.submitTaskToState(this.state, this.props.selectedProject);
   };
 
   render() {
