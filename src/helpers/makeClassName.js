@@ -1,4 +1,3 @@
-/* eslint-disable default-case */
 function makeClassName(type, prio) {
   switch (type) {
     case "title":
@@ -9,21 +8,10 @@ function makeClassName(type, prio) {
       return 'task-notes';
     case "priority":
       return `task-priority prio-${prio}`;
+    default:
+      console.log('Error! Class name not found in makeClassName.js');
   }
 
 }
 
-function makeID(type, task) {
-  switch (type) {
-    case "title":
-      return `task-title-${task}`;
-    case "due-date":
-      return `task-due-date-${task}`;
-    case "notes":
-      return `task-notes-${task}`;
-    case "priority":
-      return `task-priority-${task}`;
-  }
-}
-
-export { makeClassName, makeID };
+export default makeClassName;

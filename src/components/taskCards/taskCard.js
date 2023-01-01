@@ -8,16 +8,7 @@ import TaskCompleteButton from "./taskCompleteBtn";
 import Close from "../../resources/close.svg";
 
 class TaskCard extends Component {
-  constructor(props) {
-    super(props);
-    console.log("TaskCard props: ", props);
-  }
-
   deleteTask = (e) => {
-    console.log(
-      "taskCard deleteTask called! e: ",
-      e.target.attributes.taskid.value
-    );
     this.props.deleteTask(e.target.attributes.taskid.value);
   };
 

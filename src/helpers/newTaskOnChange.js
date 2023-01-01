@@ -1,4 +1,3 @@
-/* eslint-disable default-case */
 function newTaskOnChange(e) {
     const task = this.state;
     
@@ -20,6 +19,9 @@ function newTaskOnChange(e) {
       case "new-task-project-select":
         const parentNum = Number(e.target.selectedOptions[0].dataset.taskid);
         task.parent = parentNum;
+        break;
+      default:
+        console.log('Error! Class name not found in newTaskOnChange.js');
     }
     this.setState(task);
 }

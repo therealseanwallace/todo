@@ -1,11 +1,7 @@
 import React, { Component } from "react";
-import { makeClassName, makeID } from "../../helpers/makeClassName";
+import makeID from "../../helpers/makeID";
 
 class TaskCardDueDate extends Component {
-  constructor(props) {
-    super(props);
-    console.log("TaskCardDueDate props: ", props);
-  }
   render() {
     return (
       <input

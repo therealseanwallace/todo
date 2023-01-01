@@ -1,12 +1,8 @@
 import React, { Component } from "react";
-import { makeClassName, makeID } from "../../helpers/makeClassName";
+import makeClassName from "../../helpers/makeClassName";
+import makeID from "../../helpers/makeID";
 
 class TaskNotes extends Component {
-  constructor(props) {
-    super(props);
-    console.log("TaskNotes props: ", props);
-  }
-
   render() {
     return (
       <textarea

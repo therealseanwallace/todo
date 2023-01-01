@@ -1,12 +1,8 @@
 import React, { Component } from "react";
-import { makeClassName, makeID } from "../../helpers/makeClassName";
+import makeClassName from "../../helpers/makeClassName";
+import makeID from "../../helpers/makeID";
 
 class TaskCardTitle extends Component {
-  constructor(props) {
-    super(props);
-    console.log("TaskCardTitle props: ", props);
-  }
-
   render() {
     return (
       <input

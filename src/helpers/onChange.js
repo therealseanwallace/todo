@@ -22,11 +22,12 @@ function onChange(e) {
       taskArray[taskIndex].priority = prioNum;
       break;
     case "task-card-project-select":
-      const projectNum = Number(taskIndex);
       taskArray[taskIndex].parent = Number(
         e.target.selectedOptions[0].dataset.taskid
       );
       break;
+    default:
+      console.log('Error! Class name not found in onChange.js');
   }
   this.setState({ ...this.state, tasks: taskArray });
 }

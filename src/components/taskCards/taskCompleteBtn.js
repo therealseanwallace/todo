@@ -1,11 +1,6 @@
 import React, { Component } from "react";
 
 class TaskCompleteButton extends Component {
-  constructor(props) {
-    super(props);
-    console.log("TaskCompleteButton props: ", props);
-  }
-
   render() {
     let buttonValue = "";
     let classes = "";

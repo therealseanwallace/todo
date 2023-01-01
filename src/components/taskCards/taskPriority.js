@@ -1,13 +1,9 @@
 import React, { Component } from "react";
-import { makeClassName, makeID } from "../../helpers/makeClassName";
+import makeClassName from "../../helpers/makeClassName";
+import makeID from "../../helpers/makeID";
 
 class TaskPriority extends Component {
-  constructor(props) {
-    super(props);
-    console.log("TaskPriority props: ", props);
-  }
   render() {
-    const prioStyleString = "prio" + this.props.task.priority;
     return (
       <select
         value={this.props.task.priority}

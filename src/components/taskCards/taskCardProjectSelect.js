@@ -2,10 +2,6 @@ import React, { Component } from "react";
 import getProjectName from "../../helpers/getProjectName";
 
 class TaskCardProjectSelect extends Component {
-  constructor(props) {
-    super(props);
-    console.log("TaskCardProjectSelect props: ", props);
-  }
   render() {
     // takes the task list provided by propsand uses map to
     // create a list of options for the select element

@@ -1,4 +1,3 @@
-/* eslint-disable default-case */
 import React, { Component } from "react";
 import TaskCard from "./taskCards/taskCard";
 
@@ -18,8 +17,6 @@ class CardContainer extends Component {
           {this.props.tasks.tasks.map((task) => {
             const key = task.taskID;
             if (!task.isProject) {
-              // if the task corresponds to the selected project,
-              // render it as a task card
               if (
                 task.parent === this.props.tasks.selectedProject &&
                 !task.isDeleted

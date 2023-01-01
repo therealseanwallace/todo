@@ -3,9 +3,6 @@ import getProjectName from "../helpers/getProjectName";
 
 class HeaderProjectSelect extends Component {
   render() {
-    let output;
-
-    //if ()
     return (
       <select
         onChange={this.props.changeProject}
