@@ -1,7 +1,0 @@
-Add ability to create a new project
-
-Add a display of projects with their associated tasks
-
-Add the ability to mark tasks/projects as completed
-
-
