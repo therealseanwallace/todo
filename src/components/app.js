@@ -83,11 +83,12 @@ class App extends Component {
       console.log("task is: ", task);
       task.isDeleted = true;
       this.setState({ ...this.state, tasks: taskArray });
-      this.setState({ ...this.state, selectedProject: 0 });
+      
       if (task.isProject) {
         taskArray.forEach((item) => {
           if (item.parent === task.taskID) {
             item.isDeleted = true;
+            this.setState({ ...this.state, selectedProject: 0 });
           }
         });
       }
