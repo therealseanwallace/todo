@@ -6,6 +6,9 @@ import demo from "../demo/demoTasks";
 import CurrentProject from "./currentProject";
 import NewProjectDisplay from "./newTaskProjectDisplay/newProjectDisplay";
 import NewTaskDisplay from "./newTaskProjectDisplay/newTaskDisplay";
+import submitTaskToState from "../helpers/submitTaskToState";
+import onChange from "../helpers/onChange";
+import getTaskByID from "../helpers/getTaskByID";
 
 class App extends Component {
   constructor(props) {
@@ -18,16 +21,14 @@ class App extends Component {
       highestTaskID: 4,
       currentProjectProps: {},
     };
+
+    // add methods
+    this.submitTaskToState = submitTaskToState.bind(this);
+    this.onChange = onChange.bind(this);
+    this.getTaskByID = getTaskByID.bind(this);
   }
 
-  newTask = () => {};
-
-  getTaskByID = (id) => {
-    const idNum = Number(id);
-    return this.state.tasks.find((task) => {
-      return task.taskID === idNum;
-    });
-  };
+  
 
   getTaskIndexByID = (id) => {
     const idNum = Number(id);
@@ -98,52 +99,7 @@ class App extends Component {
     console.log("deleteTask complete. this.state is: ", this.state);
   };
 
-  submitTaskToState = (task, parent) => {
-    console.log('parent is: ', parent);
-    const parentToAssign = parent;
-    const taskToSubmit = task;
-    taskToSubmit.parent = parentToAssign;
-    taskToSubmit.taskID = this.state.highestTaskID + 1;
-    const taskArray = this.state.tasks;
-    taskArray.push(taskToSubmit);
-    this.setState({
-      ...this.state,
-      tasks: taskArray, 
-      showNewTaskDisplay: false,
-      showNewProjectDisplay: false,
-      highestTaskID: taskToSubmit.taskID,
-    });
-  };
-
-  onChange = (e) => {
-    const taskArray = this.state.tasks;
-    let taskIndex = this.getTaskIndexByID(e.target.dataset.taskId);
-    if (taskIndex === -1) {
-      taskIndex = this.getTaskIndexByID(e.target.selectedOptions[0].dataset.taskid);
-    }
-
-    switch (e.target.classList[0]) {
-      case "task-title":
-        taskArray[taskIndex].title = e.target.value;
-        break;
-      case "task-card-due-date":
-        taskArray[taskIndex].dueDate = e.target.value;
-        break;
-      case "task-notes":
-        taskArray[taskIndex].notes = e.target.value;
-        break;
-      case "task-priority":
-        const prioNum = Number(e.target.value);
-        console.log("prioNum is: ", prioNum);
-        taskArray[taskIndex].priority = prioNum;
-        break;
-      case "task-card-project-select":
-        const projectNum = Number(taskIndex);
-        taskArray[taskIndex].parent = Number(e.target.selectedOptions[0].dataset.taskid);
-        break;
-    }
-    this.setState({ ...this.state, tasks: taskArray });
-  };
+  
 
   showNewProjectDisplay = () => {
     this.setState({
