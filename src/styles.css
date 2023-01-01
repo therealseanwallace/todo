@@ -68,9 +68,8 @@ h6 {
 }
 
 h1 {
-  color: #fff;
-  -webkit-text-stroke: 1px #111111;
-  text-shadow: 4px 2px #111111;
+  color: rgb(36, 41, 47);
+
 }
 
 .header > h1 {
@@ -84,7 +83,7 @@ textarea {
   width: 280px;
   height: 40px;
   margin-bottom: 8px;
-  outline: 2px solid #111111;
+  border: 1px solid #ffffffa6;
   border-radius: 4px;
   background-color: #fafafa;
   font-size: 1rem;
@@ -96,6 +95,9 @@ textarea {
 
 }
 
+.task-card > .complete-button, .current-project > .complete-button {
+  border-color: #24292fb3;
+}
 .new-project-button {
   background-color: #ffc09f;
   color: black;
@@ -133,11 +135,16 @@ textarea {
   flex-shrink: none;
   height: 420px;
   background-color: #fafafa;
-  border: 4px solid #111111;
   border-radius: 8px;
   margin-bottom: 8px;
   padding: 20px;
-  background-color: #d8e2dc;
+  outline: 1px solid #fcf5c7;
+  border: 2px solid #8b866a61;
+}
+
+.new-task-display,
+.new-project-display {
+  background-color: #a0ced9;
 }
 
 .close-button {
@@ -186,6 +193,7 @@ textarea {
   font-size: 1.6rem;
   margin-left: -10px;
   color: rgb(36, 41, 47);
+  text-decoration: underline #24292fb3;
 }
 
 .current-project-title-close-container {
