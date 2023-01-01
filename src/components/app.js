@@ -16,6 +16,7 @@ import deleteTask from "../helpers/deleteTask";
 import showNewProjectDisplay from "../helpers/showNewProjectDisplay";
 import showNewTaskDisplay from "../helpers/showNewTaskDisplay";
 import getSelectedProject from "../helpers/getSelectedProject";
+import changeProject from "../helpers/changeProject";
 
 class App extends Component {
   constructor(props) {
@@ -40,6 +41,7 @@ class App extends Component {
     this.showNewProjectDisplay = showNewProjectDisplay.bind(this);
     this.showNewTaskDisplay = showNewTaskDisplay.bind(this);
     this.getSelectedProject = getSelectedProject.bind(this);
+    this.changeProject = changeProject.bind(this);
   }
 
   render() {
