@@ -17,6 +17,7 @@ import showNewProjectDisplay from "../helpers/showNewProjectDisplay";
 import showNewTaskDisplay from "../helpers/showNewTaskDisplay";
 import getSelectedProject from "../helpers/getSelectedProject";
 import changeProject from "../helpers/changeProject";
+import showMainDisplay from "../helpers/showMainDisplay";
 
 class App extends Component {
   constructor(props) {
@@ -42,6 +43,7 @@ class App extends Component {
     this.showNewTaskDisplay = showNewTaskDisplay.bind(this);
     this.getSelectedProject = getSelectedProject.bind(this);
     this.changeProject = changeProject.bind(this);
+    this.showMainDisplay = showMainDisplay.bind(this);
   }
 
   render() {
@@ -56,6 +58,7 @@ class App extends Component {
             selectedProject={this.state.selectedProject}
             toggleNewProjectDisplay={this.showNewProjectDisplay}
             toggleNewTaskDisplay={this.showNewTaskDisplay}
+            showMainDisplay={this.showMainDisplay}
           />
           <CurrentProject
             completeTask={this.completeTask}
@@ -77,7 +80,7 @@ class App extends Component {
     if (this.state.showNewProjectDisplay) {
       display = (
         <div className="App">
-          <Header tasks={this.state} />
+          <Header tasks={this.state} showMainDisplay={this.showMainDisplay}/>
           <NewProjectDisplay submitTaskToState={this.submitTaskToState} />
         </div>
       );
@@ -86,7 +89,7 @@ class App extends Component {
     if (this.state.showNewTaskDisplay) {
       display = (
         <div className="App">
-          <Header tasks={this.state} />
+          <Header tasks={this.state} showMainDisplay={this.showMainDisplay}/>
           <NewTaskDisplay
             submitTaskToState={this.submitTaskToState}
             tasks={this.state.tasks}
