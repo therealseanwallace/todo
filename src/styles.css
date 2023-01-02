@@ -89,6 +89,13 @@ textarea {
   font-size: 1rem;
 }
 
+input:focus-within,
+select:focus-within,
+textarea:focus-within {
+  outline: 4px solid #00a0c6;
+  border: none;
+}
+
 .complete-button {
   background-color: #adf7b6;
   color: black;
@@ -101,7 +108,18 @@ textarea {
 .new-project-button {
   background-color: #ffc09f;
   color: black;
+}
 
+.new-project-button:hover, .new-task-button:hover, .complete-button:hover, .new-task-submit-button:hover {
+  border-color:#a0ced9;
+}
+
+.new-project-button:active, .new-task-button:active, .complete-button:active, .new-task-submit-button:active {
+  background-color: #a0ced9;
+}
+
+.new-task-submit-button:active {
+  background-color: #ffc09f;
 }
 
 .new-task-submit-button {
@@ -140,6 +158,11 @@ textarea {
   padding: 20px;
   outline: 1px solid #fcf5c7;
   border: 2px solid #8b866a61;
+}
+
+.task-card:focus-within, .current-project:focus-within, .new-task-display:focus-within, .new-project-display:focus-within {
+
+  box-shadow: 4px 4px #a0ced952;
 }
 
 .new-task-display,
