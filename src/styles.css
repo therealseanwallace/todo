@@ -143,6 +143,10 @@ textarea:focus-within {
   width: 280px;
 }
 
+div > .task-card-completed {
+  background-color: #7c7c7c;
+}
+
 .task-card,
 .current-project,
 .new-task-display,
